@@ -1,40 +1,23 @@
-#define GLEW_STATIC
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
+//Подключение библиотек
+#include<iostream>
 
-int main(void)
-{
-    GLFWwindow* window;
+//Подключение файлов проекта
+#include"Window/Window.h"
+#include"Events/Events.h"
 
-    /* Initialize the library */
-    if (!glfwInit())
-        return -1;
 
-    /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
-    if (!window)
-    {
-        glfwTerminate();
-        return -1;
-    }
+int main() {
+	//Инициализация окна игры
+	Window::Initialize(600, 600, "Hello world");
 
-    /* Make the window's context current */
-    glfwMakeContextCurrent(window);
+	//Главный цикл программы
+	while (!Window::WindowShouldClose()) {
 
-    /* Loop until the user closes the window */
-    while (!glfwWindowShouldClose(window))
-    {
-        /* Render here */
-        glClear(GL_COLOR_BUFFER_BIT);
+		//Смена буфера отображения
+		Window::SwapBuffers();
+	}
 
-        /* Swap front and back buffers */
-        glfwSwapBuffers(window);
-
-        /* Poll for and process events */
-        glfwPollEvents();
-    }
-
-    glfwTerminate();
-    return 0;
+	//Убийство окна игры
+	Window::Terminate();
+	return 0;
 }
-

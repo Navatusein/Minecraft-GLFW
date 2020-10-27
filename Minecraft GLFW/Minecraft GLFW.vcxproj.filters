@@ -13,10 +13,33 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Исходные файлы\Source">
+      <UniqueIdentifier>{2998d096-d522-4137-9606-dd90f3471809}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Source\Window">
+      <UniqueIdentifier>{f0066308-8d40-4508-8f45-d67f72833a00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Source\Events">
+      <UniqueIdentifier>{8262e600-184c-468c-971d-f2cd42607353}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp">
-      <Filter>Исходные файлы</Filter>
+    <ClCompile Include="main.cpp">
+      <Filter>Исходные файлы\Source</Filter>
     </ClCompile>
+    <ClCompile Include="Events\Events.cpp">
+      <Filter>Исходные файлы\Source\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\Window.cpp">
+      <Filter>Исходные файлы\Source\Window</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Events\Events.h">
+      <Filter>Исходные файлы\Source\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\Window.h">
+      <Filter>Исходные файлы\Source\Window</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
