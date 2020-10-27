@@ -1,25 +1,25 @@
-//Подключение библиотек
-#include<iostream>
+#include <iostream>
 
-//Подключение файлов проекта
-#include"Window/Window.h"
-#include"Window/Events.h"
+#include "Window/Window.h"
+#include "Window/Events.h"
 
+#include "Vertex/VertexBuffer.h"
+#include "Vertex/VertexArray.h"
 
 int main() {
-	//Инициализация окна игры
+	/*Window initialization*/
 	Window::Initialize(600, 600, "Hello world");
 	Events::Initialize();
 
-	//Главный цикл программы
+	/*Main loop*/
 	while (!Window::WindowShouldClose()) {
 		Events::PullEvents();
 
-		//Смена буфера отображения
+		/*Swapping frame buffers*/
 		Window::SwapBuffers();
 	}
 
-	//Убийство окна игры
+	/*Closing the window*/
 	Window::Terminate();
 	return 0;
 }
