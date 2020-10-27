@@ -30,7 +30,13 @@
     <ClCompile Include="Window\Window.cpp">
       <Filter>Исходные файлы\Source\Window</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Source.cpp">
+    <ClCompile Include="Source\Window\Window.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Window\Events.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\main.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -40,6 +46,12 @@
     </ClInclude>
     <ClInclude Include="Window\Window.h">
       <Filter>Исходные файлы\Source\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Window\Window.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Window\Events.h">
+      <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -20,11 +20,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Events\Events.cpp" />
-    <ClCompile Include="Source\Source.cpp" />
+    <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\Window\Events.cpp" />
+    <ClCompile Include="Source\Window\Window.cpp" />
     <ClCompile Include="Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Events\Events.h" />
+    <ClInclude Include="Source\Window\Events.h" />
+    <ClInclude Include="Source\Window\Window.h" />
     <ClInclude Include="Window\Window.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

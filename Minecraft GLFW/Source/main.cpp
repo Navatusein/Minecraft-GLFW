@@ -9,10 +9,11 @@
 int main() {
 	//Инициализация окна игры
 	Window::Initialize(600, 600, "Hello world");
-
+	Events::Initialize();
 
 	//Главный цикл программы
 	while (!Window::WindowShouldClose()) {
+		Events::PullEvents();
 
 		//Смена буфера отображения
 		Window::SwapBuffers();
