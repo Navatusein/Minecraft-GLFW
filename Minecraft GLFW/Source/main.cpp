@@ -3,12 +3,13 @@
 
 //Подключение файлов проекта
 #include"Window/Window.h"
-#include"Events/Events.h"
+#include"Window/Events.h"
 
 
 int main() {
 	//Инициализация окна игры
 	Window::Initialize(600, 600, "Hello world");
+
 
 	//Главный цикл программы
 	while (!Window::WindowShouldClose()) {

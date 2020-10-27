@@ -33,7 +33,6 @@ void Window::Terminate() {
 	glfwTerminate();
 }
 
-
 bool Window::WindowShouldClose() {
 	return glfwWindowShouldClose(window);
 }

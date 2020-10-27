@@ -24,14 +24,14 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Исходные файлы\Source</Filter>
-    </ClCompile>
     <ClCompile Include="Events\Events.cpp">
       <Filter>Исходные файлы\Source\Events</Filter>
     </ClCompile>
     <ClCompile Include="Window\Window.cpp">
       <Filter>Исходные файлы\Source\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Source.cpp">
+      <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

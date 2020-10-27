@@ -20,7 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Events\Events.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Source\Source.cpp" />
     <ClCompile Include="Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
