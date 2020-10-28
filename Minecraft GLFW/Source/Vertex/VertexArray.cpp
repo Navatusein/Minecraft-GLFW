@@ -1,3 +1,4 @@
+#define GLEW_STATIC 
 #include <GL/glew.h>
 
 #include "VertexArray.h"

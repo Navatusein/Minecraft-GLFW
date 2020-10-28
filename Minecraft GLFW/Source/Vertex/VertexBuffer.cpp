@@ -1,3 +1,4 @@
+#define GLEW_STATIC 
 #include "VertexBuffer.h"
 #include <GL/glew.h>
 

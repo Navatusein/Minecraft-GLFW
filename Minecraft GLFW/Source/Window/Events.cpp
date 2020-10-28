@@ -2,6 +2,16 @@
 
 #define SHIFT_MOUSE_BUTTON 1024
 
+bool* Events::keys;
+unsigned int* Events::frames;
+unsigned int Events::current = 0;
+float Events::x = 0;
+float Events::y = 0;
+float Events::deltaX = 0;
+float Events::deltaY = 0;
+bool Events::lockedCursor = false;
+bool Events::startedCursor = false;
+
 void cursor_position_callback(GLFWwindow* window, double xpos, double ypos) {
 	if (Events::startedCursor) {
 		Events::deltaX += xpos - Events::x;
@@ -51,6 +61,10 @@ int Events::Initialize() {
 }
 
 void Events::PullEvents() {
+	current++;
+	deltaX = 0.0f;
+	deltaY = 0.0f;
+	glfwPollEvents();
 }
 
 bool Events::Pressed(int keycode) {

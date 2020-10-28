@@ -1,6 +1,6 @@
 #pragma once
 
-//GLEW в сатическом режиме
+//GLEW in Satic Mode
 #define GLEW_STATIC 
 
 #include <iostream>
@@ -11,19 +11,19 @@ class Window {
 public:
 	static GLFWwindow* window;
 
-	//Метод инициализации окна
+	//Window initialization method
 	static int Initialize(int width, int height, const char* title);
 	
-	//Метод убийства окна
+	//Window killing method
 	static void Terminate();
 	
-	//Метод проверки открыто ли окно
+	//Method for checking if a window is open
 	static bool WindowShouldClose();
 	
-	//Метод закрития окна
+	//Window close method
 	static void SetWindowShouldClose(bool flag);
 	
-	//Метод смены буферов отображения
+	//Method for changing display buffers
 	static void SwapBuffers();
 };
 

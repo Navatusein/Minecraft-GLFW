@@ -7,19 +7,19 @@
 #include "Vertex/VertexArray.h"
 
 int main() {
-	/*Window initialization*/
+	//Window initialization
 	Window::Initialize(600, 600, "Hello world");
 	Events::Initialize();
 
-	/*Main loop*/
+	//Main loop
 	while (!Window::WindowShouldClose()) {
 		Events::PullEvents();
 
-		/*Swapping frame buffers*/
+		//Swapping frame buffers
 		Window::SwapBuffers();
 	}
 
-	/*Closing the window*/
+	//Closing the window
 	Window::Terminate();
 	return 0;
 }

@@ -1,6 +1,5 @@
 #pragma once
 
-
 #define 	P_KEY_UNKNOWN   -1
 #define 	P_KEY_SPACE   32
 #define 	P_KEY_APOSTROPHE   39
