@@ -52,6 +52,7 @@ int main() {
 	//Main loop
 	while (!Window::WindowShouldClose()) {
 		Events::PullEvents();
+
 		//Events test
 		if (Events::JustPressed(P_KEY_ESCAPE)) {
 			Window::SetWindowShouldClose(true);
@@ -66,15 +67,6 @@ int main() {
 
 		/* for some reason shader is not working (triangles are white) */
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
-
-
-		//Events test
-		if (Events::JustPressed(P_KEY_ESCAPE)) {
-			Window::SetWindowShouldClose(true);
-		}
-		if (Events::JustClicked(P_MOUSE_BUTTON_1)) {
-			std::cout << "Work" << std::endl;
-		}
 
 		//Swapping frame buffers
 		Window::SwapBuffers();
