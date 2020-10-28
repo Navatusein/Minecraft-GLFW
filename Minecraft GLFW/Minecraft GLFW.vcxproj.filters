@@ -33,6 +33,9 @@
     <ClCompile Include="Source\Vertex\IndexBuffer.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Shader\Shader.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Window\Window.h">
@@ -56,8 +59,12 @@
     <ClInclude Include="Source\Vertex\IndexBuffer.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Vertex\Vertex.h">
+    <ClInclude Include="Source\Shader\Shader.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resource\Shader\Vertex.glsl" />
+    <None Include="Resource\Shader\Fragment.glsl" />
   </ItemGroup>
 </Project>

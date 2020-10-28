@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Shader\Shader.cpp" />
     <ClCompile Include="Source\Vertex\IndexBuffer.cpp" />
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Vertex\VertexArray.cpp" />
@@ -27,14 +28,18 @@
     <ClCompile Include="Source\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Shader\Shader.h" />
     <ClInclude Include="Source\Vertex\IndexBuffer.h" />
-    <ClInclude Include="Source\Vertex\Vertex.h" />
     <ClInclude Include="Source\Vertex\VertexArray.h" />
     <ClInclude Include="Source\Vertex\VertexBuffer.h" />
     <ClInclude Include="Source\Vertex\VertexBufferLayout.h" />
     <ClInclude Include="Source\Window\Events.h" />
     <ClInclude Include="Source\Window\KeyMacros.h" />
     <ClInclude Include="Source\Window\Window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resource\Shader\Fragment.glsl" />
+    <None Include="Resource\Shader\Vertex.glsl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
