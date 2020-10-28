@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Window.h"
+#include "KeyMacros.h"
 
 class Events {
 private:

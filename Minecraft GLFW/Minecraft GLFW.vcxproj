@@ -33,6 +33,7 @@
     <ClInclude Include="Source\Vertex\VertexBuffer.h" />
     <ClInclude Include="Source\Vertex\VertexBufferLayout.h" />
     <ClInclude Include="Source\Window\Events.h" />
+    <ClInclude Include="Source\Window\KeyMacros.h" />
     <ClInclude Include="Source\Window\Window.h" />
     <ClInclude Include="Window\Window.h" />
   </ItemGroup>

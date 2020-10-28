@@ -68,5 +68,8 @@
     <ClInclude Include="Source\Vertex\VertexBuffer.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Window\KeyMacros.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
