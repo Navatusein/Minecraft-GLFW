@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Vertex\IndexBuffer.cpp" />
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Vertex\VertexArray.cpp" />
     <ClCompile Include="Source\Vertex\VertexBuffer.cpp" />
@@ -26,6 +27,8 @@
     <ClCompile Include="Source\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Vertex\IndexBuffer.h" />
+    <ClInclude Include="Source\Vertex\Vertex.h" />
     <ClInclude Include="Source\Vertex\VertexArray.h" />
     <ClInclude Include="Source\Vertex\VertexBuffer.h" />
     <ClInclude Include="Source\Vertex\VertexBufferLayout.h" />
