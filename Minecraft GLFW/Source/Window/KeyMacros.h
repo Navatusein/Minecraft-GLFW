@@ -121,3 +121,12 @@
 #define 	P_KEY_RIGHT_ALT   346
 #define 	P_KEY_RIGHT_SUPER   347
 #define 	P_KEY_MENU   348
+
+#define 	P_MOUSE_BUTTON_1   0
+#define 	P_MOUSE_BUTTON_2   1
+#define 	P_MOUSE_BUTTON_3   2
+#define 	P_MOUSE_BUTTON_4   3
+#define 	P_MOUSE_BUTTON_5   4
+#define 	P_MOUSE_BUTTON_6   5
+#define 	P_MOUSE_BUTTON_7   6
+#define 	P_MOUSE_BUTTON_8   7
