@@ -1,10 +1,10 @@
 #version 330 core
 
-in vec4 a_color;
+in vec4 vertexColor;
 
-layout(location = 0)out vec4 f_color;
+out vec4 color;
 
 void main()
 {
-	f_color = a_color;
+	color = vertexColor;
 };

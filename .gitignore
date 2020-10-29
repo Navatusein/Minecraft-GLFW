@@ -338,3 +338,5 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+/Minecraft GLFW/Source/Shader/Shader - Copy.h
+/Minecraft GLFW/Source/Shader/Shader - Copy.cpp
