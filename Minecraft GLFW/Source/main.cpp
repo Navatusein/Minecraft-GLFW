@@ -53,6 +53,13 @@ int main() {
 	while (!Window::WindowShouldClose()) {
 		Events::PullEvents();
 
+		//Events test
+		if (Events::JustPressed(P_KEY_ESCAPE)) {
+			Window::SetWindowShouldClose(true);
+		}
+		if (Events::JustClicked(P_MOUSE_BUTTON_1)) {
+			std::cout << "Work" << std::endl;
+		}
 
 		VAO.Bind();
 		VBO.Bind();
