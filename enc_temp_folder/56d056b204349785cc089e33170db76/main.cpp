@@ -9,7 +9,7 @@
 #include "Vertex/VertexArray.h"
 #include "Vertex/IndexBuffer.h"
 
-#include "Shader/Shader.h"
+#include "Shader/ShaderTestr.h"
 
 int main() {
 	//Window initialization
@@ -39,7 +39,7 @@ int main() {
 	};
 
 	VertexArray VAO;
-	VertexBuffer VBO(positions, 2 * 4 * sizeof(float));
+	VertexBuffer VBO(vertices, 2 * 4 * sizeof(float));
 
 	VBLayout layout;
 	layout.Push<float>(2);
@@ -54,7 +54,7 @@ int main() {
 	VAO.Unbind();
 	VBO.Unbind();
 	IBO.Unbind();
-	program.Unbind();
+	//program.Unbind();
 
 	/** end **/
 
@@ -72,10 +72,10 @@ int main() {
 
 		VAO.Bind();
 		VBO.Bind();
-		//program.Use();
-		program.Bind();
+		program.Use();
+		//program.Bind();
 
-		program.Uniform("uColor");
+		//program.Uniform("uColor");
 
 		/* for some reason shader is not working (triangles are white) */
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
