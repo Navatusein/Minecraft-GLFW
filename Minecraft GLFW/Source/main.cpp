@@ -1,3 +1,5 @@
+#include <GL/glew.h>
+
 #include <iostream>
 
 #include "Window/Window.h"
@@ -64,6 +66,8 @@ int main() {
 		VAO.Bind();
 		VBO.Bind();
 		program.Bind();
+
+		program.Uniform("uColor");
 
 		/* for some reason shader is not working (triangles are white) */
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);

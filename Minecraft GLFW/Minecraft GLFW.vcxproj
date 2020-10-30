@@ -28,6 +28,7 @@
     <ClCompile Include="Source\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\ErrorHandling.h" />
     <ClInclude Include="Source\Shader\Shader.h" />
     <ClInclude Include="Source\Vertex\IndexBuffer.h" />
     <ClInclude Include="Source\Vertex\VertexArray.h" />
