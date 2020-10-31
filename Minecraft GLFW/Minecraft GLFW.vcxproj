@@ -30,7 +30,6 @@
   <ItemGroup>
     <ClInclude Include="Source\ErrorHandling.h" />
     <ClInclude Include="Source\Shader\Shader.h" />
-    <ClInclude Include="Source\Shader\ShaderTestr.h" />
     <ClInclude Include="Source\Vertex\IndexBuffer.h" />
     <ClInclude Include="Source\Vertex\VertexArray.h" />
     <ClInclude Include="Source\Vertex\VertexBuffer.h" />

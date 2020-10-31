@@ -18,14 +18,6 @@ int main() {
 
 
 	/** FOLLOWING CODE NEEDS TO BE WRAPPED TO A CLASS **/
-
-	GLfloat vertices[] = {
-		// Позиции         // Цвета
-		 0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // Нижний правый угол
-		-0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   // Нижний левый угол
-		 0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f    // Верхний угол
-	};
-
 	float positions[8] = {
 		-0.5f, -0.5f,
 		-0.5f, 0.5f,
@@ -72,7 +64,6 @@ int main() {
 
 		VAO.Bind();
 		VBO.Bind();
-		//program.Use();
 		program.Bind();
 
 		program.Uniform("uColor");
