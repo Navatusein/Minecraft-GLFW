@@ -34,7 +34,7 @@ Shaders* CreateShederProgram(std::string vertexFile, std::string fragmentFile) {
 		fragmentCode = fShaderStream.str();
 	}
 	catch (std::ifstream::failure& e) {
-		std::cerr << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
+		std::cout << "[Shaders] File not succesfully read" << std::endl;
 		return nullptr;
 	}
 	const GLchar* vShaderCode = vertexCode.c_str();
@@ -51,8 +51,8 @@ Shaders* CreateShederProgram(std::string vertexFile, std::string fragmentFile) {
 	glGetShaderiv(vertex, GL_COMPILE_STATUS, &success);
 	if (!success) {
 		glGetShaderInfoLog(vertex, 512, nullptr, infoLog);
-		std::cerr << "SHADER::VERTEX: compilation failed" << std::endl;
-		std::cerr << infoLog << std::endl;
+		std::cout << "[Shaders] VERTEX: compilation failed" << std::endl;
+		std::cout << infoLog << std::endl;
 		return nullptr;
 	}
 
@@ -63,8 +63,8 @@ Shaders* CreateShederProgram(std::string vertexFile, std::string fragmentFile) {
 	glGetShaderiv(fragment, GL_COMPILE_STATUS, &success);
 	if (!success) {
 		glGetShaderInfoLog(fragment, 512, nullptr, infoLog);
-		std::cerr << "SHADER::FRAGMENT: compilation failed" << std::endl;
-		std::cerr << infoLog << std::endl;
+		std::cout << "[Shaders] FRAGMENT: compilation failed" << std::endl;
+		std::cout << infoLog << std::endl;
 		return nullptr;
 	}
 
@@ -77,8 +77,8 @@ Shaders* CreateShederProgram(std::string vertexFile, std::string fragmentFile) {
 	glGetProgramiv(id, GL_LINK_STATUS, &success);
 	if (!success) {
 		glGetProgramInfoLog(id, 512, nullptr, infoLog);
-		std::cerr << "SHADER::PROGRAM: linking failed" << std::endl;
-		std::cerr << infoLog << std::endl;
+		std::cout << "[Shaders] PROGRAM: linking failed" << std::endl;
+		std::cout << infoLog << std::endl;
 
 		glDeleteShader(vertex);
 		glDeleteShader(fragment);
