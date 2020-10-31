@@ -1,4 +1,6 @@
 #include <iostream>
+#include <glm/glm.hpp>
+#include <glm/ext.hpp>
 
 #include "Window/Window.h"
 #include "Window/Events.h"
@@ -6,6 +8,8 @@
 #include"Graphic/Shaders.h"
 #include"Graphic/Textures.h"
 
+
+using namespace glm;
 
 float vertices[] = {
 	// x    y     z     u     v
@@ -25,20 +29,20 @@ int main() {
 
 	Shaders* shader = CreateShederProgram("Resource/Shader/main.glslv", "Resource/Shader/main.glslf");
 	if (shader == nullptr) {
-		std::cout << "[main] failed to load shader" << std::endl;
+		std::cout << "[main] Failed to load shader" << std::endl;
 		Window::Terminate();
 		return 1;
 	}
 
 	Textures* texture = CreateTexture("Resource/Textures/1.png");
 	if (texture == nullptr) {
-		std::cout << "[main] failed to load texture" << std::endl;
+		std::cout << "[main] Failed to load texture" << std::endl;
 		delete shader;
 		Window::Terminate();
 		return 1;
 	}
 
-
+	mat4 model(1.0f);
 	// Create VAO
 	GLuint VAO, VBO;
 	glGenVertexArrays(1, &VAO);
@@ -47,7 +51,8 @@ int main() {
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	// position
+
+	// Position
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(0 * sizeof(GLfloat)));
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
@@ -65,17 +70,15 @@ int main() {
 	while (!Window::WindowShouldClose()) {
 		Events::PullEvents();
 
-		//Events test
+		// Events test
 		if (Events::JustPressed(P_KEY_ESCAPE)) {
 			Window::SetWindowShouldClose(true);
 		}
 		if (Events::JustClicked(P_MOUSE_BUTTON_1)) {
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-			//std::cout << "Work" << std::endl;
 		}
 		if (Events::JustClicked(P_MOUSE_BUTTON_2)) {
 			glClearColor(0.6f, 0.62f, 0.65f, 1.0f);
-			//std::cout << "Work" << std::endl;
 		}
 		glClear(GL_COLOR_BUFFER_BIT);
 
@@ -87,7 +90,7 @@ int main() {
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 		glBindVertexArray(0);
 
-		//Swapping frame buffers
+		// Swapping frame buffers
 		Window::SwapBuffers();
 	}
 
@@ -96,7 +99,7 @@ int main() {
 	glDeleteBuffers(1, &VBO);
 	glDeleteVertexArrays(1, &VAO);
 
-	//Closing the window
+	// Closing the window
 	Window::Terminate();
 	return 0;
 }
