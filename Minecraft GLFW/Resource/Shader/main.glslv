@@ -8,6 +8,6 @@ out vec2 a_texCoord;
 
 void main(){
 	a_color = vec4(1.0f,1.0f,1.0f,1.0f);
-	a_texCoord = v_texCoord;
+	a_texCoord = vec2(v_texCoord.x, 1.0-v_texCoord.y);
 	gl_Position = vec4(v_position, 1.0);
 }
