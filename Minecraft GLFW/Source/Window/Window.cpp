@@ -13,7 +13,7 @@ int Window::Initialize(int width, int height, const char* title) {
 	//Create a window
 	window = glfwCreateWindow(width, height, title, nullptr, nullptr);
 	if (window == nullptr) {
-		std::cout << "Failed to create GLFW Window" << std::endl;
+		std::cout << "[Window] Failed to create GLFW Window" << std::endl;
 		glfwTerminate();
 		return -1;
 	}
@@ -22,7 +22,7 @@ int Window::Initialize(int width, int height, const char* title) {
 	//Initializing GLEW
 	glewExperimental = GL_TRUE;
 	if (glewInit() != GLEW_OK) {
-		std::cout << "Failed to initialize GLEW" << std::endl;
+		std::cout << "[Window] Failed to initialize GLEW" << std::endl;
 		return -1;
 	}
 	glViewport(0, 0, width, height);

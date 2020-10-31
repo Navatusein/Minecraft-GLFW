@@ -1,13 +1,11 @@
-#define GLEW_STATIC
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-
 #include <iostream>
 
 #include "Window/Window.h"
 #include "Window/Events.h"
 
 #include"Graphic/Shaders.h"
+#include"Graphic/Textures.h"
+
 
 float vertices[] = {
 	// x    y     z     u     v
@@ -27,10 +25,19 @@ int main() {
 
 	Shaders* shader = CreateShederProgram("Resource/Shader/main.glslv", "Resource/Shader/main.glslf");
 	if (shader == nullptr) {
-		std::cerr << "failed to load shader" << std::endl;
+		std::cerr << "[main] failed to load shader" << std::endl;
 		Window::Terminate();
 		return 1;
 	}
+
+	Textures* texture = CreateTexture("Resource/Textures/1.png");
+	if (texture == nullptr) {
+		std::cerr << "[main] failed to load texture" << std::endl;
+		delete shader;
+		Window::Terminate();
+		return 1;
+	}
+
 
 	// Create VAO
 	GLuint VAO, VBO;
@@ -48,7 +55,7 @@ int main() {
 
 	glBindVertexArray(0);
 
-	glClearColor(0.6f, 0.62f, 0.65f, 1);
+	glClearColor(0.6f, 0.62f, 0.65f, 1.0f);
 
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_BLEND);
@@ -63,14 +70,15 @@ int main() {
 			Window::SetWindowShouldClose(true);
 		}
 		if (Events::JustClicked(P_MOUSE_BUTTON_1)) {
-			glClearColor(0.8f, 0.4f, 0.2f, 1);
-			std::cout << "Work" << std::endl;
+			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+			//std::cout << "Work" << std::endl;
 		}
 		glClear(GL_COLOR_BUFFER_BIT);
 
 
 		// Draw VAO
 		shader->Use();
+		texture->Bind();
 		glBindVertexArray(VAO);
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 		glBindVertexArray(0);
@@ -80,6 +88,7 @@ int main() {
 	}
 
 	delete shader;
+	delete texture;
 	glDeleteBuffers(1, &VBO);
 	glDeleteVertexArrays(1, &VAO);
 
