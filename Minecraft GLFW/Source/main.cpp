@@ -1,54 +1,65 @@
-#include <GL/glew.h>
-
 #include <iostream>
 
 #include "Window/Window.h"
 #include "Window/Events.h"
 
-#include "Vertex/VertexBuffer.h"
-#include "Vertex/VertexArray.h"
-#include "Vertex/IndexBuffer.h"
+#include"Graphic/Shaders.h"
+#include"Graphic/Textures.h"
 
-#include "Shader/Shader.h"
+
+float vertices[] = {
+	// x    y     z     u     v
+   -1.0f,-1.0f, 0.0f, 0.0f, 0.0f,
+	1.0f,-1.0f, 0.0f, 1.0f, 0.0f,
+   -1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+
+	1.0f,-1.0f, 0.0f, 1.0f, 0.0f,
+	1.0f, 1.0f, 0.0f, 1.0f, 1.0f,
+   -1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+};
 
 int main() {
 	//Window initialization
-	Window::Initialize(600, 600, "Hello world");
+	Window::Initialize(1280, 800, "Hello world");
 	Events::Initialize();
 
+	Shaders* shader = CreateShederProgram("Resource/Shader/main.glslv", "Resource/Shader/main.glslf");
+	if (shader == nullptr) {
+		std::cerr << "[main] failed to load shader" << std::endl;
+		Window::Terminate();
+		return 1;
+	}
 
-	/** FOLLOWING CODE NEEDS TO BE WRAPPED TO A CLASS **/
-	float positions[8] = {
-		-0.5f, -0.5f,
-		-0.5f, 0.5f,
-		0.5f, -0.5f,
-		0.5f, 0.5f
-	};
-
-	unsigned int indices[6] = {
-		0, 1, 2,
-		2, 3, 1
-	};
-
-	VertexArray VAO;
-	VertexBuffer VBO(positions, 2 * 4 * sizeof(float));
-
-	VBLayout layout;
-	layout.Push<float>(2);
-	VAO.AddBuffer(VBO, layout);
-
-	IndexBuffer IBO(indices, 6);
+	Textures* texture = CreateTexture("Resource/Textures/1.png");
+	if (texture == nullptr) {
+		std::cerr << "[main] failed to load texture" << std::endl;
+		delete shader;
+		Window::Terminate();
+		return 1;
+	}
 
 
-	Shader program("Resource/Shader/Vertex.glsl", "Resource/Shader/Fragment.glsl");
+	// Create VAO
+	GLuint VAO, VBO;
+	glGenVertexArrays(1, &VAO);
+	glGenBuffers(1, &VBO);
 
-	/* freeing resources */
-	VAO.Unbind();
-	VBO.Unbind();
-	IBO.Unbind();
-	program.Unbind();
+	glBindVertexArray(VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	// position
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(0 * sizeof(GLfloat)));
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	glEnableVertexAttribArray(1);
 
-	/** end **/
+	glBindVertexArray(0);
+
+	glClearColor(0.6f, 0.62f, 0.65f, 1.0f);
+
+	glEnable(GL_CULL_FACE);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	//Main loop
 	while (!Window::WindowShouldClose()) {
@@ -59,21 +70,27 @@ int main() {
 			Window::SetWindowShouldClose(true);
 		}
 		if (Events::JustClicked(P_MOUSE_BUTTON_1)) {
-			std::cout << "Work" << std::endl;
+			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+			//std::cout << "Work" << std::endl;
 		}
+		glClear(GL_COLOR_BUFFER_BIT);
 
-		VAO.Bind();
-		VBO.Bind();
-		program.Bind();
 
-		program.Uniform("uColor");
-
-		/* for some reason shader is not working (triangles are white) */
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+		// Draw VAO
+		shader->Use();
+		texture->Bind();
+		glBindVertexArray(VAO);
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+		glBindVertexArray(0);
 
 		//Swapping frame buffers
 		Window::SwapBuffers();
 	}
+
+	delete shader;
+	delete texture;
+	glDeleteBuffers(1, &VBO);
+	glDeleteVertexArrays(1, &VAO);
 
 	//Closing the window
 	Window::Terminate();
