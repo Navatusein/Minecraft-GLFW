@@ -25,14 +25,14 @@ int main() {
 
 	Shaders* shader = CreateShederProgram("Resource/Shader/main.glslv", "Resource/Shader/main.glslf");
 	if (shader == nullptr) {
-		std::cerr << "[main] failed to load shader" << std::endl;
+		std::cout << "[main] failed to load shader" << std::endl;
 		Window::Terminate();
 		return 1;
 	}
 
 	Textures* texture = CreateTexture("Resource/Textures/1.png");
 	if (texture == nullptr) {
-		std::cerr << "[main] failed to load texture" << std::endl;
+		std::cout << "[main] failed to load texture" << std::endl;
 		delete shader;
 		Window::Terminate();
 		return 1;
@@ -71,6 +71,10 @@ int main() {
 		}
 		if (Events::JustClicked(P_MOUSE_BUTTON_1)) {
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+			//std::cout << "Work" << std::endl;
+		}
+		if (Events::JustClicked(P_MOUSE_BUTTON_2)) {
+			glClearColor(0.6f, 0.62f, 0.65f, 1.0f);
 			//std::cout << "Work" << std::endl;
 		}
 		glClear(GL_COLOR_BUFFER_BIT);
