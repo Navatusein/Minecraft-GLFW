@@ -26,7 +26,7 @@
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Window\Events.cpp" />
     <ClCompile Include="Source\Window\Window.cpp" />
-    <ClCompile Include="Source\Graphic\Textures.cpp" />
+    <ClCompile Include="Source\Graphic\Texture.cpp" />
     <ClCompile Include="Source\Vertex\VertexArray.cpp" />
     <ClCompile Include="Source\Vertex\VertexBuffer.cpp" />
   </ItemGroup>
@@ -39,7 +39,7 @@
     <ClInclude Include="Source\Window\Events.h" />
     <ClInclude Include="Source\Window\KeyMacros.h" />
     <ClInclude Include="Source\Window\Window.h" />
-    <ClInclude Include="Source\Graphic\Textures.h" />
+    <ClInclude Include="Source\Graphic\Texture.h" />
     <ClInclude Include="Source\Vertex\VertexArray.h" />
     <ClInclude Include="Source\Vertex\VertexBuffer.h" />
   </ItemGroup>

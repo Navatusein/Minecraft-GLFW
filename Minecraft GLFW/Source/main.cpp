@@ -9,10 +9,6 @@
 #include "Window/Camera.h"
 
 #include"Graphic/Shaders.h"
-#include"Graphic/Textures.h"
-
-#include "Vertex/VertexArray.h"
-#include "Vertex/VertexBuffer.h"
 
 #include "Mesh/Mesh.h"
 
@@ -20,28 +16,8 @@
 
 using namespace glm;
 
-float vertices[] = {
-	// x    y     z     u     v
-   -1.0f,-1.0f, 0.0f, 0.0f, 0.0f,
-	1.0f,-1.0f, 0.0f, 1.0f, 0.0f,
-   -1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-
-	1.0f,-1.0f, 0.0f, 1.0f, 0.0f,
-	1.0f, 1.0f, 0.0f, 1.0f, 1.0f,
-   -1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-};
-float vertices2[] = {
-	// x    y     z     u     v
-   -2.0f,-1.0f, 1.0f, 0.0f, 0.0f,
-	0.0f,-1.0f, 0.0f, 1.0f, 0.0f,
-   -2.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-
-	0.0f,-1.0f, 0.0f, 1.0f, 0.0f,
-	0.0f, 1.0f, 1.0f, 1.0f, 1.0f,
-   -2.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-};
-
 int main() {
+
 	//Window initialization
 	Window::Initialize(1280, 800, "Hello world");
 	Events::Initialize();
@@ -52,8 +28,8 @@ int main() {
 		Window::Terminate();
 		return 1;
 	}
-
-	Textures* texture = CreateTexture("Resource/Textures/1.png");
+	/*
+	Texture* texture = CreateTexture("Resource/Textures/1.png");
 	if (texture == nullptr) {
 		std::cout << "[main] Failed to load texture" << std::endl;
 		delete shader;
@@ -61,19 +37,40 @@ int main() {
 		return 1;
 	}
 
-	Textures* texture1 = CreateTexture("Resource/Textures/2.png");
+	Texture* texture1 = CreateTexture("Resource/Textures/2.png");
 	if(texture == nullptr) {
 		std::cout << "[main] Failed to load texture" << std::endl;
 		delete shader;
 		Window::Terminate();
 		return 1;
 	}
+	*/
+	float vertices[] = {
+		// x    y     z     u     v
+	   -1.0f,-1.0f, 0.0f, 0.0f, 0.0f,
+		1.0f,-1.0f, 0.0f, 1.0f, 0.0f,
+	   -1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+
+		1.0f,-1.0f, 0.0f, 1.0f, 0.0f,
+		1.0f, 1.0f, 0.0f, 1.0f, 1.0f,
+	   -1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+	};
+	float vertices2[] = {
+		// x    y     z     u     v
+	   -2.0f,-1.0f, 1.0f, 0.0f, 0.0f,
+		0.0f,-1.0f, 0.0f, 1.0f, 0.0f,
+	   -2.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+
+		0.0f,-1.0f, 0.0f, 1.0f, 0.0f,
+		0.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+	   -2.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+	};
 
 	// Create VAO
 #if oldVAO == 1
 
-	Mesh plane(vertices, 6);
-	Mesh plane1(vertices2, 6);
+	Mesh plane(vertices, 6, "Resource/Textures/1.png");
+	Mesh plane1(vertices2, 6, "Resource/Textures/2.png");
 #else
 	
 	VertexBuffer VBO(vertices, 6);
@@ -172,11 +169,8 @@ int main() {
 
 #if oldVAO == 1
 
-		texture->Bind();
 		plane.Draw();
-		texture1->Bind();
 		plane1.Draw();
-		texture->Unbind();
 #else
 		VAO.Bind();
 
@@ -191,7 +185,6 @@ int main() {
 	}
 
 	delete shader;
-	delete texture;
 
 
 
