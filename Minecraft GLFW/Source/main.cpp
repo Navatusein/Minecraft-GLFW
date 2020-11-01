@@ -4,10 +4,12 @@
 
 #include "Window/Window.h"
 #include "Window/Events.h"
+#include "Window/Camera.h"
 
 #include"Graphic/Shaders.h"
 #include"Graphic/Textures.h"
 
+#include "ErrorHandling.h"
 
 using namespace glm;
 
@@ -42,7 +44,6 @@ int main() {
 		return 1;
 	}
 
-	mat4 model(1.0f);
 	// Create VAO
 	GLuint VAO, VBO;
 	glGenVertexArrays(1, &VAO);
@@ -51,8 +52,7 @@ int main() {
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-	// Position
+	// position
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(0 * sizeof(GLfloat)));
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
@@ -60,31 +60,88 @@ int main() {
 
 	glBindVertexArray(0);
 
-	glClearColor(0.6f, 0.62f, 0.65f, 1.0f);
+	glClearColor(0.6f, 0.62f, 0.65f, 1);
 
-	glEnable(GL_CULL_FACE);
+	//glEnable(GL_CULL_FACE);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	Camera* camera = new Camera(vec3(0, 0, 1), radians(70.0f));
+
+	mat4 Model(1.0f);
+	Model = translate(Model, vec3(0.5f, 0, 0));
+
+	float LastTime = glfwGetTime();
+	float Delta = 0.0f;
+
+	float CamX = 0.0f;
+	float CamY = 0.0f;
+
+	float Speed = 5;
+
 	//Main loop
 	while (!Window::WindowShouldClose()) {
-		Events::PullEvents();
+
+		float currentTime = glfwGetTime();
+		Delta = currentTime - LastTime;
+		LastTime = currentTime;
 
 		// Events test
-		if (Events::JustPressed(P_KEY_ESCAPE)) {
+		if (Events::JustPressed(KM_KEY_ESCAPE)) {
 			Window::SetWindowShouldClose(true);
 		}
-		if (Events::JustClicked(P_MOUSE_BUTTON_1)) {
+		if (Events::JustPressed(KM_KEY_TAB)) {
+			Events::ToogleCursor();
+		}
+
+		if (Events::JustClicked(KM_MOUSE_BUTTON_1)) {
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		}
-		if (Events::JustClicked(P_MOUSE_BUTTON_2)) {
+		if (Events::JustClicked(KM_MOUSE_BUTTON_2)) {
 			glClearColor(0.6f, 0.62f, 0.65f, 1.0f);
 		}
+
+		if (Events::Pressed(KM_KEY_W)) {
+			camera->Position += camera->Front * Delta * Speed;
+		}
+		if (Events::Pressed(KM_KEY_S)) {
+			camera->Position -= camera->Front * Delta * Speed;
+		}
+		if (Events::Pressed(KM_KEY_D)) {
+			camera->Position += camera->Right * Delta * Speed;
+		}
+		if (Events::Pressed(KM_KEY_A)) {
+			camera->Position -= camera->Right * Delta * Speed;
+		}
+		if (Events::Pressed(KM_KEY_SPACE)) {
+			camera->Position += camera->Up * Delta * Speed;
+		}
+		if (Events::Pressed(KM_KEY_LEFT_SHIFT)) {
+			camera->Position -= camera->Up * Delta * Speed;
+		}
+
+		if (Events::lockedCursor) {
+			CamY += -Events::deltaY / Window::Height * 2;
+			CamX += -Events::deltaX / Window::Height * 2;
+
+			if (CamY < -radians(89.0f)) {
+				CamY = -radians(89.0f);
+			}
+			if (CamY > radians(89.0f)) {
+				CamY = radians(89.0f);
+			}
+
+			camera->Rotation = mat4(1.0f);
+			camera->Rotate(CamY, CamX, 0);
+		}
+
 		glClear(GL_COLOR_BUFFER_BIT);
 
 
 		// Draw VAO
 		shader->Use();
+		shader->UniformMatrix("model", Model);
+		GLCall(shader->UniformMatrix("projview", camera->GetProjection() * camera->GetView()));
 		texture->Bind();
 		glBindVertexArray(VAO);
 		glDrawArrays(GL_TRIANGLES, 0, 6);
@@ -92,6 +149,7 @@ int main() {
 
 		// Swapping frame buffers
 		Window::SwapBuffers();
+		Events::PullEvents();
 	}
 
 	delete shader;
