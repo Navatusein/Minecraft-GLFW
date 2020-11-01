@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Mesh\Mesh.cpp" />
     <ClCompile Include="Source\Window\Camera.cpp" />
     <ClCompile Include="Source\Graphic\Shaders.cpp" />
     <ClCompile Include="Source\main.cpp" />
@@ -29,6 +30,7 @@
     <ClCompile Include="Source\Vertex\VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Mesh\Mesh.h" />
     <ClInclude Include="Source\Window\Camera.h" />
     <ClInclude Include="Source\Graphic\Shaders.h" />
     <ClInclude Include="Source\ErrorHandling.h" />
@@ -40,8 +42,8 @@
     <ClInclude Include="Source\Vertex\VertexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resource\Shader\main.glslf" />
-    <None Include="Resource\Shader\main.glslv" />
+    <None Include="Resource\Shader\mainFragment.glsl" />
+    <None Include="Resource\Shader\mainVertex.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\Textures\1.png" />
