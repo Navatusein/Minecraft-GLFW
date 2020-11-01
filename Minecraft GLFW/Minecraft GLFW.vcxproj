@@ -25,6 +25,8 @@
     <ClCompile Include="Source\Window\Events.cpp" />
     <ClCompile Include="Source\Window\Window.cpp" />
     <ClCompile Include="Source\Graphic\Textures.cpp" />
+    <ClCompile Include="Source\Vertex\VertexArray.cpp" />
+    <ClCompile Include="Source\Vertex\VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Window\Camera.h" />
@@ -34,6 +36,8 @@
     <ClInclude Include="Source\Window\KeyMacros.h" />
     <ClInclude Include="Source\Window\Window.h" />
     <ClInclude Include="Source\Graphic\Textures.h" />
+    <ClInclude Include="Source\Vertex\VertexArray.h" />
+    <ClInclude Include="Source\Vertex\VertexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resource\Shader\main.glslf" />

@@ -2,6 +2,8 @@
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 
+#include "ErrorHandling.h"
+
 #include "Window/Window.h"
 #include "Window/Events.h"
 #include "Window/Camera.h"
@@ -9,7 +11,8 @@
 #include"Graphic/Shaders.h"
 #include"Graphic/Textures.h"
 
-#include "ErrorHandling.h"
+#include "Vertex/VertexArray.h"
+#include "Vertex/VertexBuffer.h"
 
 using namespace glm;
 
@@ -45,6 +48,7 @@ int main() {
 	}
 
 	// Create VAO
+	/*
 	GLuint VAO, VBO;
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
@@ -56,9 +60,19 @@ int main() {
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(0 * sizeof(GLfloat)));
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-	glEnableVertexAttribArray(1);
+	glEnableVertexAttribArray(1);*/
 
-	glBindVertexArray(0);
+	VertexBuffer VBO(vertices, 6);
+	VertexArray VAO;
+
+	VBO.Bind();
+	VAO.Bind();
+
+	VAO.AddBuffer(VBO);
+
+	//glBindVertexArray(0);
+	VAO.Unbind();
+	VBO.Unbind();
 
 	glClearColor(0.6f, 0.62f, 0.65f, 1);
 
@@ -143,9 +157,16 @@ int main() {
 		shader->UniformMatrix("model", Model);
 		GLCall(shader->UniformMatrix("projview", camera->GetProjection() * camera->GetView()));
 		texture->Bind();
-		glBindVertexArray(VAO);
+
+		//glBindVertexArray(VAO);
+		VAO.Bind();
+		VBO.Bind();
+
 		glDrawArrays(GL_TRIANGLES, 0, 6);
-		glBindVertexArray(0);
+		
+		//glBindVertexArray(0);
+		VAO.Unbind();
+		VBO.Unbind();
 
 		// Swapping frame buffers
 		Window::SwapBuffers();
@@ -154,8 +175,11 @@ int main() {
 
 	delete shader;
 	delete texture;
+
+	/*
 	glDeleteBuffers(1, &VBO);
 	glDeleteVertexArrays(1, &VAO);
+	*/
 
 	// Closing the window
 	Window::Terminate();
