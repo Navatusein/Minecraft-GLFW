@@ -3,7 +3,6 @@
 
 Mesh::Mesh(float* vertices, unsigned int vCount) : vCount(vCount){
 	VBO.Construct(vertices, vCount);
-	std::cout << "jack here\n";
 	VAO.AddBuffer(VBO);
 	
 	VAO.Unbind();
