@@ -14,7 +14,9 @@
 #include "Vertex/VertexArray.h"
 #include "Vertex/VertexBuffer.h"
 
-#define oldVAO false
+#include "Mesh/Mesh.h"
+
+#define oldVAO true
 
 using namespace glm;
 
@@ -28,13 +30,23 @@ float vertices[] = {
 	1.0f, 1.0f, 0.0f, 1.0f, 1.0f,
    -1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
 };
+float vertices2[] = {
+	// x    y     z     u     v
+   -1.0f, 0.0f,-1.0f, 0.0f, 0.0f,
+	1.0f, 0.0f,-1.0f, 1.0f, 0.0f,
+   -1.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+
+	1.0f, 0.0f,-1.0f, 1.0f, 0.0f,
+	1.0f, 0.0f, 1.0f, 1.0f, 1.0f,
+   -1.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+};
 
 int main() {
 	//Window initialization
 	Window::Initialize(1280, 800, "Hello world");
 	Events::Initialize();
 
-	Shaders* shader = CreateShederProgram("Resource/Shader/main.glslv", "Resource/Shader/main.glslf");
+	Shaders* shader = CreateShederProgram("Resource/Shader/mainVertex.glsl", "Resource/Shader/mainFragment.glsl");
 	if (shader == nullptr) {
 		std::cout << "[main] Failed to load shader" << std::endl;
 		Window::Terminate();
@@ -52,21 +64,8 @@ int main() {
 	// Create VAO
 #if oldVAO == 1
 
-	GLuint VAO, VBO;
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
-
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	// position
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(0 * sizeof(GLfloat)));
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-	glEnableVertexAttribArray(1);
-	
-	glBindVertexArray(0);
-	
+	Mesh plane(vertices, 6);
+	Mesh plane2(vertices2, 6);
 #else
 	
 	VertexBuffer VBO(vertices, 6);
@@ -99,7 +98,7 @@ int main() {
 	float Speed = 5;
 
 	Events::ToogleCursor();
-
+	
 	//Main loop
 	while (!Window::WindowShouldClose()) {
 
@@ -158,7 +157,6 @@ int main() {
 
 		glClear(GL_COLOR_BUFFER_BIT);
 
-
 		// Draw VAO
 		shader->Use();
 		shader->UniformMatrix("model", Model);
@@ -167,10 +165,8 @@ int main() {
 
 #if oldVAO == 1
 
-		glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLES, 0, 6);
-		glBindVertexArray(0);
-		
+		plane.Draw();
+		plane2.Draw();
 #else
 		VAO.Bind();
 
@@ -187,10 +183,7 @@ int main() {
 	delete shader;
 	delete texture;
 
-#if oldVAO == 1	
-	glDeleteBuffers(1, &VBO);
-	glDeleteVertexArrays(1, &VAO);
-#endif
+
 
 	// Closing the window
 	Window::Terminate();
