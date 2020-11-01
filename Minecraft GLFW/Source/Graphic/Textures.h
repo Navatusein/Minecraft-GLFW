@@ -14,6 +14,7 @@ public:
 	~Textures();
 
 	void Bind();
+	void Unbind();
 };
 
 Textures* CreateTexture(std::string File);
