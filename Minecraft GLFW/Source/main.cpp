@@ -14,6 +14,8 @@
 #include "Vertex/VertexArray.h"
 #include "Vertex/VertexBuffer.h"
 
+#define oldVAO false
+
 using namespace glm;
 
 float vertices[] = {
@@ -26,8 +28,6 @@ float vertices[] = {
 	1.0f, 1.0f, 0.0f, 1.0f, 1.0f,
    -1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
 };
-
-#define oldVAO false
 
 int main() {
 	//Window initialization
@@ -71,9 +71,6 @@ int main() {
 	
 	VertexBuffer VBO(vertices, 6);
 	VertexArray VAO;
-
-	VBO.Bind();
-	VAO.Bind();
 
 	VAO.AddBuffer(VBO);
 
@@ -176,9 +173,10 @@ int main() {
 		
 #else
 		VAO.Bind();
-		VBO.Bind();
+
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+
 		VAO.Unbind();
-		VBO.Unbind();
 #endif
 
 		// Swapping frame buffers

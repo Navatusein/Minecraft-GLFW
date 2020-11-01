@@ -1,4 +1,5 @@
 #pragma once
+
 class VertexBuffer {
 private:
 	unsigned int mID;
