@@ -1,8 +1,8 @@
-#include "Textures.h"
+#include "Texture.h"
 
 
 
-Textures* CreateTexture(std::string File) {
+Texture* CreateTexture(std::string File) {
     unsigned int texture;
 
     glGenTextures(1, &texture);
@@ -17,7 +17,7 @@ Textures* CreateTexture(std::string File) {
     int width, height;
     unsigned char* image = SOIL_load_image(File.c_str(), &width, &height, 0, SOIL_LOAD_RGBA);
     if (image == NULL) {
-        std::cout << "[Textures] Fail read " << File << std::endl;
+        std::cout << "[Texture] Fail read " << File << std::endl;
         glDeleteTextures(1, &texture);
         return nullptr;
     }
@@ -26,19 +26,19 @@ Textures* CreateTexture(std::string File) {
     SOIL_free_image_data(image);
     glBindTexture(GL_TEXTURE_2D, 0);
     
-    return new Textures(texture, width, height);
+    return new Texture(texture, width, height);
 }
 
-Textures::Textures(unsigned int id, int width, int height) : id(id), width(width), height(height) {}
+Texture::Texture(unsigned int id, int width, int height) : id(id), width(width), height(height) {}
 
-Textures::~Textures() {
+Texture::~Texture() {
 	glDeleteTextures(1, &id);
 }
 
-void Textures::Bind() {
+void Texture::Bind() {
 	glBindTexture(GL_TEXTURE_2D, id);
 }
 
-void Textures::Unbind() {
+void Texture::Unbind() {
 	glBindTexture(GL_TEXTURE_2D, 0);
 }

@@ -5,16 +5,16 @@
 #include <SOIL.h>
 #include <GL/glew.h>
 
-class Textures {
+class Texture {
 public:
 	unsigned int id;
 	int width;
 	int height;
-	Textures(unsigned int id, int width, int height);
-	~Textures();
+	Texture(unsigned int id, int width, int height);
+	~Texture();
 
 	void Bind();
 	void Unbind();
 };
 
-Textures* CreateTexture(std::string File);
+Texture* CreateTexture(std::string File);

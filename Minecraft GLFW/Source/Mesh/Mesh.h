@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "../Graphic/Textures.h"
+#include "../Graphic/Texture.h"
 
 
 #include "../Vertex/VertexArray.h"
@@ -15,8 +15,10 @@ private:
 	VertexArray VAO;
 	VertexBuffer VBO;
 	unsigned int vCount;
+
+	Texture* texture;
 public:
-	Mesh(float* vertices, unsigned int vCount);
+	Mesh(float* vertices, unsigned int vCount, std::string filePath);
 	~Mesh();
 
 	void Draw();
