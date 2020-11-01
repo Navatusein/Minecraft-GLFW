@@ -10,6 +10,11 @@ void Shaders::Use() {
 	glUseProgram(id);
 }
 
+void Shaders::UniformMatrix(std::string name, glm::mat4 matrix) {
+	GLuint TransformLoc = glGetUniformLocation(id, name.c_str());
+	glUniformMatrix4fv(TransformLoc, 1, GL_FALSE, glm::value_ptr(matrix));
+}
+
 Shaders* CreateShederProgram(std::string vertexFile, std::string fragmentFile) {
 	// Reading Files
 	std::string vertexCode;

@@ -4,6 +4,8 @@
 #include <iostream>
 #include <sstream>
 
+#include <glm/gtc/type_ptr.hpp>
+#include <glm/glm.hpp>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
@@ -15,6 +17,7 @@ public:
 	~Shaders();
 
 	void Use();
+	void UniformMatrix(std::string name, glm::mat4 matrix);
 };
 
 Shaders* CreateShederProgram(std::string vertexFile, std::string fragmentFile);
