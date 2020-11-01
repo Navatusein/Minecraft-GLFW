@@ -16,6 +16,8 @@
 
 using namespace glm;
 
+#define oldVAO false
+
 float vertices[] = {
 	// x    y     z     u     v
    -1.0f,-1.0f, 0.0f, 0.0f, 0.0f,
@@ -48,7 +50,8 @@ int main() {
 	}
 
 	// Create VAO
-	/*
+#if oldVAO == 1
+
 	GLuint VAO, VBO;
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
@@ -60,8 +63,12 @@ int main() {
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(0 * sizeof(GLfloat)));
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-	glEnableVertexAttribArray(1);*/
-
+	glEnableVertexAttribArray(1);
+	
+	glBindVertexArray(0);
+	
+#else
+	
 	VertexBuffer VBO(vertices, 6);
 	VertexArray VAO;
 
@@ -70,9 +77,10 @@ int main() {
 
 	VAO.AddBuffer(VBO);
 
-	//glBindVertexArray(0);
 	VAO.Unbind();
 	VBO.Unbind();
+
+#endif
 
 	glClearColor(0.6f, 0.62f, 0.65f, 1);
 
@@ -92,6 +100,8 @@ int main() {
 	float CamY = 0.0f;
 
 	float Speed = 5;
+
+	Events::ToogleCursor();
 
 	//Main loop
 	while (!Window::WindowShouldClose()) {
@@ -158,15 +168,18 @@ int main() {
 		GLCall(shader->UniformMatrix("projview", camera->GetProjection() * camera->GetView()));
 		texture->Bind();
 
-		//glBindVertexArray(VAO);
+#if oldVAO == 1
+
+		glBindVertexArray(VAO);
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+		glBindVertexArray(0);
+		
+#else
 		VAO.Bind();
 		VBO.Bind();
-
-		glDrawArrays(GL_TRIANGLES, 0, 6);
-		
-		//glBindVertexArray(0);
 		VAO.Unbind();
 		VBO.Unbind();
+#endif
 
 		// Swapping frame buffers
 		Window::SwapBuffers();
@@ -176,10 +189,10 @@ int main() {
 	delete shader;
 	delete texture;
 
-	/*
+#if oldVAO == 1	
 	glDeleteBuffers(1, &VBO);
 	glDeleteVertexArrays(1, &VAO);
-	*/
+#endif
 
 	// Closing the window
 	Window::Terminate();
