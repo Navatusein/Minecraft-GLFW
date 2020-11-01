@@ -16,8 +16,6 @@
 
 using namespace glm;
 
-#define oldVAO false
-
 float vertices[] = {
 	// x    y     z     u     v
    -1.0f,-1.0f, 0.0f, 0.0f, 0.0f,
@@ -28,6 +26,8 @@ float vertices[] = {
 	1.0f, 1.0f, 0.0f, 1.0f, 1.0f,
    -1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
 };
+
+#define oldVAO false
 
 int main() {
 	//Window initialization
