@@ -32,13 +32,13 @@ float vertices[] = {
 };
 float vertices2[] = {
 	// x    y     z     u     v
-   -1.0f, 0.0f,-1.0f, 0.0f, 0.0f,
-	1.0f, 0.0f,-1.0f, 1.0f, 0.0f,
-   -1.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+   -2.0f,-1.0f, 1.0f, 0.0f, 0.0f,
+	0.0f,-1.0f, 0.0f, 1.0f, 0.0f,
+   -2.0f, 1.0f, 0.0f, 0.0f, 1.0f,
 
-	1.0f, 0.0f,-1.0f, 1.0f, 0.0f,
-	1.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-   -1.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+	0.0f,-1.0f, 0.0f, 1.0f, 0.0f,
+	0.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+   -2.0f, 1.0f, 0.0f, 0.0f, 1.0f,
 };
 
 int main() {
@@ -80,7 +80,7 @@ int main() {
 
 	glClearColor(0.6f, 0.62f, 0.65f, 1);
 
-	//glEnable(GL_CULL_FACE);
+	glEnable(GL_CULL_FACE);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
