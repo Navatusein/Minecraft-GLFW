@@ -38,3 +38,7 @@ Textures::~Textures() {
 void Textures::Bind() {
 	glBindTexture(GL_TEXTURE_2D, id);
 }
+
+void Textures::Unbind() {
+	glBindTexture(GL_TEXTURE_2D, 0);
+}

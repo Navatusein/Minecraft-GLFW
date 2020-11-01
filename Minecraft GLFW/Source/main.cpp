@@ -61,11 +61,19 @@ int main() {
 		return 1;
 	}
 
+	Textures* texture1 = CreateTexture("Resource/Textures/2.png");
+	if(texture == nullptr) {
+		std::cout << "[main] Failed to load texture" << std::endl;
+		delete shader;
+		Window::Terminate();
+		return 1;
+	}
+
 	// Create VAO
 #if oldVAO == 1
 
 	Mesh plane(vertices, 6);
-	Mesh plane2(vertices2, 6);
+	Mesh plane1(vertices2, 6);
 #else
 	
 	VertexBuffer VBO(vertices, 6);
@@ -161,12 +169,14 @@ int main() {
 		shader->Use();
 		shader->UniformMatrix("model", Model);
 		GLCall(shader->UniformMatrix("projview", camera->GetProjection() * camera->GetView()));
-		texture->Bind();
 
 #if oldVAO == 1
 
+		texture->Bind();
 		plane.Draw();
-		plane2.Draw();
+		texture1->Bind();
+		plane1.Draw();
+		texture->Unbind();
 #else
 		VAO.Bind();
 
