@@ -8,7 +8,7 @@ public:
 	VertexArray();
 	~VertexArray();
 
-	void AddBuffer(VertexBuffer VBO);
+	void AddBuffer(VertexBuffer& VBO);
 
 	void Bind();
 	void Unbind();
