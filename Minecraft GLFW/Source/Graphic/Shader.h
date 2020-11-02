@@ -9,16 +9,18 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-class Shaders {
+class Shader {
 public:
 	unsigned int id;
 
-	Shaders(unsigned int id);
-	~Shaders();
+	Shader(unsigned int id);
+	~Shader();
 
-	void Use();
 	void UniformMatrix(std::string name, glm::mat4 matrix);
+
+	void Bind();
+	void Unbind();
 };
 
-Shaders* CreateShederProgram(std::string vertexFile, std::string fragmentFile);
+Shader* CreateShaderProgram(std::string vertexFile, std::string fragmentFile);
 

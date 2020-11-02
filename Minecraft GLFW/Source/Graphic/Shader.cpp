@@ -1,21 +1,25 @@
-#include "Shaders.h"
+#include "Shader.h"
 
-Shaders::Shaders(unsigned int id) : id(id) {}
+Shader::Shader(unsigned int id) : id(id) {}
 
-Shaders::~Shaders() {
+Shader::~Shader() {
 	glDeleteProgram(id);
 }
 
-void Shaders::Use() {
-	glUseProgram(id);
-}
-
-void Shaders::UniformMatrix(std::string name, glm::mat4 matrix) {
+void Shader::UniformMatrix(std::string name, glm::mat4 matrix) {
 	GLuint TransformLoc = glGetUniformLocation(id, name.c_str());
 	glUniformMatrix4fv(TransformLoc, 1, GL_FALSE, glm::value_ptr(matrix));
 }
 
-Shaders* CreateShederProgram(std::string vertexFile, std::string fragmentFile) {
+void Shader::Bind() {
+	glUseProgram(id);
+}
+
+void Shader::Unbind() {
+	glUseProgram(0);
+}
+
+Shader* CreateShaderProgram(std::string vertexFile, std::string fragmentFile) {
 	// Reading Files
 	std::string vertexCode;
 	std::string fragmentCode;
@@ -27,19 +31,19 @@ Shaders* CreateShederProgram(std::string vertexFile, std::string fragmentFile) {
 	try {
 		vShaderFile.open(vertexFile);
 		fShaderFile.open(fragmentFile);
-		std::stringstream vShaderStream, fShaderStream;
+		std::stringstream vShadertream, fShadertream;
 
-		vShaderStream << vShaderFile.rdbuf();
-		fShaderStream << fShaderFile.rdbuf();
+		vShadertream << vShaderFile.rdbuf();
+		fShadertream << fShaderFile.rdbuf();
 
 		vShaderFile.close();
 		fShaderFile.close();
 
-		vertexCode = vShaderStream.str();
-		fragmentCode = fShaderStream.str();
+		vertexCode = vShadertream.str();
+		fragmentCode = fShadertream.str();
 	}
 	catch (std::ifstream::failure& e) {
-		std::cout << "[Shaders] File not succesfully read" << std::endl;
+		std::cout << "[Shader] File not succesfully read" << std::endl;
 		return nullptr;
 	}
 	const GLchar* vShaderCode = vertexCode.c_str();
@@ -56,7 +60,7 @@ Shaders* CreateShederProgram(std::string vertexFile, std::string fragmentFile) {
 	glGetShaderiv(vertex, GL_COMPILE_STATUS, &success);
 	if (!success) {
 		glGetShaderInfoLog(vertex, 512, nullptr, infoLog);
-		std::cout << "[Shaders] VERTEX: compilation failed" << std::endl;
+		std::cout << "[Shader] VERTEX: compilation failed" << std::endl;
 		std::cout << infoLog << std::endl;
 		return nullptr;
 	}
@@ -68,7 +72,7 @@ Shaders* CreateShederProgram(std::string vertexFile, std::string fragmentFile) {
 	glGetShaderiv(fragment, GL_COMPILE_STATUS, &success);
 	if (!success) {
 		glGetShaderInfoLog(fragment, 512, nullptr, infoLog);
-		std::cout << "[Shaders] FRAGMENT: compilation failed" << std::endl;
+		std::cout << "[Shader] FRAGMENT: compilation failed" << std::endl;
 		std::cout << infoLog << std::endl;
 		return nullptr;
 	}
@@ -82,7 +86,7 @@ Shaders* CreateShederProgram(std::string vertexFile, std::string fragmentFile) {
 	glGetProgramiv(id, GL_LINK_STATUS, &success);
 	if (!success) {
 		glGetProgramInfoLog(id, 512, nullptr, infoLog);
-		std::cout << "[Shaders] PROGRAM: linking failed" << std::endl;
+		std::cout << "[Shader] PROGRAM: linking failed" << std::endl;
 		std::cout << infoLog << std::endl;
 
 		glDeleteShader(vertex);
@@ -93,5 +97,5 @@ Shaders* CreateShederProgram(std::string vertexFile, std::string fragmentFile) {
 	glDeleteShader(vertex);
 	glDeleteShader(fragment);
 
-	return new Shaders(id);
+	return new Shader(id);
 }
