@@ -8,7 +8,6 @@
 
 #include "../Graphic/Texture.h"
 
-
 #include "../Vertex/VertexArray.h"
 #include "../Vertex/VertexBuffer.h"
 

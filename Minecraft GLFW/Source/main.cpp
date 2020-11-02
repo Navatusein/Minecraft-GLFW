@@ -28,6 +28,8 @@ int main() {
 		Window::Terminate();
 		return 1;
 	}
+
+
 	Texture* texture = CreateTexture("Resource/Textures/1.png");
 	if (texture == nullptr) {
 		std::cout << "[main] Failed to load texture" << std::endl;

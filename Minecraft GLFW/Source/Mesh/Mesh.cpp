@@ -28,8 +28,10 @@ void Mesh::Draw(Shader* program) {
 	VAO.Bind();
 	texture->Bind();
 	program->Bind();
+
 	program->UniformMatrix("transform", transform);
 	glDrawArrays(GL_TRIANGLES, 0, vCount);
+
 	program->Unbind();
 	texture->Unbind();
 	VAO.Unbind();
