@@ -8,7 +8,7 @@
 #include "Window/Events.h"
 #include "Window/Camera.h"
 
-#include"Graphic/Shaders.h"
+#include"Graphic/Shader.h"
 
 #include "Mesh/Mesh.h"
 
@@ -22,7 +22,7 @@ int main() {
 	Window::Initialize(1280, 800, "Hello world");
 	Events::Initialize();
 
-	Shaders* shader = CreateShederProgram("Resource/Shader/mainVertex.glsl", "Resource/Shader/mainFragment.glsl");
+	Shader* shader = CreateShaderProgram("Resource/Shader/mainVertex.glsl", "Resource/Shader/mainFragment.glsl");
 	if (shader == nullptr) {
 		std::cout << "[main] Failed to load shader" << std::endl;
 		Window::Terminate();
@@ -66,22 +66,11 @@ int main() {
 	   -2.0f, 1.0f, 0.0f, 0.0f, 1.0f,
 	};
 
-	// Create VAO
-#if oldVAO == 1
+
 
 	Mesh plane(vertices, 6, "Resource/Textures/1.png");
 	Mesh plane1(vertices2, 6, "Resource/Textures/2.png");
-#else
-	
-	VertexBuffer VBO(vertices, 6);
-	VertexArray VAO;
 
-	VAO.AddBuffer(VBO);
-
-	VAO.Unbind();
-	VBO.Unbind();
-
-#endif
 
 	glClearColor(0.6f, 0.62f, 0.65f, 1);
 
@@ -124,6 +113,7 @@ int main() {
 		}
 		if (Events::JustClicked(KM_MOUSE_BUTTON_2)) {
 			glClearColor(0.6f, 0.62f, 0.65f, 1.0f);
+			plane.Move(1, 0, 0);
 		}
 
 		if (Events::Pressed(KM_KEY_W)) {
@@ -162,22 +152,15 @@ int main() {
 
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		// Draw VAO
-		shader->Use();
-		shader->UniformMatrix("model", Model);
-		GLCall(shader->UniformMatrix("projview", camera->GetProjection() * camera->GetView()));
 
-#if oldVAO == 1
+		shader->Bind();
+		shader->UniformMatrix("projview", camera->GetProjection() * camera->GetView());
+		shader->Unbind();
 
-		plane.Draw();
-		plane1.Draw();
-#else
-		VAO.Bind();
+		plane.Rotate(0, 0, 1);
 
-		glDrawArrays(GL_TRIANGLES, 0, 6);
-
-		VAO.Unbind();
-#endif
+		plane.Draw(shader);
+		plane1.Draw(shader);
 
 		// Swapping frame buffers
 		Window::SwapBuffers();
