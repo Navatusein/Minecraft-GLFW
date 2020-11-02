@@ -1,13 +1,12 @@
 #include "Mesh.h"
 
-Mesh::Mesh(float* vertices, unsigned int vCount, std::string filePath) : vCount(vCount){
+Mesh::Mesh(float* vertices, unsigned int vCount, Texture* tex) : vCount(vCount){
 	VBO.Construct(vertices, vCount);
 	VAO.AddBuffer(VBO);
-	
 	VAO.Unbind();
 	VBO.Unbind();
 	transform = glm::mat4(1.f);
-	texture = CreateTexture(filePath);
+	texture = tex;
 }
 
 Mesh::~Mesh() {

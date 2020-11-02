@@ -25,7 +25,7 @@ private:
 
 	Texture* texture;
 public:
-	Mesh(float* vertices, unsigned int vCount, std::string filePath);
+	Mesh(float* vertices, unsigned int vCount, Texture* tex);
 	~Mesh();
 
 	void Rotate(float x, float y, float z);

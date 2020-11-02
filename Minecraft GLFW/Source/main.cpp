@@ -28,7 +28,6 @@ int main() {
 		Window::Terminate();
 		return 1;
 	}
-	/*
 	Texture* texture = CreateTexture("Resource/Textures/1.png");
 	if (texture == nullptr) {
 		std::cout << "[main] Failed to load texture" << std::endl;
@@ -44,7 +43,7 @@ int main() {
 		Window::Terminate();
 		return 1;
 	}
-	*/
+
 	float vertices[] = {
 		// x    y     z     u     v
 	   -1.0f,-1.0f, 0.0f, 0.0f, 0.0f,
@@ -68,9 +67,8 @@ int main() {
 
 
 
-	Mesh plane(vertices, 6, "Resource/Textures/1.png");
-	Mesh plane1(vertices2, 6, "Resource/Textures/2.png");
-
+	Mesh plane(vertices, 6, texture);
+	Mesh plane1(vertices2, 6, texture1);
 
 	glClearColor(0.6f, 0.62f, 0.65f, 1);
 
