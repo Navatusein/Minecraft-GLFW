@@ -42,6 +42,12 @@
     <ClCompile Include="Source\Graphic\Shader.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Voxel\Voxel.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Voxel\Chunk.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Window\Window.h">
@@ -74,6 +80,12 @@
     <ClInclude Include="Source\Graphic\Shader.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Voxel\Voxel.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Voxel\Chunk.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resource\Shader\mainFragment.glsl" />
@@ -81,6 +93,12 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\Textures\1.png">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="Resource\Textures\2.png">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="Resource\Textures\3.png">
       <Filter>Файлы ресурсов</Filter>
     </Image>
   </ItemGroup>

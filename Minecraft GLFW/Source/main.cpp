@@ -12,8 +12,8 @@
 
 #include "Mesh/Mesh.h"
 
+#include "Voxel/Chunk.h"
 
-#define oldVAO true
 
 using namespace glm;
 
@@ -58,6 +58,7 @@ int main() {
 	   -1.0f, 0.0f, 1.0f, 0.0f, 1.0f,
 	};
 
+
 	glClearColor(0.6f, 0.62f, 0.65f, 1);
 
 	glEnable(GL_CULL_FACE);
@@ -100,7 +101,6 @@ int main() {
 		}
 		if (Events::JustClicked(KM_MOUSE_BUTTON_2)) {
 			glClearColor(0.6f, 0.62f, 0.65f, 1.0f);
-			plane.Move(1, 0, 0);
 		}
 
 		if (Events::Pressed(KM_KEY_W)) {
@@ -143,6 +143,8 @@ int main() {
 		shader->Bind();
 		shader->UniformMatrix("projview", camera->GetProjection() * camera->GetView());
 		shader->Unbind();
+
+		//Draw here
 
 		// Swapping frame buffers
 		Window::SwapBuffers();
