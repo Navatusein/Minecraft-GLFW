@@ -12,6 +12,7 @@
 
 #include "Mesh/Mesh.h"
 
+
 #define oldVAO true
 
 using namespace glm;
@@ -46,36 +47,22 @@ int main() {
 		return 1;
 	}
 
-	float vertices[] = {
+	float plane[] = {
 		// x    y     z     u     v
-	   -1.0f,-1.0f, 0.0f, 0.0f, 0.0f,
-		1.0f,-1.0f, 0.0f, 1.0f, 0.0f,
-	   -1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+	   -1.0f, 0.0f,-1.0f, 0.0f, 0.0f,
+		1.0f, 0.0f,-1.0f, 1.0f, 0.0f,
+	   -1.0f, 0.0f, 1.0f, 0.0f, 1.0f,
 
-		1.0f,-1.0f, 0.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f, 1.0f, 1.0f,
-	   -1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+		1.0f, 0.0f,-1.0f, 1.0f, 0.0f,
+		1.0f, 0.0f, 1.0f, 1.0f, 1.0f,
+	   -1.0f, 0.0f, 1.0f, 0.0f, 1.0f,
 	};
-	float vertices2[] = {
-		// x    y     z     u     v
-	   -2.0f,-1.0f, 1.0f, 0.0f, 0.0f,
-		0.0f,-1.0f, 0.0f, 1.0f, 0.0f,
-	   -2.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-
-		0.0f,-1.0f, 0.0f, 1.0f, 0.0f,
-		0.0f, 1.0f, 1.0f, 1.0f, 1.0f,
-	   -2.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-	};
-
-
-
-	Mesh plane(vertices, 6, texture);
-	Mesh plane1(vertices2, 6, texture1);
 
 	glClearColor(0.6f, 0.62f, 0.65f, 1);
 
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_BLEND);
+	glEnable(GL_DEPTH_TEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	Camera* camera = new Camera(vec3(0, 0, 1), radians(70.0f));
@@ -150,17 +137,12 @@ int main() {
 			camera->Rotate(CamY, CamX, 0);
 		}
 
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
 		shader->Bind();
 		shader->UniformMatrix("projview", camera->GetProjection() * camera->GetView());
 		shader->Unbind();
-
-		plane.Rotate(0, 0, 1);
-
-		plane.Draw(shader);
-		plane1.Draw(shader);
 
 		// Swapping frame buffers
 		Window::SwapBuffers();
