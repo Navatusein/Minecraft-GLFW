@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Voxel\Chunk.cpp" />
     <ClCompile Include="Source\Mesh\Mesh.cpp" />
     <ClCompile Include="Source\Window\Camera.cpp" />
     <ClCompile Include="Source\Graphic\Shader.cpp" />
@@ -28,8 +29,10 @@
     <ClCompile Include="Source\Graphic\Texture.cpp" />
     <ClCompile Include="Source\Vertex\VertexArray.cpp" />
     <ClCompile Include="Source\Vertex\VertexBuffer.cpp" />
+    <ClCompile Include="Source\Voxel\Voxel.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Voxel\Chunk.h" />
     <ClInclude Include="Source\Mesh\Mesh.h" />
     <ClInclude Include="Source\Window\Camera.h" />
     <ClInclude Include="Source\Graphic\Shader.h" />
@@ -40,6 +43,7 @@
     <ClInclude Include="Source\Graphic\Texture.h" />
     <ClInclude Include="Source\Vertex\VertexArray.h" />
     <ClInclude Include="Source\Vertex\VertexBuffer.h" />
+    <ClInclude Include="Source\Voxel\Voxel.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resource\Shader\mainFragment.glsl" />
@@ -47,6 +51,8 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\Textures\1.png" />
+    <Image Include="Resource\Textures\2.png" />
+    <Image Include="Resource\Textures\3.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
