@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Mesh\Plane.cpp" />
     <ClCompile Include="Source\Mesh\Mesh.cpp" />
     <ClCompile Include="Source\Window\Camera.cpp" />
     <ClCompile Include="Source\Graphic\Shader.cpp" />
@@ -31,7 +30,6 @@
     <ClCompile Include="Source\Vertex\VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Mesh\Plane.h" />
     <ClInclude Include="Source\Mesh\Mesh.h" />
     <ClInclude Include="Source\Window\Camera.h" />
     <ClInclude Include="Source\Graphic\Shader.h" />

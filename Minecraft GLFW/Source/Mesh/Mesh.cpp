@@ -13,7 +13,9 @@ Mesh::~Mesh() {
 }
 
 void Mesh::Rotate(float x, float y, float z) {
-	transform = glm::rotate(transform, 0.0174533f, glm::vec3(x, y, z));
+	transform = glm::rotate(transform, x * (float)57.2958, glm::vec3(1, 0, 0));
+	transform = glm::rotate(transform, y * (float)57.2958, glm::vec3(0, 1, 0));
+	transform = glm::rotate(transform, z * (float)57.2958, glm::vec3(0, 0, 1));
 }
 
 void Mesh::Scale(float x, float y, float z) {
