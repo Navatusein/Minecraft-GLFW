@@ -14,6 +14,9 @@
 
 #include "Voxel/Chunk.h"
 
+#include "Mesh/BigMesh.h"
+#include "Mesh/ShardMesh.h"
+
 
 using namespace glm;
 
@@ -47,17 +50,6 @@ int main() {
 		return 1;
 	}
 
-	float plane[] = {
-		// x    y     z     u     v
-	   -1.0f, 0.0f,-1.0f, 0.0f, 0.0f,
-		1.0f, 0.0f,-1.0f, 1.0f, 0.0f,
-	   -1.0f, 0.0f, 1.0f, 0.0f, 1.0f,
-
-		1.0f, 0.0f,-1.0f, 1.0f, 0.0f,
-		1.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-	   -1.0f, 0.0f, 1.0f, 0.0f, 1.0f,
-	};
-
 
 	glClearColor(0.6f, 0.62f, 0.65f, 1);
 
@@ -68,7 +60,7 @@ int main() {
 
 	Camera* camera = new Camera(vec3(0, 0, 1), radians(70.0f));
 
-	mat4 Model(1.0f);
+	mat4 Model(1.f);
 	Model = translate(Model, vec3(0.5f, 0, 0));
 
 	float LastTime = glfwGetTime();
@@ -80,6 +72,13 @@ int main() {
 	float Speed = 5;
 
 	Events::ToogleCursor();
+
+	//initialize here
+
+	BigMesh ch(texture);
+
+	ShardMesh shard(&ch);
+
 	
 	//Main loop
 	while (!Window::WindowShouldClose()) {
@@ -97,10 +96,10 @@ int main() {
 		}
 
 		if (Events::JustClicked(KM_MOUSE_BUTTON_1)) {
-			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+			glClearColor(0.2f, 0.3f, 0.3f, 1.f);
 		}
 		if (Events::JustClicked(KM_MOUSE_BUTTON_2)) {
-			glClearColor(0.6f, 0.62f, 0.65f, 1.0f);
+			glClearColor(0.6f, 0.62f, 0.65f, 1.f);
 		}
 
 		if (Events::Pressed(KM_KEY_W)) {
@@ -133,18 +132,28 @@ int main() {
 				CamY = radians(89.0f);
 			}
 
-			camera->Rotation = mat4(1.0f);
+			camera->Rotation = mat4(1.f);
 			camera->Rotate(CamY, CamX, 0);
 		}
-
+		
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
 		shader->Bind();
 		shader->UniformMatrix("projview", camera->GetProjection() * camera->GetView());
 		shader->Unbind();
+		//Update here
+
+		for(int i = 0; i < 64; i++) {
+			for(int j = 0; j < 64; j++) {
+				shard.PushTop(i, 0, j);
+			}
+		}
 
 		//Draw here
+
+		ch.Draw(shader);
+		
 
 		// Swapping frame buffers
 		Window::SwapBuffers();

@@ -1,7 +1,6 @@
 #include "Voxel.h"
 
 Voxel::Voxel() {
-	id = 0;
 }
 
 Voxel::~Voxel() {

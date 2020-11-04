@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Mesh\ShardMesh.cpp" />
+    <ClCompile Include="Source\Mesh\BigMesh.cpp" />
     <ClCompile Include="Source\Voxel\Chunk.cpp" />
     <ClCompile Include="Source\Mesh\Mesh.cpp" />
     <ClCompile Include="Source\Window\Camera.cpp" />
@@ -32,6 +34,8 @@
     <ClCompile Include="Source\Voxel\Voxel.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Mesh\ShardMesh.h" />
+    <ClInclude Include="Source\Mesh\BigMesh.h" />
     <ClInclude Include="Source\Voxel\Chunk.h" />
     <ClInclude Include="Source\Mesh\Mesh.h" />
     <ClInclude Include="Source\Window\Camera.h" />
