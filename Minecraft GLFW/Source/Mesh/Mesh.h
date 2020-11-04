@@ -24,12 +24,17 @@ private:
 
 	Texture* texture;
 public:
+	Mesh();
 	Mesh(float* vertices, unsigned int vCount, Texture* tex);
 	~Mesh();
+
+	void Construct(float* vertices, unsigned int vCount, Texture* tex);
 
 	void Rotate(float x, float y, float z);
 	void Scale(float x, float y, float z);
 	void Move(float x, float y, float z);
+
+	void Center();
 
 	void Draw(Shader* program);
 };
