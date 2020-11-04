@@ -14,6 +14,7 @@ VertexBuffer::VertexBuffer() : mID(0){
 }
 
 VertexBuffer::~VertexBuffer() {
+	GLCall(glBindBuffer(GL_ARRAY_BUFFER, mID));
 	GLCall(glDeleteBuffers(1, &mID));
 }
 
@@ -29,4 +30,9 @@ void VertexBuffer::Bind() {
 
 void VertexBuffer::Unbind() {
 	GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
+}
+
+void VertexBuffer::Delete() {
+	GLCall(glBindBuffer(GL_ARRAY_BUFFER, mID));
+	GLCall(glDeleteBuffers(1, &mID));
 }

@@ -8,7 +8,7 @@ ShardMesh::~ShardMesh() {
 
 void ShardMesh::Push(float* plane, int x, int y, int z) {
 
-	for(int i = 0; i < 6; i++) {
+    for(int i = 0; i < 6; i++) {
 		plane[i * 5] += x;
 		plane[i * 5 + 1] += y;
 		plane[i * 5 + 2] += z;
