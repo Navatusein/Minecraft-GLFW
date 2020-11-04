@@ -79,6 +79,13 @@ int main() {
 
 	ShardMesh shard(&ch);
 
+	for(int i = 0; i < 64; i++) {
+		for(int j = 0; j < 64; j++) {
+			shard.PushTop(i, 0, j);
+		}
+	}
+
+	ch.Update();
 	
 	//Main loop
 	while (!Window::WindowShouldClose()) {
@@ -143,12 +150,6 @@ int main() {
 		shader->UniformMatrix("projview", camera->GetProjection() * camera->GetView());
 		shader->Unbind();
 		//Update here
-
-		for(int i = 0; i < 64; i++) {
-			for(int j = 0; j < 64; j++) {
-				shard.PushTop(i, 0, j);
-			}
-		}
 
 		//Draw here
 
