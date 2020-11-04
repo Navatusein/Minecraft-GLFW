@@ -74,23 +74,18 @@ int main() {
 	Events::ToogleCursor();
 
 
-	float plane[] = {
-	   0.f, 1.f, 1.f, 0.f, 1.f,
-	   1.f, 1.f, 1.f, 1.f, 1.f,
-	   0.f, 1.f, 0.f, 0.f, 0.f,
-	   1.f, 1.f, 0.f, 1.f, 0.f,
-	};
-
-	unsigned int indices[] = {
-		0, 1, 2,
-		2, 3, 1
-	};
-
-
 
 	//initialize here
+	BigMesh ch(texture);
 
-	Mesh mesh(plane, indices, 6, texture);
+	ShardMesh shard(&ch);
+
+	shard.PushTop(0, 0, 0);
+	//shard.PushXFront(0, 0, 0);
+	shard.PushBottom(0, 0, 0);
+	
+
+	ch.Update();
 	
 	//Main loop
 	while (!Window::WindowShouldClose()) {
@@ -156,8 +151,7 @@ int main() {
 		shader->Unbind();
 
 		//Draw here
-
-		mesh.Draw(shader);
+		ch.Draw(shader);
 		
 
 		// Swapping frame buffers

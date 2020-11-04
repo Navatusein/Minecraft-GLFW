@@ -12,7 +12,7 @@ public:
 	ShardMesh(BigMesh* parent);
 	~ShardMesh();
 
-	void Push(float* plane, int x, int y, int z);
+	void Push(float* plane, unsigned int* indices, int x, int y, int z);
 
 	void PushTop(int x, int y, int z);
 	void PushBottom(int x, int y, int z);
