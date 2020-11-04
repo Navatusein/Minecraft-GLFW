@@ -3,8 +3,10 @@
 Mesh::Mesh() {
 }
 
-Mesh::Mesh(float* vertices, unsigned int vCount, Texture* tex) : vCount(vCount){
+Mesh::Mesh(float* vertices, unsigned int* indices, unsigned int vCount, Texture* tex) : vCount(vCount){
+	VAO.Bind();
 	VBO.Construct(vertices, vCount);
+	IBO.Construct(indices, vCount);
 	VAO.AddBuffer(VBO);
 	VAO.Unbind();
 	VBO.Unbind();
@@ -15,9 +17,11 @@ Mesh::Mesh(float* vertices, unsigned int vCount, Texture* tex) : vCount(vCount){
 Mesh::~Mesh() {
 }
 
-void Mesh::Construct(float* vertices, unsigned int vCount, Texture* tex) {
+void Mesh::Construct(float* vertices, unsigned int* indices, unsigned int vCount, Texture* tex) {
 	this->vCount = vCount;
+	VAO.Bind();
 	VBO.Construct(vertices, vCount);
+	IBO.Construct(indices, vCount);
 	VAO.AddBuffer(VBO);
 	VAO.Unbind();
 	VBO.Unbind();
@@ -47,13 +51,15 @@ void Mesh::Center() {
 
 void Mesh::Draw(Shader* program) {
 	VAO.Bind();
+	IBO.Bind();
 	texture->Bind();
 	program->Bind();
 
 	program->UniformMatrix("transform", transform);
-	glDrawArrays(GL_TRIANGLES, 0, vCount);
+	glDrawElements(GL_TRIANGLES, vCount, GL_UNSIGNED_INT, 0);
 
 	program->Unbind();
 	texture->Unbind();
 	VAO.Unbind();
+	IBO.Unbind();
 }

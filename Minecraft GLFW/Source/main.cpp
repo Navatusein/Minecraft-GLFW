@@ -53,7 +53,7 @@ int main() {
 
 	glClearColor(0.6f, 0.62f, 0.65f, 1);
 
-	glEnable(GL_CULL_FACE);
+	//glEnable(GL_CULL_FACE);
 	glEnable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -73,19 +73,24 @@ int main() {
 
 	Events::ToogleCursor();
 
+
+	float plane[] = {
+	   0.f, 1.f, 1.f, 0.f, 1.f,
+	   1.f, 1.f, 1.f, 1.f, 1.f,
+	   0.f, 1.f, 0.f, 0.f, 0.f,
+	   1.f, 1.f, 0.f, 1.f, 0.f,
+	};
+
+	unsigned int indices[] = {
+		0, 1, 2,
+		2, 3, 1
+	};
+
+
+
 	//initialize here
 
-	BigMesh ch(texture);
-
-	ShardMesh shard(&ch);
-
-	for(int i = 0; i < 64; i++) {
-		for(int j = 0; j < 64; j++) {
-			shard.PushTop(i, 0, j);
-		}
-	}
-
-	ch.Update();
+	Mesh mesh(plane, indices, 6, texture);
 	
 	//Main loop
 	while (!Window::WindowShouldClose()) {
@@ -149,11 +154,10 @@ int main() {
 		shader->Bind();
 		shader->UniformMatrix("projview", camera->GetProjection() * camera->GetView());
 		shader->Unbind();
-		//Update here
 
 		//Draw here
 
-		ch.Draw(shader);
+		mesh.Draw(shader);
 		
 
 		// Swapping frame buffers
