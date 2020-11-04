@@ -32,7 +32,7 @@ public:
 	public:
 		Draw(Shader* program, int x, int y, int z) : program(program), x(x), y(y), z(z) {
 			texture = CreateTexture("Resource/Textures/1.png");
-			side.Construct(getPlane(), 6, texture);
+			//side.Construct(getPlane(), 6, texture);
 		}
 		float* getPlane() {
 			float plane[] = {

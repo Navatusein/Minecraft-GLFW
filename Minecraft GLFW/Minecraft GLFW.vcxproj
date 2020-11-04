@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Vertex\IndexBuffer.cpp" />
     <ClCompile Include="Source\Mesh\ShardMesh.cpp" />
     <ClCompile Include="Source\Mesh\BigMesh.cpp" />
     <ClCompile Include="Source\Voxel\Chunk.cpp" />
@@ -34,6 +35,7 @@
     <ClCompile Include="Source\Voxel\Voxel.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Vertex\IndexBuffer.h" />
     <ClInclude Include="Source\Mesh\ShardMesh.h" />
     <ClInclude Include="Source\Mesh\BigMesh.h" />
     <ClInclude Include="Source\Voxel\Chunk.h" />

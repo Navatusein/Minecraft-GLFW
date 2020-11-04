@@ -10,6 +10,7 @@
 
 #include "../Vertex/VertexArray.h"
 #include "../Vertex/VertexBuffer.h"
+#include "../Vertex/IndexBuffer.h"
 
 #include "../Graphic/Shader.h"
 
@@ -18,6 +19,7 @@ class Mesh
 private:
 	VertexArray VAO;
 	VertexBuffer VBO;
+	IndexBuffer IBO;
 	unsigned int vCount;
 
 	glm::mat4 transform;
@@ -25,10 +27,10 @@ private:
 	Texture* texture;
 public:
 	Mesh();
-	Mesh(float* vertices, unsigned int vCount, Texture* tex);
+	Mesh(float* vertices, unsigned int* indices, unsigned int vCount, Texture* tex);
 	~Mesh();
 
-	void Construct(float* vertices, unsigned int vCount, Texture* tex);
+	void Construct(float* vertices, unsigned int* indices, unsigned int vCount, Texture* tex);
 
 	void Rotate(float x, float y, float z);
 	void Scale(float x, float y, float z);
