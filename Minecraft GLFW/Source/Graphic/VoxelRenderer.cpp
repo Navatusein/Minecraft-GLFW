@@ -23,7 +23,7 @@ int chunk_attrs[] = { 3,2,1, 0 };
 
 VoxelRenderer::VoxelRenderer(size_t capacity) : capacity(capacity) {
 	CONSOLWRITE("buffer");
-	buffer = new float[capacity * VERTEX_SIZE * 6];
+	buffer = (float*)malloc(capacity * VERTEX_SIZE * 6);
 	
 }
 

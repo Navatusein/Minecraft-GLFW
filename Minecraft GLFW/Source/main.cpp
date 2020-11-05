@@ -61,13 +61,13 @@ int main() {
 	}
 
 	CONSOLWRITE("Load");
-	VoxelRenderer renderer(1024 * 1024 * 8);
+	
 	Chunks* chunks = new Chunks(8, 1, 8);
 	Mesh** meshes = new Mesh * [chunks->volume];
 	
 	for (size_t i = 0; i < chunks->volume; i++)
 		meshes[i] = nullptr;
-	
+	VoxelRenderer renderer(1024 * 1024 * 8);
 
 	CONSOLWRITE("Chunks");
 
@@ -191,6 +191,7 @@ int main() {
 			Mesh* mesh = renderer.render(chunk, (const Chunk**)closes);
 			meshes[i] = mesh;
 		}
+
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 

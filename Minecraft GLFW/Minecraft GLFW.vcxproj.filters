@@ -103,5 +103,8 @@
     <Image Include="Resource\Textures\3.png">
       <Filter>Файлы ресурсов</Filter>
     </Image>
+    <Image Include="Resource\Textures\block.png">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
   </ItemGroup>
 </Project>

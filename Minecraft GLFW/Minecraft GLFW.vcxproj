@@ -55,6 +55,7 @@
     <Image Include="Resource\Textures\1.png" />
     <Image Include="Resource\Textures\2.png" />
     <Image Include="Resource\Textures\3.png" />
+    <Image Include="Resource\Textures\block.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
