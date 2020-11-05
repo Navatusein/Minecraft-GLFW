@@ -1,6 +1,8 @@
 #include "Window.h"
 
 GLFWwindow* Window::window;
+int Window::Width = 0;
+int Window::Height = 0;
 
 int Window::Initialize(int width, int height, const char* title) {
 	//Initialization
@@ -8,7 +10,7 @@ int Window::Initialize(int width, int height, const char* title) {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+	glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
 	//Create a window
 	window = glfwCreateWindow(width, height, title, nullptr, nullptr);
@@ -26,6 +28,10 @@ int Window::Initialize(int width, int height, const char* title) {
 		return -1;
 	}
 	glViewport(0, 0, width, height);
+
+	Window::Width = width;
+	Window::Height = height;
+
 	return 0;
 }
 
@@ -43,4 +49,8 @@ void Window::SetWindowShouldClose(bool flag) {
 
 void Window::SwapBuffers() {
 	glfwSwapBuffers(window);
+}
+
+void Window::SetCursorMode(int Mode) {
+	glfwSetInputMode(window, GLFW_CURSOR, Mode);
 }

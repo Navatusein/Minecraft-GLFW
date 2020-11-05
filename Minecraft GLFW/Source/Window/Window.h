@@ -9,6 +9,9 @@
 
 class Window {
 public:
+	static int Width;
+	static int Height;
+
 	static GLFWwindow* window;
 
 	//Window initialization method
@@ -25,5 +28,7 @@ public:
 	
 	//Method for changing display buffers
 	static void SwapBuffers();
+
+	static void SetCursorMode(int mode);
 };
 
