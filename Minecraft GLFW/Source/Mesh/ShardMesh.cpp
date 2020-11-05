@@ -18,17 +18,18 @@ void ShardMesh::Push(float* plane, unsigned int* indices, int x, int y, int z) {
 	
 }
 
+
 void ShardMesh::PushTop(int x, int y, int z) {
 	float plane[] = {
 		// x    y     z     u     v
-	   0.f, 1.f, 1.f, 0.f, 1.f,
-	   1.f, 1.f, 1.f, 1.f, 1.f,
-	   0.f, 1.f, 0.f, 0.f, 0.f,
 	   1.f, 1.f, 0.f, 1.f, 0.f,
+	   0.f, 1.f, 0.f, 0.f, 0.f,
+	   1.f, 1.f, 1.f, 1.f, 1.f,
+	   0.f, 1.f, 1.f, 0.f, 1.f,
 	};
 	unsigned int indices[] = {
 		0, 1, 2,
-		3, 2, 1
+		3, 2, 1,
 	};
 	Push(plane, indices, x, y, z);
 
@@ -38,14 +39,14 @@ void ShardMesh::PushBottom(int x, int y, int z) {
 
 	float plane[] = {
 		// x    y     z     u     v
-	   0.f, 0.f, 1.f, 0.f, 1.f,
-	   1.f, 0.f, 1.f, 1.f, 1.f,
-	   0.f, 0.f, 0.f, 0.f, 0.f,
 	   1.f, 0.f, 0.f, 1.f, 0.f,
+	   0.f, 0.f, 0.f, 0.f, 0.f,
+	   1.f, 0.f, 1.f, 1.f, 1.f,
+	   0.f, 0.f, 1.f, 0.f, 1.f,
 	};
 	unsigned int indices[] = {
 		0, 1, 2,
-		1, 3, 2
+		3, 1, 2,
 	};
 	Push(plane, indices, x, y, z);
 }
@@ -60,7 +61,7 @@ void ShardMesh::PushXFront(int x, int y, int z) {
 	};
 	unsigned int indices[] = {
 		0, 1, 2,
-		1, 3, 2
+		2, 3, 1,
 	};
 	Push(plane, indices, x, y, z);
 }
@@ -69,13 +70,12 @@ void ShardMesh::PushXRear(int x, int y, int z) {
 	float plane[] = {
 		1.f, 0.f, 1.f, 0.f, 1.f,
 		1.f, 1.f, 1.f, 1.f, 1.f,
-		0.f, 0.f, 1.f, 0.f, 0.f,
-					
+		0.f, 0.f, 1.f, 0.f, 0.f,			
 		0.f, 1.f, 1.f, 1.f, 0.f,
 	};
 	unsigned int indices[] = {
 		0, 1, 2,
-		3, 2, 1
+		2, 3, 1,
 	};
 	Push(plane, indices, x, y, z);
 }

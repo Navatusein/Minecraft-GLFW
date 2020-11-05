@@ -80,11 +80,11 @@ int main() {
 
 	ShardMesh shard(&ch);
 
-	shard.PushTop(0, 0, 0);
-	//shard.PushXFront(0, 0, 0);
-	shard.PushBottom(0, 0, 0);
-	
-
+	for(int i = 0; i < 1500; i++) {
+		for(int j = 0; j < 1500; j++) {
+			shard.PushTop(i, 0, j);
+		}
+	}
 	ch.Update();
 	
 	//Main loop

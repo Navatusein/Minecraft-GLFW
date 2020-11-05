@@ -1,5 +1,3 @@
-#include <iostream>
-#include <iomanip>
 #include <glm/glm.hpp>
 
 #include "BigMesh.h"
@@ -36,9 +34,6 @@ void BigMesh::Update() {
 	VAO.Unbind();
 	VBO.Unbind();
 	IBO.Unbind();
-	for(int i = 0; i < indicesArr.size(); i++) {
-		std::cout << indicesArr.at(i) << " ";
-	}
 }
 
 void BigMesh::Clear() {
@@ -49,13 +44,11 @@ void BigMesh::Clear() {
 
 
 void BigMesh::Push(float* vertices, unsigned int vCount, unsigned int* indices, unsigned int eCount) {
-	unsigned int temp = indicesArr.size();
+	unsigned int temp = vertexArr.size()/5;
 	for(int i = 0; i < vCount*5; i++) {
 		vertexArr.push_back(vertices[i]);
 	}
 	for(int i = 0; i < eCount; i++) {
-		
-		
 		indicesArr.push_back(indices[i] + temp);
 	}
 }
