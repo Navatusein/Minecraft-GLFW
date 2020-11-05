@@ -16,10 +16,8 @@ public:
 	Shader(unsigned int id);
 	~Shader();
 
+	void Use();
 	void UniformMatrix(std::string name, glm::mat4 matrix);
-
-	void Bind();
-	void Unbind();
 };
 
 Shader* CreateShaderProgram(std::string vertexFile, std::string fragmentFile);

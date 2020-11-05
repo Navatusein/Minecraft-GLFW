@@ -11,12 +11,8 @@ void Shader::UniformMatrix(std::string name, glm::mat4 matrix) {
 	glUniformMatrix4fv(TransformLoc, 1, GL_FALSE, glm::value_ptr(matrix));
 }
 
-void Shader::Bind() {
+void Shader::Use() {
 	glUseProgram(id);
-}
-
-void Shader::Unbind() {
-	glUseProgram(0);
 }
 
 Shader* CreateShaderProgram(std::string vertexFile, std::string fragmentFile) {

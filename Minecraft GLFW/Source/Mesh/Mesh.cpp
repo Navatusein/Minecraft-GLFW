@@ -1,65 +1,37 @@
 #include "Mesh.h"
 
-Mesh::Mesh() {
-}
+Mesh::Mesh(const float* buffer, size_t vertices, const int* attrs) : vertices(vertices) {
+	int vertex_size = 0;
+	for (int i = 0; attrs[i]; i++) {
+		vertex_size += attrs[i];
+	}
 
-Mesh::Mesh(float* vertices, unsigned int* indices, unsigned int vCount, Texture* tex) : vCount(vCount){
-	VAO.Bind();
-	VBO.Construct(vertices, vCount);
-	IBO.Construct(indices, vCount);
-	VAO.AddBuffer(VBO);
-	VAO.Unbind();
-	VBO.Unbind();
-	transform = glm::mat4(1.f);
-	texture = tex;
+	glGenVertexArrays(1, &vao);
+	glGenBuffers(1, &vbo);
+
+	glBindVertexArray(vao);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertex_size * vertices, buffer, GL_STATIC_DRAW);
+
+	// attributes
+	int offset = 0;
+	for (int i = 0; attrs[i]; i++) {
+		int size = attrs[i];
+		glVertexAttribPointer(i, size, GL_FLOAT, GL_FALSE, vertex_size * sizeof(float), (GLvoid*)(offset * sizeof(float)));
+		glEnableVertexAttribArray(i);
+		offset += size;
+	}
+
+	glBindVertexArray(0);
 }
 
 Mesh::~Mesh() {
+	glDeleteVertexArrays(1, &vao);
+	glDeleteBuffers(1, &vbo);
 }
 
-void Mesh::Construct(float* vertices, unsigned int* indices, unsigned int vCount, Texture* tex) {
-	this->vCount = vCount;
-	VAO.Bind();
-	VBO.Construct(vertices, vCount);
-	IBO.Construct(indices, vCount);
-	VAO.AddBuffer(VBO);
-	VAO.Unbind();
-	VBO.Unbind();
-	transform = glm::mat4(1.f);
-	texture = tex;
-}
-
-void Mesh::Rotate(float x, float y, float z) {
-	transform = glm::rotate(transform, x* (float)0.0174533, glm::vec3(1.f, 0, 0));
-	transform = glm::rotate(transform, y * (float)0.0174533, glm::vec3(0, 1.f, 0));
-	transform = glm::rotate(transform, z * (float)0.0174533, glm::vec3(0, 0, 1.f));
-}
-
-
-
-void Mesh::Scale(float x, float y, float z) {
-	transform = glm::scale(transform,  glm::vec3(x, y, z));
-}
-
-void Mesh::Move(float x, float y, float z) {
-	transform = glm::translate(transform, glm::vec3(x, y, z));
-}
-
-void Mesh::Center() {
-	transform = glm::mat4(1.f);
-}
-
-void Mesh::Draw(Shader* program) {
-	VAO.Bind();
-	IBO.Bind();
-	texture->Bind();
-	program->Bind();
-
-	program->UniformMatrix("transform", transform);
-	glDrawElements(GL_TRIANGLES, vCount, GL_UNSIGNED_INT, nullptr);
-
-	program->Unbind();
-	texture->Unbind();
-	VAO.Unbind();
-	IBO.Unbind();
+void Mesh::draw(unsigned int primitive) {
+	glBindVertexArray(vao);
+	glDrawArrays(primitive, 0, vertices);
+	glBindVertexArray(0);
 }

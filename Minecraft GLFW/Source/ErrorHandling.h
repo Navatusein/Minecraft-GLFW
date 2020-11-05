@@ -2,6 +2,8 @@
 #include <GL/glew.h>
 #include <iostream>
 
+#define CONSOLWRITE(x) std::cout << x << std::endl;
+
 #define ASSERT(x) if (!(x)) __debugbreak();
  
 #define GLCall(x) GLClearError();\

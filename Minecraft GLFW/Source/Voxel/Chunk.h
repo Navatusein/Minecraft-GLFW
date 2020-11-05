@@ -1,16 +1,20 @@
 #pragma once
 #include "Voxel.h"
-#include "../Graphic/Shader.h"
-class Chunk
-{
-private:
-	Voxel vox[16][16][16];
-	Shader* program;
-	void DrawVox(unsigned int x, unsigned int y, unsigned int z);
-public:
-	Chunk(Shader* program);
-	~Chunk();
+#include <math.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/noise.hpp>
 
-	void Draw();
+#define ChunkW 16
+#define ChunkH 16
+#define ChunkD 16
+#define ChunkVol (ChunkW * ChunkH * ChunkD)
+
+class Chunk {
+public:
+	int x, y, z;
+	Voxel* Voxels;
+	bool Modified = true;
+	Chunk(int x, int y, int z);
+	~Chunk();
 };
 

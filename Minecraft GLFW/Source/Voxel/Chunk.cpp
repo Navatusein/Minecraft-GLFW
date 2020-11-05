@@ -5,54 +5,27 @@
 #include "../Mesh/Mesh.h"
 
 
-Chunk::Chunk(Shader* program) : program(program) {
-	for(int i = 0; i < 16; i++) {
-		for(int j = 0; j < 16; j++) {
-			vox[i][j][0].Set(1);
-		}
-	}
-	for(int i = 1; i < 16; i++) {
-		for(int j = 0; j < 16; j++) {
-			for(int l = 0; l < 16; l++) {
-				vox[l][j][i].Set(0);
+Chunk::Chunk(int xpos, int ypos, int zpos) : x(xpos), y(ypos), z(zpos) {
+	Voxels = new Voxel[ChunkVol];
+
+	for (int z = 0; z < ChunkD; z++) {
+		for (int x = 0; x < ChunkW; x++) {
+			int real_x = x + this->x * ChunkW;
+			int real_z = z + this->z * ChunkD;
+			//float height = glm::perlin(glm::vec3(real_x*0.0026125f,real_z*0.0026125f, 0.0f));
+			//height += glm::perlin(glm::vec3(real_x*0.006125f,real_z*0.006125f, 0.0f))*0.5f;
+			for (int y = 0; y < ChunkH; y++) {
+				int real_y = y + this->y * ChunkH;
+				int id = glm::perlin(glm::vec3(real_x * 0.0125f, real_y * 0.0125f, real_z * 0.0125f)) > 0.1f;//real_y <= (height) * 60 + 30;
+				if (real_y <= 2)
+					id = 2;
+				Voxels[(y * ChunkD + z) * ChunkW + x].id = id;
 			}
 		}
 	}
 }
 
 Chunk::~Chunk() {
+	delete[] Voxels;
 }
 
-void Chunk::DrawVox(unsigned int x, unsigned int y, unsigned int z) {
-	Voxel::Draw draw(program, x, y, z);
-	if(x > 0 & vox[x - 1][y][z].Get() != 0) {
-		draw.XBack();
-	}
-	if(x < 16 & vox[x + 1][y][z].Get() != 0) {
-		draw.XFront();
-	}
-	if(y > 0 & vox[x][y - 1][z].Get() != 0) {
-		draw.YBack();
-	}
-	if(y < 1 & vox[x][y + 1][z].Get() != 0) {
-		draw.YFront();
-	}
-	if(z > 0 & vox[x][y][z - 1].Get() != 0) {
-		draw.ZBack();
-	}
-	if(z < 16 & vox[x][y][z + 1].Get() != 0) {
-		draw.YFront();
-	}
-}
-
-void Chunk::Draw() {
-	for(int i = 0; i < 4; i++) {
-		for(int j = 0; j < 4; j++) {
-			for(int l = 0; l < 4; l++) {
-				if(vox[i][j][l].Get() != 0) {
-					DrawVox(i, j, l);
-				}
-			}
-		}
-	}
-}
