@@ -59,10 +59,8 @@ int main() {
 		Window::Terminate();
 		return 1;
 	}
-
-	CONSOLWRITE("Load");
 	
-	Chunks* chunks = new Chunks(8, 1, 8);
+	Chunks* chunks = new Chunks(32, 1, 32);
 	Mesh** meshes = new Mesh * [chunks->volume];
 	
 	for (size_t i = 0; i < chunks->volume; i++)
@@ -80,7 +78,7 @@ int main() {
 
 	Mesh* crosshair = new Mesh(vertices, 4, attrs);
 
-	Camera* camera = new Camera(vec3(0, 0, 1), radians(70.0f));
+	Camera* camera = new Camera(vec3(10, 12, 10), radians(70.0f));
 
 	mat4 Model(1.f);
 	Model = translate(Model, vec3(0.5f, 0, 0));
@@ -91,14 +89,12 @@ int main() {
 	float CamX = 0.0f;
 	float CamY = 0.0f;
 
-	float Speed = 5;
+	float Speed = 50;
 
 	Events::ToogleCursor();
 
 
 
-
-	CONSOLWRITE("Main Loop");
 	//Main loop
 	while (!Window::WindowShouldClose()) {
 
@@ -188,7 +184,7 @@ int main() {
 				oz += 1;
 				closes[(oy * 3 + oz) * 3 + ox] = other;
 			}
-			Mesh* mesh = renderer.render(chunk, (const Chunk**)closes);
+			Mesh* mesh = renderer.Render(chunk, (const Chunk**)closes);
 			meshes[i] = mesh;
 		}
 

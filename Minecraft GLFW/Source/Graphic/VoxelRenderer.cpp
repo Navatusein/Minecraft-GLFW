@@ -11,27 +11,26 @@
 #define VOXEL(X,Y,Z) (GET_CHUNK(X,Y,Z)->Voxels[(LOCAL(Y, ChunkH) * ChunkD + LOCAL(Z, ChunkD)) * ChunkW + LOCAL(X, ChunkW)])
 #define IS_BLOCKED(X,Y,Z) ((!IS_CHUNK(X, Y, Z)) || VOXEL(X, Y, Z).id)
 
-#define VERTEX(INDEX, X,Y,Z, U,V, L) buffer[INDEX+0] = (X);\
-								  buffer[INDEX+1] = (Y);\
-								  buffer[INDEX+2] = (Z);\
-								  buffer[INDEX+3] = (U);\
-								  buffer[INDEX+4] = (V);\
-								  buffer[INDEX+5] = (L);\
+#define VERTEX(INDEX, X,Y,Z, U,V, L) Buffer[INDEX+0] = (X);\
+								  Buffer[INDEX+1] = (Y);\
+								  Buffer[INDEX+2] = (Z);\
+								  Buffer[INDEX+3] = (U);\
+								  Buffer[INDEX+4] = (V);\
+								  Buffer[INDEX+5] = (L);\
 								  INDEX += VERTEX_SIZE;
 
 int chunk_attrs[] = { 3,2,1, 0 };
 
-VoxelRenderer::VoxelRenderer(size_t capacity) : capacity(capacity) {
-	CONSOLWRITE("buffer");
-	buffer = (float*)malloc(capacity * VERTEX_SIZE * 6);
+VoxelRenderer::VoxelRenderer(size_t Capacity) : Capacity(Capacity) {
+	Buffer = (float*)malloc(Capacity * VERTEX_SIZE * 6);
 	
 }
 
 VoxelRenderer::~VoxelRenderer() {
-	delete[] buffer;
+	delete[] Buffer;
 }
 
-Mesh* VoxelRenderer::render(Chunk* chunk, const Chunk** chunks) {
+Mesh* VoxelRenderer::Render(Chunk* chunk, const Chunk** chunks) {
 	size_t index = 0;
 	for (int y = 0; y < ChunkH; y++) {
 		for (int z = 0; z < ChunkD; z++) {
@@ -113,5 +112,5 @@ Mesh* VoxelRenderer::render(Chunk* chunk, const Chunk** chunks) {
 			}
 		}
 	}
-	return new Mesh(buffer, index / VERTEX_SIZE, chunk_attrs);
+	return new Mesh(Buffer, index / VERTEX_SIZE, chunk_attrs);
 }

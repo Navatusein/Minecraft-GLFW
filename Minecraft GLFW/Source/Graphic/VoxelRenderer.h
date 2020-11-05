@@ -8,13 +8,13 @@
 #include "../Voxel/Voxel.h"
 
 class VoxelRenderer {
-	float* buffer;
-	size_t capacity;
+	float* Buffer;
+	size_t Capacity;
 public:
 	VoxelRenderer(size_t capacity);
 	~VoxelRenderer();
 
-	Mesh* render(Chunk* chunk, const Chunk** chunks);
+	Mesh* Render(Chunk* chunk, const Chunk** chunks);
 };
 
 

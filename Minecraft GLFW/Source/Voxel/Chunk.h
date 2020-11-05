@@ -5,7 +5,7 @@
 #include <glm/gtc/noise.hpp>
 
 #define ChunkW 16
-#define ChunkH 16
+#define ChunkH 256
 #define ChunkD 16
 #define ChunkVol (ChunkW * ChunkH * ChunkD)
 
