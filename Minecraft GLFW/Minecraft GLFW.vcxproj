@@ -33,7 +33,7 @@
     <ClCompile Include="Source\Vertex\VertexArray.cpp" />
     <ClCompile Include="Source\Vertex\VertexBuffer.cpp" />
     <ClCompile Include="Source\Voxel\Voxel.cpp" />
-    <ClCompile Include="Source\Voxel\World.cpp" />
+    <ClCompile Include="Source\World\World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Vertex\IndexBuffer.h" />
@@ -51,7 +51,7 @@
     <ClInclude Include="Source\Vertex\VertexArray.h" />
     <ClInclude Include="Source\Vertex\VertexBuffer.h" />
     <ClInclude Include="Source\Voxel\Voxel.h" />
-    <ClInclude Include="Source\Voxel\World.h" />
+    <ClInclude Include="Source\World\World.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resource\Shader\mainFragment.glsl" />

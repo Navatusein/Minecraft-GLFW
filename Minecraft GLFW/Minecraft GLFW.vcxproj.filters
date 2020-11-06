@@ -57,7 +57,7 @@
     <ClCompile Include="Source\Vertex\IndexBuffer.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Voxel\World.cpp">
+    <ClCompile Include="Source\World\World.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -107,7 +107,7 @@
     <ClInclude Include="Source\Vertex\IndexBuffer.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Voxel\World.h">
+    <ClInclude Include="Source\World\World.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
