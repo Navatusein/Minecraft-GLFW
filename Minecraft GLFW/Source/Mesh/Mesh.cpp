@@ -56,6 +56,7 @@ void Mesh::Draw(Shader* program) {
 	program->Bind();
 
 	program->UniformMatrix("transform", transform);
+
 	glDrawElements(GL_TRIANGLES, vCount, GL_UNSIGNED_INT, nullptr);
 
 	program->Unbind();

@@ -1,15 +1,35 @@
 #include "Voxel.h"
 
-Voxel::Voxel() {
+
+Voxel::Voxel() : id(0){
 }
 
 Voxel::~Voxel() {
 }
 
-void Voxel::Set(int id) {
+void Voxel::Set(unsigned short int id) {
 	this->id = id;
+
+	tVar.randomize();
 }
 
-int Voxel::Get() {
+void Voxel::Set(unsigned short int id, textureVariant texVar) {
+	this->id = id;
+	tVar = texVar;
+
+}
+
+unsigned short int Voxel::GetID() {
 	return id;
 }
+
+textureVariant* Voxel::Get_tVar() {
+	return &tVar;
+}
+
+Voxel* Voxel::GetRef() {
+	return this;
+}
+
+
+

@@ -1,87 +1,86 @@
 #pragma once
 
+#include <ctime>
+#include <random>
+#include <iostream>
+
 #include "../Graphic/Shader.h"
 #include "../Mesh/Mesh.h"
 #include "../Graphic/Texture.h"
 
-class Voxel
+struct textureVariant
 {
 private:
-	unsigned int id;
+	bool Top[2];
+	bool Bottom[2];
+	bool XFront[2];
+	bool XRear[2];
+	bool ZFront[2];
+	bool ZRear[2];
+public:
+	unsigned short int getTop() {
+		return (unsigned short int)1 * Top[0] + (unsigned short int)2 * Top[1];
+	}
+	unsigned short int getBottom() {
+		return (unsigned short int)1 * Bottom[0] + (unsigned short int)2 * Bottom[1];
+	}
+	unsigned short int getXFront() {
+		return (unsigned short int)1 * XFront[0] + (unsigned short int)2 * XFront[1];
+	}
+	unsigned short int getXRear() {
+		return (unsigned short int)1 * XRear[0] + (unsigned short int)2 * XRear[1];
+	}
+	unsigned short int getZFront() {
+		return (unsigned short int)1 * ZFront[0] + (unsigned short int)2 * ZFront[1];
+	}
+	unsigned short int getZRear() {
+		return (unsigned short int)1 * ZRear[0] + (unsigned short int)2 * ZRear[1];
+	}
+
+	void randomize() {
+		unsigned short int seed = rand() % 4096;
+		Top[0] = seed % 2;
+		seed /= 2;
+		Top[1] = seed % 2;
+		seed /= 2;
+		Bottom[0] = seed % 2;
+		seed /= 2;
+		Bottom[1] = seed % 2;
+		seed /= 2;
+		XFront[0] = seed % 2;
+		seed /= 2;
+		XFront[1] = seed % 2;
+		seed /= 2;
+		XRear[0] = seed % 2;
+		seed /= 2;
+		XRear[1] = seed % 2;
+		seed /= 2;
+		ZFront[0] = seed % 2;
+		seed /= 2;
+		ZFront[1] = seed % 2;
+		seed /= 2;
+		ZRear[0] = seed % 2;
+		seed /= 2;
+		ZRear[1] = seed % 2;
+	}
+};
+
+
+struct Voxel
+{
+private:
+	unsigned short int id;
+	textureVariant tVar;
 public:
 	Voxel();
 	~Voxel();
 
-	void Set(int id);
-	int Get();
+	void Set(unsigned short int id);
+	void Set(unsigned short int id, textureVariant texVar);
 
+	unsigned short int GetID();
 
+	textureVariant* Get_tVar();
 
-
-
-
-
-
-	struct Draw
-	{
-	private:
-		Shader* program;
-		int x, y, z;
-		Texture* texture;
-		Mesh side;
-	public:
-		Draw(Shader* program, int x, int y, int z) : program(program), x(x), y(y), z(z) {
-			texture = CreateTexture("Resource/Textures/1.png");
-			//side.Construct(getPlane(), 6, texture);
-		}
-		float* getPlane() {
-			float plane[] = {
-				// x    y     z     u     v
-			   -1.0f, 0.0f,-1.0f, 0.0f, 0.0f,
-				1.0f, 0.0f,-1.0f, 1.0f, 0.0f,
-			   -1.0f, 0.0f, 1.0f, 0.0f, 1.0f,
-
-				1.0f, 0.0f,-1.0f, 1.0f, 0.0f,
-				1.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-			   -1.0f, 0.0f, 1.0f, 0.0f, 1.0f,
-			};
-			return plane;
-		}
-		void XBack() {
-			side.Center();
-			side.Rotate(0.f, 0.f, -90.f);
-			side.Move(-0.5f, 0.f, 0.f);
-			side.Draw(program);
-		};
-		void XFront() {
-			side.Center();
-			side.Rotate(0.f, 0, -90.f);
-			side.Move(0.5f, 0.f, 0.f);
-			side.Draw(program);
-		}
-		void YBack() {
-			side.Center();
-			side.Rotate(-90.f, 0.f, 0.f);
-			side.Move(0.f, -0.5f, 0.f);
-			side.Draw(program);
-		};
-		void YFront() {
-			side.Center();
-			side.Rotate(90.f, 0.f, 0.f);
-			side.Move(0.f, 0.5f, 0.f);
-			side.Draw(program);
-		}
-		void ZBack() {
-			side.Center();
-			side.Move(0.f, 0.f, -0.5f);
-			side.Draw(program);
-		};
-		void ZFront() {
-			side.Center();
-			side.Rotate(180.f, 0.f, 0.f);
-			side.Move(0.f, 0.f, 0.5f);
-			side.Draw(program);
-		}
-	};
+	Voxel* GetRef();
 };
-

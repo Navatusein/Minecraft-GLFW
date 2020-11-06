@@ -17,10 +17,11 @@
 #include "Mesh/BigMesh.h"
 #include "Mesh/ShardMesh.h"
 
-
 using namespace glm;
 
 int main() {
+
+	srand(time(0));
 
 	//Window initialization
 	Window::Initialize(1280, 800, "Hello world");
@@ -34,16 +35,8 @@ int main() {
 	}
 
 
-	Texture* texture = CreateTexture("Resource/Textures/1.png");
-	if (texture == nullptr) {
-		std::cout << "[main] Failed to load texture" << std::endl;
-		delete shader;
-		Window::Terminate();
-		return 1;
-	}
-
-	Texture* texture1 = CreateTexture("Resource/Textures/2.png");
-	if(texture == nullptr) {
+	Texture* textureAtlas = CreateTexture("Resource/Textures/TextureAtlas.png");
+	if (textureAtlas == nullptr) {
 		std::cout << "[main] Failed to load texture" << std::endl;
 		delete shader;
 		Window::Terminate();
@@ -53,7 +46,7 @@ int main() {
 
 	glClearColor(0.6f, 0.62f, 0.65f, 1);
 
-	//glEnable(GL_CULL_FACE);
+	glEnable(GL_CULL_FACE);
 	glEnable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -75,16 +68,12 @@ int main() {
 
 
 
-	//initialize here
-	BigMesh ch(texture);
 
-	ShardMesh shard(&ch);
 
-	for(int i = 0; i < 1500; i++) {
-		for(int j = 0; j < 1500; j++) {
-			shard.PushTop(i, 0, j);
-		}
-	}
+	Chunk ch(textureAtlas);
+
+	ch.Fill();
+
 	ch.Update();
 	
 	//Main loop
@@ -144,15 +133,14 @@ int main() {
 		}
 		
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-
+	
 		shader->Bind();
 		shader->UniformMatrix("projview", camera->GetProjection() * camera->GetView());
 		shader->Unbind();
 
 		//Draw here
-		ch.Draw(shader);
 		
+		ch.Draw(shader);
 
 		// Swapping frame buffers
 		Window::SwapBuffers();

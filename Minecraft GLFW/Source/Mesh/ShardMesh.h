@@ -3,21 +3,25 @@
 #include <glm/ext.hpp>
 
 #include "BigMesh.h"
+#include "../Voxel/Voxel.h"
 
 class ShardMesh
 {
 private:
 	BigMesh* parent;
 public:
+	ShardMesh();
 	ShardMesh(BigMesh* parent);
 	~ShardMesh();
 
-	void Push(float* plane, unsigned int* indices, int x, int y, int z);
+	void Construct(BigMesh* parent);
 
-	void PushTop(int x, int y, int z);
-	void PushBottom(int x, int y, int z);
-	void PushXFront(int x, int y, int z);
-	void PushXRear(int x, int y, int z);
-	void PushZFront(int x, int y, int z);
-	void PushZRear(int x, int y, int z);
+	void Push(float* plane, unsigned int* indices, postype x, postype y, postype z);
+
+	void PushTop(Voxel* vox, postype x, postype y, postype z);
+	void PushBottom(Voxel* vox, postype x, postype y, postype z);
+	void PushXFront(Voxel* vox, postype x, postype y, postype z);
+	void PushXRear(Voxel* vox, postype x, postype y, postype z);
+	void PushZFront(Voxel* vox, postype x, postype y, postype z);
+	void PushZRear(Voxel* vox, postype x, postype y, postype z);
 };
