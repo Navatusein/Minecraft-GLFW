@@ -17,6 +17,8 @@
 #include "Mesh/BigMesh.h"
 #include "Mesh/ShardMesh.h"
 
+#include "World/World.h"
+
 using namespace glm;
 
 int main() {
@@ -66,15 +68,11 @@ int main() {
 
 	Events::ToogleCursor();
 
+	World world(textureAtlas);
+	
+	world.GenerateChunk();
 
 
-
-
-	Chunk ch(textureAtlas);
-
-	ch.Fill();
-
-	ch.Update();
 	
 	//Main loop
 	while (!Window::WindowShouldClose()) {
@@ -140,7 +138,7 @@ int main() {
 
 		//Draw here
 		
-		ch.Draw(shader);
+		world.Draw(shader);
 
 		// Swapping frame buffers
 		Window::SwapBuffers();

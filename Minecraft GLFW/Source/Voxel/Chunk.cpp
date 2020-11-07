@@ -4,8 +4,7 @@
 #include "Chunk.h"
 #include "../Mesh/Mesh.h"
 
-
-Chunk::Chunk(Texture* textureAtlas) {
+/*Chunk::Chunk(Texture* textureAtlas) {
 	mesh.Construct(CHUNK_X * CHUNK_Y * CHUNK_Z * 4 * 6, CHUNK_X * CHUNK_Y * CHUNK_Z * 6 * 6, textureAtlas);
 	shard.Construct(&mesh);
 
@@ -20,7 +19,41 @@ Chunk::Chunk(Texture* textureAtlas) {
 		}
 	}
 
+	nTop = nullptr;
+	nBottom = nullptr;
+	nXPos = nullptr;
+	nXNeg = nullptr;
+	nZPos = nullptr;
+	nZNeg = nullptr;
+}*/
+
+Chunk::Chunk(Texture* textureAtlas, int posx, int posy, int posz) {
+	mesh.Construct(CHUNK_X * CHUNK_Y * CHUNK_Z * 4 * 6, CHUNK_X * CHUNK_Y * CHUNK_Z * 6 * 6, textureAtlas);
+	shard.Construct(&mesh);
+
+	vox = new Voxel * *[CHUNK_X];
+	for(int x = 0; x < CHUNK_X; x++) {
+		vox[x] = new Voxel * [CHUNK_Y];
+		for(int y = 0; y < CHUNK_Y; y++) {
+			vox[x][y] = new Voxel[CHUNK_Z];
+			for(int z = 0; z < CHUNK_Z; z++) {
+				vox[x][y][z].Set(0);
+			}
+		}
+	}
+
+	nTop = nullptr;
+	nBottom = nullptr;
+	nXPos = nullptr;
+	nXNeg = nullptr;
+	nZPos = nullptr;
+	nZNeg = nullptr;
+
+	mesh.Move(posx*CHUNK_X, posy*CHUNK_Y, posz*CHUNK_Z);
+
 }
+
+
 
 Chunk::~Chunk() {
 	for(int x = 0; x < CHUNK_X; x++) {
@@ -39,8 +72,9 @@ void Chunk::DrawVox(postype x, postype y, postype z) {
 		}
 	}
 	else {
-		//TODO
-		shard.PushTop(vox[x][y][z].GetRef(), x, y, z);
+		if(!nTop) {
+			shard.PushTop(vox[x][y][z].GetRef(), x, y, z);
+		}
 	}
 
 	if(y > 0) {
@@ -49,8 +83,9 @@ void Chunk::DrawVox(postype x, postype y, postype z) {
 		}
 	}
 	else {
-		//TODO
-		shard.PushBottom(vox[x][y][z].GetRef(), x, y, z);
+		if(!nBottom) {
+			shard.PushBottom(vox[x][y][z].GetRef(), x, y, z);
+		}
 	}
 
 	if(x + 1 < CHUNK_X) {
@@ -59,8 +94,9 @@ void Chunk::DrawVox(postype x, postype y, postype z) {
 		}
 	}
 	else {
-		//TODO
-		shard.PushXFront(vox[x][y][z].GetRef(), x, y, z);
+		if(!nXPos) {
+			shard.PushXFront(vox[x][y][z].GetRef(), x, y, z);
+		}
 	}
 
 	if(x > 0) {
@@ -70,8 +106,9 @@ void Chunk::DrawVox(postype x, postype y, postype z) {
 		}
 	}
 	else {
-		//TODO
-		shard.PushXRear(vox[x][y][z].GetRef(), x, y, z);
+		if(!nXNeg) {
+			shard.PushXRear(vox[x][y][z].GetRef(), x, y, z);
+		}
 	}
 
 	if(z + 1 < CHUNK_Z) {
@@ -80,8 +117,9 @@ void Chunk::DrawVox(postype x, postype y, postype z) {
 		}
 	}
 	else {
-		//TODO
-		shard.PushZFront(vox[x][y][z].GetRef(), x, y, z);
+		if(!nZPos) {
+			shard.PushZFront(vox[x][y][z].GetRef(), x, y, z);
+		}
 	}
 
 	if(z > 0) {
@@ -91,8 +129,9 @@ void Chunk::DrawVox(postype x, postype y, postype z) {
 		}
 	}
 	else {
-		//TODO
-		shard.PushZRear(vox[x][y][z].GetRef(), x, y, z);
+		if(!nZNeg) {
+			shard.PushZRear(vox[x][y][z].GetRef(), x, y, z);
+		}
 	}
 
 

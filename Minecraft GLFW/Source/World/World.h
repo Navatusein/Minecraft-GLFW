@@ -1,13 +1,24 @@
 #pragma once
 
-#include "Chunk.h"
+#include "../Voxel/Chunk.h"
+
+#include "../Graphic/Texture.h"
+#include "../Graphic/Shader.h"
+
+#define DRAW_DISTANCE 5
 
 class World
 {
 private:
-	Chunk*** chunk;
+	//Chunk* playerChunk;
+	Chunk* startChunk;
+	Texture* textureAtlas;
+
+	int xPos;
+	int yPos;
+	int zPos;
 public:
-	World();
+	World(Texture* textureAtl);
 	~World();
 
 	void LoadChunk();
@@ -15,6 +26,8 @@ public:
 	void UnloadChunk();
 
 	void GenerateChunk();
+
+	void Draw(Shader* program);
 
 };
 
