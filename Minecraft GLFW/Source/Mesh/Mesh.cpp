@@ -1,7 +1,7 @@
 #include "Mesh.h"
 
 Mesh::Mesh(const float* buffer, size_t vertices, const int* attrs) : vertices(vertices) {
-	int vertex_size = 0;
+	vertex_size = 0;
 	for (int i = 0; attrs[i]; i++) {
 		vertex_size += attrs[i];
 	}
@@ -23,6 +23,13 @@ Mesh::Mesh(const float* buffer, size_t vertices, const int* attrs) : vertices(ve
 	}
 
 	glBindVertexArray(0);
+}
+
+void Mesh::reload(const float* buffer, size_t vertices) {
+	glBindVertexArray(vao);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertex_size * vertices, buffer, GL_STATIC_DRAW);
+	this->vertices = vertices;
 }
 
 Mesh::~Mesh() {

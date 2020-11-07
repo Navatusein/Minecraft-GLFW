@@ -11,6 +11,7 @@
 #include "Graphic/Shader.h"
 #include "Graphic/VoxelRenderer.h"
 #include "Graphic/Texture.h"
+#include "Graphic/LineBatch.h"
 
 #include "Mesh/Mesh.h"
 
@@ -52,6 +53,13 @@ int main() {
 		return 1;
 	}
 
+	Shader* linesShader = CreateShaderProgram("Resource/Shader/lineVertex.glsl", "Resource/Shader/lineFragment.glsl");
+	if (crosshairShader == nullptr) {
+		std::cerr << "[main] Failed to load crosshair shader" << std::endl;
+		Window::Terminate();
+		return 1;
+	}
+
 	Texture* texture = CreateTexture("Resource/Textures/block.png");
 	if (texture == nullptr) {
 		std::cout << "[main] Failed to load texture" << std::endl;
@@ -66,6 +74,7 @@ int main() {
 	for (size_t i = 0; i < chunks->volume; i++)
 		meshes[i] = nullptr;
 	VoxelRenderer renderer(1024 * 1024 * 8);
+	LineBatch* lineBatch = new LineBatch(4096);
 
 	CONSOLWRITE("Chunks");
 
@@ -148,7 +157,10 @@ int main() {
 			vec3 norm;
 			vec3 iend;
 			Voxel* vox = chunks->rayCast(camera->Position, camera->Front, 10.0f, end, norm, iend);
+
 			if (vox != nullptr) {
+				lineBatch->Box(iend.x + 0.5f, iend.y + 0.5f, iend.z + 0.5f, 1.005f, 1.005f, 1.005f, 0, 0, 0, 0.5f);
+
 				if (Events::JustClicked(KM_MOUSE_BUTTON_1)) {
 					chunks->set((int)iend.x, (int)iend.y, (int)iend.z, 0);
 				}
@@ -206,7 +218,10 @@ int main() {
 		crosshairShader->Use();
 		crosshair->draw(GL_LINES);
 
-		
+		linesShader->Use();
+		linesShader->UniformMatrix("projview", camera->GetProjection() * camera->GetView());
+		glLineWidth(2.0f);
+		lineBatch->Render();
 
 		// Swapping frame buffers
 		Window::SwapBuffers();
@@ -218,7 +233,8 @@ int main() {
 	delete chunks;
 	delete crosshair;
 	delete crosshairShader;
-
+	delete linesShader;
+	delete lineBatch;
 
 	// Closing the window
 	Window::Terminate();

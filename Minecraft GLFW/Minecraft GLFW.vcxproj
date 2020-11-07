@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Graphic\LineBatch.cpp" />
+    <ClCompile Include="Source\File\Bin.cpp" />
     <ClCompile Include="Source\Voxel\Chunks.cpp" />
     <ClCompile Include="Source\Voxel\Chunk.cpp" />
     <ClCompile Include="Source\Mesh\Mesh.cpp" />
@@ -32,6 +34,8 @@
     <ClCompile Include="Source\Graphic\VoxelRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Graphic\LineBatch.h" />
+    <ClInclude Include="Source\File\Bin.h" />
     <ClInclude Include="Source\Voxel\Chunks.h" />
     <ClInclude Include="Source\Voxel\Chunk.h" />
     <ClInclude Include="Source\Mesh\Mesh.h" />
@@ -48,6 +52,8 @@
   <ItemGroup>
     <None Include="Resource\Shader\crosshairFragment.glsl" />
     <None Include="Resource\Shader\crosshairVertex.glsl" />
+    <None Include="Resource\Shader\lineFragment.glsl" />
+    <None Include="Resource\Shader\lineVertex.glsl" />
     <None Include="Resource\Shader\mainFragment.glsl" />
     <None Include="Resource\Shader\mainVertex.glsl" />
   </ItemGroup>
