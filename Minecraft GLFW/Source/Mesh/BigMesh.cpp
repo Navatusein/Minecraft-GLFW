@@ -9,8 +9,8 @@ BigMesh::BigMesh() {
 
 BigMesh::BigMesh(unsigned int max_vCount, unsigned int max_eCount, Texture* tex) : max_vCount(vCount), max_eCount(max_eCount), vCount(0), eCount(0) {
 	textureAtlas = tex;
-	vertexArr = new float[max_vCount * 5];
-	indexArr = new unsigned int[max_eCount];
+	vertexArr = (float*)malloc(max_vCount * 5);
+	indexArr = (unsigned int*)malloc(max_eCount);
 	transform = glm::mat4(1.f);
 }
 
@@ -22,8 +22,8 @@ BigMesh::~BigMesh() {
 void BigMesh::Construct(unsigned int max_vCount, unsigned int max_eCount, Texture* tex) {
 	transform = glm::mat4(1.f);
 	textureAtlas = tex;
-	vertexArr = new float[max_vCount * 5];
-	indexArr = new unsigned int[max_eCount];
+	vertexArr = (float*)malloc(max_vCount * 5);
+	indexArr = (unsigned int*)malloc(max_eCount);
 
 	this->max_vCount = max_vCount;
 	this->max_eCount = max_eCount;
@@ -63,8 +63,8 @@ void BigMesh::Clear() {
 	delete[]vertexArr;
 	delete[]indexArr;
 
-	vertexArr = new float[max_vCount * 5];
-	indexArr = new unsigned int[max_eCount];
+	vertexArr = (float*)malloc(max_vCount * 5);
+	indexArr = (unsigned int*)malloc(max_eCount);
 
 	vCount = 0;
 	eCount = 0;

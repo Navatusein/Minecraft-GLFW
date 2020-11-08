@@ -27,9 +27,13 @@
 	nZNeg = nullptr;
 }*/
 
-Chunk::Chunk(Texture* textureAtlas, int posx, int posy, int posz) {
+Chunk::Chunk(Texture* textureAtlas, int posx, int posy, int posz){
 	mesh.Construct(CHUNK_X * CHUNK_Y * CHUNK_Z * 4 * 6, CHUNK_X * CHUNK_Y * CHUNK_Z * 6 * 6, textureAtlas);
 	shard.Construct(&mesh);
+
+	pos.x = posx;
+	pos.y = posy;
+	pos.z = posz;
 
 	vox = new Voxel * *[CHUNK_X];
 	for(int x = 0; x < CHUNK_X; x++) {
@@ -72,8 +76,8 @@ void Chunk::DrawVox(postype x, postype y, postype z) {
 		}
 	}
 	else {
-		if(!nTop) {
-			shard.PushTop(vox[x][y][z].GetRef(), x, y, z);
+		if(nTop != nullptr) {
+			//TODO
 		}
 	}
 
@@ -83,8 +87,8 @@ void Chunk::DrawVox(postype x, postype y, postype z) {
 		}
 	}
 	else {
-		if(!nBottom) {
-			shard.PushBottom(vox[x][y][z].GetRef(), x, y, z);
+		if(nBottom != nullptr) {
+			//TODO
 		}
 	}
 
@@ -94,20 +98,23 @@ void Chunk::DrawVox(postype x, postype y, postype z) {
 		}
 	}
 	else {
-		if(!nXPos) {
-			shard.PushXFront(vox[x][y][z].GetRef(), x, y, z);
+		if(nXPos != nullptr) {
+			/*if(nXPos->vox[0][y][z].GetID() == 0) {
+				shard.PushXFront(vox[x][y][z].GetRef(), x, y, z);
+			}*/
 		}
 	}
 
 	if(x > 0) {
-
 		if(vox[x - 1][y][z].GetID() == 0) {
 			shard.PushXRear(vox[x][y][z].GetRef(), x, y, z);
 		}
 	}
 	else {
-		if(!nXNeg) {
-			shard.PushXRear(vox[x][y][z].GetRef(), x, y, z);
+		if(nXNeg != nullptr) {
+			if(nXNeg->vox[CHUNK_X - 1][y][z].GetID() == 0) {
+				shard.PushXRear(vox[x][y][z].GetRef(), x, y, z);
+			}
 		}
 	}
 
@@ -117,8 +124,10 @@ void Chunk::DrawVox(postype x, postype y, postype z) {
 		}
 	}
 	else {
-		if(!nZPos) {
-			shard.PushZFront(vox[x][y][z].GetRef(), x, y, z);
+		if(nZPos != nullptr) {
+			/*if(nZPos->vox[x][y][0].GetID() == 0) {
+				shard.PushZFront(vox[x][y][z].GetRef(), x, y, z);
+			}*/
 		}
 	}
 
@@ -129,8 +138,10 @@ void Chunk::DrawVox(postype x, postype y, postype z) {
 		}
 	}
 	else {
-		if(!nZNeg) {
-			shard.PushZRear(vox[x][y][z].GetRef(), x, y, z);
+		if(nZNeg != nullptr) {
+			if(nZNeg->vox[x][y][CHUNK_Z - 1].GetID() == 0) {
+				shard.PushZRear(vox[x][y][z].GetRef(), x, y, z);
+			}
 		}
 	}
 
@@ -173,4 +184,26 @@ void Chunk::Fill() {
 			}
 		}
 	}
+
+
+	//temporary, delete it later 
+	vox[1][5][1].Set(3);
+	vox[1][5][2].Set(3);
+	vox[2][5][2].Set(3);
+	vox[1][5][3].Set(3);
+}
+
+void Chunk::Setblock(unsigned short int id, postype x, postype y, postype z) {
+		vox[x][y][z].Set(id);
+}
+
+Voxel* Chunk::Getblock(postype x, postype y, postype z) {
+	if(x > 0 && x < CHUNK_X && y > 0 && y < CHUNK_Y && z > 0 && z < CHUNK_Z) {
+		return vox[x][y][z].GetRef();
+	}
+	else return nullptr;
+}
+
+glm::vec3 Chunk::GetPos() {
+	return pos;
 }

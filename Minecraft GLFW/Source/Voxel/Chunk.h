@@ -5,9 +5,9 @@
 #include "../Mesh/BigMesh.h"
 #include "../Mesh/ShardMesh.h"
 
-#define CHUNK_X 16
-#define CHUNK_Y 16
-#define CHUNK_Z 16
+#define CHUNK_X 8
+#define CHUNK_Y 8
+#define CHUNK_Z 8
 
 
 class Chunk
@@ -19,6 +19,8 @@ private:
 	BigMesh mesh;
 	ShardMesh shard;
 
+	glm::vec3 pos;
+
 public:
 	//Chunk(Texture* textureAtlas);
 	Chunk(Texture* textureAtlas, int posx, int posy, int posz);
@@ -29,6 +31,12 @@ public:
 	void Draw(Shader* program);
 
 	void Fill();
+
+	void Setblock(unsigned short int id, postype x, postype y, postype z);
+
+	Voxel* Getblock(postype x, postype y, postype z);
+
+	glm::vec3 GetPos();
 
 
 	Chunk* nTop;      // Neighboring chunk Top

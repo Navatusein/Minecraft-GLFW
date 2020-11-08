@@ -71,8 +71,10 @@ int main() {
 	World world(textureAtlas);
 	
 	world.GenerateChunk();
-
-
+	
+	world.SetBlock(3, 1, 6, 2);
+	world.SetBlock(0, 1, 6, 2);
+	world.SetBlock(3, 1, 6, 8);
 	
 	//Main loop
 	while (!Window::WindowShouldClose()) {
@@ -90,10 +92,21 @@ int main() {
 		}
 
 		if (Events::JustClicked(KM_MOUSE_BUTTON_1)) {
-			glClearColor(0.2f, 0.3f, 0.3f, 1.f);
+			glm::vec3 end;
+			glm::vec3 norm;
+			glm::vec3 iend;
+			world.RayCast(camera->Position, camera->Front, 20.f, end, norm, iend);
+			std::cout << iend.x << " " << iend.y << " " << iend.z << "\n";
+			world.SetBlock(0, iend.x, iend.y, iend.z);
 		}
 		if (Events::JustClicked(KM_MOUSE_BUTTON_2)) {
-			glClearColor(0.6f, 0.62f, 0.65f, 1.f);
+
+			glm::vec3 end;
+			glm::vec3 norm;
+			glm::vec3 iend;
+			world.RayCast(camera->Position, camera->Front, 20.f, end, norm, iend);
+			world.SetBlock(0, iend.x, iend.y, iend.z);
+			
 		}
 
 		if (Events::Pressed(KM_KEY_W)) {
