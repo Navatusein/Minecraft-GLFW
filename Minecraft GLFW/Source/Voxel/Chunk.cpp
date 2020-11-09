@@ -154,11 +154,14 @@ void Chunk::Fill() {
 	for(postype x = 0; x < CHUNK_X; x++) {
 		for(postype y = 0; y < CHUNK_Y; y++) {
 			for(postype z = 0; z < CHUNK_Z; z++) {
-				if(y == 5) {
+				if(y == 7) {
 					vox[x][y][z].Set(1);
 				}
-				else if(y < 5){
+				else if(y >= 5 && y < 7){
 					vox[x][y][z].Set(3);
+				}
+				else if(y < 5) {
+					vox[x][y][z].Set(4);
 				}
 				else {
 					vox[x][y][z].Set(0);
@@ -166,13 +169,6 @@ void Chunk::Fill() {
 			}
 		}
 	}
-
-
-	//temporary, delete it later 
-	vox[1][5][1].Set(3);
-	vox[1][5][2].Set(3);
-	vox[2][5][2].Set(3);
-	vox[1][5][3].Set(3);
 }
 
 void Chunk::Setblock(unsigned short int id, postype x, postype y, postype z) {
