@@ -3,190 +3,85 @@
 #include "World.h"
 
 World::World(Texture* textureAtl) : textureAtlas(textureAtl) {
-
-	// it should be player chunk position
-	xPos = 0;
-	yPos = 0; 
-	zPos = 0;
-
-	Chunk* tempChunk = nullptr;
-	Chunk* nextChunk;
-
-	Chunk* temp;
-
-	//to assign startChunk correctly
-	bool firstIteration = 1;
-
-	// list loops
 	for(int x = -DRAW_DISTANCE; x < DRAW_DISTANCE; x++) {
-
-		nextChunk = new Chunk(textureAtl, xPos + x, yPos, zPos - DRAW_DISTANCE);
-		
-
-		temp = nextChunk;
-		if(firstIteration) {
-			startChunk = nextChunk;
-			firstIteration = 0;
+		for(int z = -DRAW_DISTANCE; z < DRAW_DISTANCE; z++) {
+			Chunk* temp = new Chunk(textureAtl, x, 0, z);
+			chunk_handler[x][z] = temp;
 		}
-
-		for(int z = -DRAW_DISTANCE; z < DRAW_DISTANCE; z++) {			
-
-			nextChunk->nZPos = new Chunk(textureAtl, xPos + x, yPos, zPos + z + 1);
-			nextChunk->nZPos->nZNeg = nextChunk;
-			
-
-			// delete it later
-			if(x == xPos && z == zPos) {
-				playerChunk = nextChunk;
-			}
-
-			//nextChunk->nZNeg = tempChunk;
-			if(tempChunk) {
-				tempChunk->nXPos = nextChunk;
-				tempChunk->nXPos->nXNeg = tempChunk;
-				tempChunk = tempChunk->nZPos;
-			}
-			
-
-			nextChunk = nextChunk->nZPos;
-						
-		}
-		
-		tempChunk = temp;
 	}
-
 }
 
 World::~World() {
+	for(int x = -DRAW_DISTANCE; x < DRAW_DISTANCE; x++) {
+	for(int z = -DRAW_DISTANCE; z < DRAW_DISTANCE; z++) {
+		delete chunk_handler[x][z];
+		chunk_handler[x].erase(z);
+	}
+	chunk_handler.erase(x);
+}
 }
 
 void World::LoadChunk() {
+
 }
 
 void World::UnloadChunk() {
 }
 
 void World::GenerateChunk() {
-	Chunk* tempx = startChunk;
-
-
-	Chunk* temp = startChunk;
 	for(int x = -DRAW_DISTANCE; x < DRAW_DISTANCE; x++) {
-		temp = startChunk;
-	
-
 		for(int z = -DRAW_DISTANCE; z < DRAW_DISTANCE; z++) {
+			chunk_handler[x][z]->Fill();
 
-			startChunk->Fill();
-			startChunk->Update();
-
-			startChunk = startChunk->nXPos;
+			Chunk* neighbor[6];
+			neighbor[0] = chunk_handler[x + 1][z];
+			neighbor[1] = chunk_handler[x - 1][z];
+			neighbor[2] = chunk_handler[x][z + 1];
+			neighbor[3] = chunk_handler[x][z - 1];
+			chunk_handler[x][z]->Update(neighbor);
 		}
-		
-		startChunk = temp;
-		startChunk = startChunk->nZPos;
 	}
-
-	startChunk = tempx;
-
-	//delete it later, testing pointer sequences
-	startChunk->nZPos->nZPos->nXPos->Setblock(0, 5, 5, 5);
-	startChunk->nZPos->nZPos->nXPos->Setblock(0, 6, 5, 5);
-	startChunk->nZPos->nZPos->nXPos->Update();
-
 }
 
 void World::Draw(Shader* program) {
-	Chunk* tempx = startChunk;
-
-
-	Chunk* temp = startChunk;
 	for(int x = -DRAW_DISTANCE; x < DRAW_DISTANCE; x++) {
-		temp = startChunk;
-
-
 		for(int z = -DRAW_DISTANCE; z < DRAW_DISTANCE; z++) {
-
-			startChunk->Draw(program);
-
-			startChunk = startChunk->nXPos;
-
+			chunk_handler[x][z]->Draw(program);
 		}
-
-		startChunk = temp;
-		startChunk = startChunk->nZPos;
 	}
-
-	startChunk = tempx;
-
 }
 
 void World::UpdateChunk(int x, int y, int z) {
-	Chunk* temp = startChunk;
-	while( temp->GetPos().x != x / CHUNK_X){
 
-		while( temp->GetPos().z != z / CHUNK_Z) {
-			if(temp->nZPos) {
-				temp = temp->nZPos;
-			}
-		}
-		if(temp->nXPos) {
-			temp = temp->nXPos;
-		}
-	}
-	temp->Update();
 }
 
-
-//This doesn't work properly
-void World::SetBlock(unsigned short int id, int x, int y, int z) {
-	Chunk* temp = startChunk;
-
-	for(int i = -DRAW_DISTANCE; i < x / CHUNK_X; i++) {
-
-		for(int j = -DRAW_DISTANCE; j < z / CHUNK_Z; j++) {
-
-			if(temp->nZPos) {
-				temp = temp->nZPos;
-			}
-		}
-
-		if(temp->nXPos) {
-			temp = temp->nXPos;
-		}
+bool World::SetBlock(unsigned short int id, int x, int y, int z) {
+	if(abs(x) / CHUNK_X > DRAW_DISTANCE || abs(z) / CHUNK_Z > DRAW_DISTANCE) {
+		return 0;
 	}
-	x %= CHUNK_X;
-	y %= CHUNK_Y;
-	z %= CHUNK_Z;
-	std::cout << x << " " << y << " " << z << "\n";
-	if(x < 0) {
-		x = CHUNK_X + x;
-	}
-	if(z < 0) {
-		z = CHUNK_Z + z;
-	}
-	std::cout << x << " " << y << " " << z << "\n";
-	temp->Setblock(id, x, y, z);
-	temp->Update();
+	Chunk*& temp = chunk_handler[x / CHUNK_X][z / CHUNK_Z];
+	if(!temp) return 0;
+	temp->Setblock(id, x % CHUNK_X, y % CHUNK_Y, z % CHUNK_Z);
+
+	x /= CHUNK_X;
+	z /= CHUNK_Z;
+
+	Chunk* neighbor[6];
+	neighbor[0] = chunk_handler[x + 1][z];
+	neighbor[1] = chunk_handler[x - 1][z];
+	neighbor[2] = chunk_handler[x][z + 1];
+	neighbor[3] = chunk_handler[x][z - 1];
+	temp->Update(neighbor);
+
+	return 1;
 }
 
-Voxel* World::Get(int x, int y, int z) {
-
-	Chunk* temp = startChunk;
-	for(int i = -DRAW_DISTANCE; i < x / CHUNK_X; i++) {
-		
-		for(int j = -DRAW_DISTANCE; j < z / CHUNK_Z; j++) {
-			if(temp->nZPos) {
-				temp = temp->nZPos;
-			}
-		}
-		if(temp->nXPos) {
-			temp = temp->nXPos;
-		}
+Voxel* World::GetBlock(int x, int y, int z) {
+	if(abs(x) / CHUNK_X > DRAW_DISTANCE || abs(z) / CHUNK_Z > DRAW_DISTANCE) {
+		return nullptr;
 	}
-
+	Chunk* temp = chunk_handler[x / CHUNK_X][z / CHUNK_Z];
 	return temp->Getblock(x % CHUNK_X, y % CHUNK_Y, z % CHUNK_Z);
-
 }
 
 Voxel* World::RayCast(glm::vec3 pos, glm::vec3 dir, float maxDist, glm::vec3& end, glm::vec3& norm, glm::vec3& iend) {
@@ -224,7 +119,7 @@ Voxel* World::RayCast(glm::vec3 pos, glm::vec3 dir, float maxDist, glm::vec3& en
 	int steppedIndex = -1;
 
 	while(t <= maxDist) {
-		Voxel* Voxel = Get(ix, iy, iz);
+		Voxel* Voxel = GetBlock(ix, iy, iz);
 		if(Voxel == nullptr || Voxel->GetID()) {
 			end.x = px + t * dx;
 			end.y = py + t * dy;

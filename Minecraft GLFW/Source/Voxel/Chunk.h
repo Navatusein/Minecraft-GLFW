@@ -14,7 +14,7 @@ class Chunk
 {
 private:
 	Voxel*** vox;
-	void DrawVox(postype x, postype y, postype z);
+	void DrawVox(postype x, postype y, postype z, Chunk* neighbour[6]);
 
 	BigMesh mesh;
 	ShardMesh shard;
@@ -22,11 +22,12 @@ private:
 	glm::vec3 pos;
 
 public:
-	//Chunk(Texture* textureAtlas);
+	Chunk();
+	Chunk(const Chunk& val);
 	Chunk(Texture* textureAtlas, int posx, int posy, int posz);
 	~Chunk();
 
-	void Update();
+	void Update(Chunk* neighbour[6]);
 
 	void Draw(Shader* program);
 
@@ -37,13 +38,5 @@ public:
 	Voxel* Getblock(postype x, postype y, postype z);
 
 	glm::vec3 GetPos();
-
-
-	Chunk* nTop;      // Neighboring chunk Top
-	Chunk* nBottom;// Neighboring chunk Bottom
-	Chunk* nXPos;	  // Neighboring chunk Right
-	Chunk* nXNeg;	  // Neighboring chunk Left
-	Chunk* nZPos;	  // Neighboring chunk Front
-	Chunk* nZNeg;	  // Neighboring chunk Rear
 };
 

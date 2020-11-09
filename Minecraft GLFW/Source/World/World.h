@@ -1,5 +1,7 @@
 #pragma once
 
+#include <map>
+
 #include <glm/ext.hpp>
 #include <glm/glm.hpp>
 
@@ -13,13 +15,9 @@
 class World
 {
 private:
-	Chunk* playerChunk;
-	Chunk* startChunk;
-	Texture* textureAtlas;
+	std::map<int, std::map<int, Chunk*>> chunk_handler;
 
-	int xPos;
-	int yPos;
-	int zPos;
+	Texture* textureAtlas;
 public:
 	World(Texture* textureAtl);
 	~World();
@@ -34,9 +32,9 @@ public:
 
 	void UpdateChunk(int x, int y, int z);
 
-	void SetBlock(unsigned short int id, int x, int y, int z);
+	bool SetBlock(unsigned short int id, int x, int y, int z);
 
-	Voxel* Get(int x, int y, int z);
+	Voxel* GetBlock(int x, int y, int z);
 
 	Voxel* RayCast(glm::vec3 pos, glm::vec3 dir, float maxDist, glm::vec3& end, glm::vec3& norm, glm::vec3& iend);
 
