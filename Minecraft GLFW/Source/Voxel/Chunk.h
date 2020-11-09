@@ -5,9 +5,9 @@
 #include "../Mesh/BigMesh.h"
 #include "../Mesh/ShardMesh.h"
 
-#define CHUNK_X 8
-#define CHUNK_Y 8
-#define CHUNK_Z 8
+#define CHUNK_X 16
+#define CHUNK_Y 16
+#define CHUNK_Z 16
 
 
 class Chunk

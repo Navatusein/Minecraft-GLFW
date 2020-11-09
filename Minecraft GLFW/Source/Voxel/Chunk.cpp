@@ -176,17 +176,12 @@ void Chunk::Fill() {
 }
 
 void Chunk::Setblock(unsigned short int id, postype x, postype y, postype z) {
-	if(x < CHUNK_X && y < CHUNK_Y && x < CHUNK_Z && x > 0 && y > 0 && x > 0) {
-		vox[x][y][z].Set(id);
-	}
+	vox[x][y][z].Set(id);
 }
 
 Voxel* Chunk::Getblock(postype x, postype y, postype z) {
 	if(this) {
-		if(x > 0 && x < CHUNK_X && y > 0 && y < CHUNK_Y && z > 0 && z < CHUNK_Z) {
-			return vox[x][y][z].GetRef();
-		}
-		else return nullptr;
+		return vox[x][y][z].GetRef();
 	}
 	else return nullptr;
 }

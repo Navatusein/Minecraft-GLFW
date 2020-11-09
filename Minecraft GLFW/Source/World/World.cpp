@@ -59,18 +59,66 @@ bool World::SetBlock(unsigned short int id, int x, int y, int z) {
 	if(abs(x) / CHUNK_X > DRAW_DISTANCE || abs(z) / CHUNK_Z > DRAW_DISTANCE) {
 		return 0;
 	}
-	Chunk*& temp = chunk_handler[x / CHUNK_X][z / CHUNK_Z];
-	if(!temp) return 0;
-	temp->Setblock(id, x % CHUNK_X, y % CHUNK_Y, z % CHUNK_Z);
 
-	x /= CHUNK_X;
-	z /= CHUNK_Z;
+	int xc, yc, zc; // chunk position temp variables
+	xc = x; yc = y; zc = z;
+	// normalizing coordinates
+	
+	
+	
+	if(xc < 0) {
+		xc /= CHUNK_Z;
+		xc -= 1;
+		x = abs(abs(x) % CHUNK_X - CHUNK_X);
+	}
+	else {
+		xc /= CHUNK_X;
+		x = abs(x) % CHUNK_X;
+	}
+
+	if(yc < 0) {
+		yc /= CHUNK_Z;
+		yc -= 1;
+		y = abs(abs(y) % CHUNK_Y - CHUNK_Y);
+	}
+	else {
+		yc /= CHUNK_Y;
+		y = abs(y) % CHUNK_Y;
+	}
+
+	if(zc < 0) {
+		zc /= CHUNK_Z;
+		zc -= 1;
+		z = abs(abs(z) % CHUNK_Z - CHUNK_Z);
+	}
+	else {
+		zc /= CHUNK_Z;
+		z = abs(z) % CHUNK_Z;
+	}
+
+	//normalizing block coordinates
+	if(x == CHUNK_X) {
+		x = 0;
+		xc += 1;
+	}
+	if(y == CHUNK_Y) {
+		y = 0;
+		yc += 1;
+	}
+	if(z == CHUNK_Z) {
+		z = 0;
+		zc += 1;
+	}
+
+	Chunk*& temp = chunk_handler[xc][zc];
+	if(!temp) return 0;
+	temp->Setblock(id, x, y, z);
 
 	Chunk* neighbor[6];
-	neighbor[0] = chunk_handler[x + 1][z];
-	neighbor[1] = chunk_handler[x - 1][z];
-	neighbor[2] = chunk_handler[x][z + 1];
-	neighbor[3] = chunk_handler[x][z - 1];
+	neighbor[0] = chunk_handler[xc + 1][zc];
+	neighbor[1] = chunk_handler[xc - 1][zc];
+	neighbor[2] = chunk_handler[xc][zc + 1];
+	neighbor[3] = chunk_handler[xc][zc - 1];
 	temp->Update(neighbor);
 
 	return 1;
@@ -78,10 +126,62 @@ bool World::SetBlock(unsigned short int id, int x, int y, int z) {
 
 Voxel* World::GetBlock(int x, int y, int z) {
 	if(abs(x) / CHUNK_X > DRAW_DISTANCE || abs(z) / CHUNK_Z > DRAW_DISTANCE) {
-		return nullptr;
+		return 0;
 	}
-	Chunk* temp = chunk_handler[x / CHUNK_X][z / CHUNK_Z];
-	return temp->Getblock(x % CHUNK_X, y % CHUNK_Y, z % CHUNK_Z);
+
+	int xc, yc, zc; // chunk position temp variables
+	xc = x; yc = y; zc = z;
+	// normalizing coordinates
+
+	if(xc < 0) {
+		xc /= CHUNK_Z;
+		xc -= 1;
+		x = abs(abs(x) % CHUNK_X - CHUNK_X);
+	}
+	else {
+		xc /= CHUNK_X;
+		x = abs(x) % CHUNK_X;
+	}
+
+	if(yc < 0) {
+		yc /= CHUNK_Z;
+		yc -= 1;
+		y = abs(abs(y) % CHUNK_Y - CHUNK_Y);
+	}
+	else {
+		yc /= CHUNK_Y;
+		y = abs(y) % CHUNK_Y;
+	}
+
+	if(zc < 0) {
+		zc /= CHUNK_Z;
+		zc -= 1;
+		z = abs(abs(z) % CHUNK_Z - CHUNK_Z);
+	}
+	else {
+		zc /= CHUNK_Z;
+		z = abs(z) % CHUNK_Z;
+	}
+	//normalizing block coordinates
+	if(x == CHUNK_X) {
+		x = 0;
+		xc += 1;
+	}
+	if(y == CHUNK_Y) {
+		y = 0;
+		yc += 1;
+	}
+	if(z == CHUNK_Z) {
+		z = 0;
+		zc += 1;
+	}
+
+
+
+	Chunk*& temp = chunk_handler[xc][zc];
+	if(!temp) return nullptr;
+
+	return temp->Getblock(x, y, z);
 }
 
 Voxel* World::RayCast(glm::vec3 pos, glm::vec3 dir, float maxDist, glm::vec3& end, glm::vec3& norm, glm::vec3& iend) {
