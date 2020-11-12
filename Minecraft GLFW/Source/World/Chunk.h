@@ -21,7 +21,7 @@ private:
 	ShardMesh shard;
 
 	glm::vec3 pos;
-
+public:
 	Neighbor* neighbor;
 
 public:

@@ -18,7 +18,7 @@ static bool GLLogCall()
 {
 	while(GLenum error = glGetError())
 	{
-		std::cout << "[OpenGL Error] ( " << error << " )\n";
+		std::cerr << "[OpenGL Error] ( " << error << " )\n";
 		return false;
 	}
 	return true;

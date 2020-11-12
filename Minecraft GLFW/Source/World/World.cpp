@@ -5,7 +5,7 @@
 
 World::World(Texture* textureAtl) : textureAtlas(textureAtl) {
 	for(int x = -DRAW_DISTANCE; x < DRAW_DISTANCE; x++) {
-		for(int y = -DRAW_DISTANCE; y < DRAW_DISTANCE; y++) {
+		for(short y = -DRAW_DISTANCE; y < DRAW_DISTANCE; y++) {
 			for(int z = -DRAW_DISTANCE; z < DRAW_DISTANCE; z++) {
 				Chunk* temp = new Chunk(textureAtl, x, y, z);
 				long long index = x + z * pow(2, 24) + y * pow(2, 48);
@@ -14,7 +14,7 @@ World::World(Texture* textureAtl) : textureAtlas(textureAtl) {
 		}
 	}
 	for(int x = -DRAW_DISTANCE; x < DRAW_DISTANCE; x++) {
-		for(int y = -DRAW_DISTANCE; y < DRAW_DISTANCE; y++) {
+		for(short y = -DRAW_DISTANCE; y < DRAW_DISTANCE; y++) {
 			for(int z = -DRAW_DISTANCE; z < DRAW_DISTANCE; z++) {
 				Neighbor* temp = new Neighbor;
 				long long index = x + z * pow(2, 24) + y * pow(2, 48);
@@ -38,7 +38,7 @@ World::World(Texture* textureAtl) : textureAtlas(textureAtl) {
 
 World::~World() {
 	for(int x = -DRAW_DISTANCE; x < DRAW_DISTANCE; x++) {
-		for(int y = -DRAW_DISTANCE; y < DRAW_DISTANCE; y++) {
+		for(short y = -DRAW_DISTANCE; y < DRAW_DISTANCE; y++) {
 			for(int z = -DRAW_DISTANCE; z < DRAW_DISTANCE; z++) {
 				long long index = x + z * pow(2, 24) + y * pow(2, 48);
 				delete chunk_handler[index];
@@ -57,9 +57,9 @@ void World::UnloadChunk() {
 
 void World::GenerateChunk() {
 	for(int x = -DRAW_DISTANCE; x < DRAW_DISTANCE; x++) {
-		for(int y = -DRAW_DISTANCE; y < DRAW_DISTANCE; y++) {
+		for(short y = -DRAW_DISTANCE; y < DRAW_DISTANCE; y++) {
 			for(int z = -DRAW_DISTANCE; z < DRAW_DISTANCE; z++) {
-				if(y == 0) {
+				if(true) {
 					long long index = x + z * pow(2, 24) + y * pow(2, 48);
 					chunk_handler[index]->Fill();
 					chunk_handler[index]->Update();
@@ -71,7 +71,7 @@ void World::GenerateChunk() {
 
 void World::Draw(Shader* program) {
 	for(int x = -DRAW_DISTANCE; x < DRAW_DISTANCE; x++) {
-		for(int y = -DRAW_DISTANCE; y < DRAW_DISTANCE; y++) {
+		for(short y = -DRAW_DISTANCE; y < DRAW_DISTANCE; y++) {
 			for(int z = -DRAW_DISTANCE; z < DRAW_DISTANCE; z++) {
 				long long index = x + z * pow(2, 24) + y * pow(2, 48);
 				chunk_handler[index]->Draw(program);

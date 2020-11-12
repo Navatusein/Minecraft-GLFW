@@ -7,7 +7,7 @@
 BigMesh::BigMesh() {
 }
 
-BigMesh::BigMesh(unsigned int max_vCount, unsigned int max_eCount, Texture* tex) : max_vCount(vCount), max_eCount(max_eCount), vCount(0), eCount(0) {
+BigMesh::BigMesh(unsigned int max_vCount, unsigned int max_eCount, Texture* tex) : max_vCount(max_vCount), max_eCount(max_eCount), vCount(0), eCount(0) {
 	textureAtlas = tex;
 	vertexArr = (float*)malloc(max_vCount * 5);
 	indexArr = (unsigned int*)malloc(max_eCount);
@@ -15,8 +15,8 @@ BigMesh::BigMesh(unsigned int max_vCount, unsigned int max_eCount, Texture* tex)
 }
 
 BigMesh::~BigMesh() {
-	delete[]vertexArr;
-	delete[]indexArr;
+	free(vertexArr);
+	free(indexArr);
 }
 
 void BigMesh::Construct(unsigned int max_vCount, unsigned int max_eCount, Texture* tex) {
@@ -60,12 +60,6 @@ void BigMesh::UpdateMesh() {
 }
 
 void BigMesh::Clear() {
-	delete[]vertexArr;
-	delete[]indexArr;
-
-	vertexArr = (float*)malloc(max_vCount * 5);
-	indexArr = (unsigned int*)malloc(max_eCount);
-
 	vCount = 0;
 	eCount = 0;
 }
@@ -82,14 +76,14 @@ void BigMesh::Center() {
 
 void BigMesh::Push(float* vertices, unsigned int add_vCount, unsigned int* indices, unsigned int add_eCount) {
 
-	for(int i = 0; i < add_vCount*5; i++) {
-		vertexArr[vCount*5+i] = vertices[i];
+	for(int i = 0; i < add_vCount * 5; i++) {
+		vertexArr[vCount * 5 + i] = vertices[i];
 	}
 
 	for(int i = 0; i < add_eCount; i++) {
-		indexArr[eCount+i] = indices[i] + vCount;
+		indexArr[eCount + i] = indices[i] + vCount;
 	}
 
-	vCount += add_vCount;
-	eCount += add_eCount;
+	this->vCount += add_vCount;
+	this->eCount += add_eCount;
 }

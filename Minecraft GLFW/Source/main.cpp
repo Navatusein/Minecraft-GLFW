@@ -4,6 +4,8 @@
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 
+#include <Windows.h>
+
 #include "ErrorHandling.h"
 
 #include "Window/Window.h"

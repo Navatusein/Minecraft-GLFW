@@ -2,7 +2,6 @@
 
 #include <ctime>
 #include <random>
-#include <iostream>
 
 #include "../Graphic/Shader.h"
 #include "../Mesh/Mesh.h"

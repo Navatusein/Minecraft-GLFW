@@ -18,7 +18,7 @@ Chunk::Chunk(Texture* textureAtlas, int posx, int posy, int posz){
 	pos.y = posy;
 	pos.z = posz;
 
-	vox = new Voxel * *[CHUNK_X];
+	vox = new Voxel **[CHUNK_X];
 	for(int x = 0; x < CHUNK_X; x++) {
 		vox[x] = new Voxel * [CHUNK_Y];
 		for(int y = 0; y < CHUNK_Y; y++) {
@@ -57,8 +57,8 @@ void Chunk::DrawVox(postype x, postype y, postype z) {
 	}
 	else {
 		shard.PushTop(vox[x][y][z].GetRef(), x, y, z);
-		if(neighbor->Top != nullptr) {
-			if(neighbor->Top->Getblock(x, 0, z) == 0) {
+		if(neighbor->Top) {
+			if(neighbor->Top->Getblock(x, 0, z)->GetID() == 0) {
 				shard.PushTop(vox[x][y][z].GetRef(), x, y, z);
 			}
 		}
@@ -69,10 +69,10 @@ void Chunk::DrawVox(postype x, postype y, postype z) {
 			shard.PushBottom(vox[x][y][z].GetRef(), x, y, z);
 		}
 	}
-	else {
+	else { 
 		if(neighbor->Bottom != nullptr) {
-			if(neighbor->Bottom->Getblock(x, CHUNK_Y, z)==0) {
-				shard.PushBottom(vox[x][y][z].GetRef(), x, y, z);
+			if(neighbor->Bottom->Getblock(x, CHUNK_Y - 1, z)->GetID() == 0) {
+				//shard.PushBottom(vox[x][y][z].GetRef(), x, y, z);                       // THIS CAUSES A CRASH AND I CAN'T FIGURE OUT WHY    TODO
 			}
 		}
 	}
@@ -84,7 +84,7 @@ void Chunk::DrawVox(postype x, postype y, postype z) {
 	}
 	else {
 		if(neighbor->XFront) {
-			if(neighbor->XFront->vox[0][y][z].GetID() == 0) {
+			if(neighbor->XFront->Getblock(0, y, z)->GetID() == 0) {
 				shard.PushXFront(vox[x][y][z].GetRef(), x, y, z);
 			}
 		}
@@ -98,7 +98,7 @@ void Chunk::DrawVox(postype x, postype y, postype z) {
 	}
 	else {
 		if(neighbor->XRear) {
-			if(neighbor->XRear->vox[CHUNK_X - 1][y][z].GetID() == 0) {
+			if(neighbor->XRear->Getblock(CHUNK_X-1, y, z)->GetID() == 0) {
 				shard.PushXRear(vox[x][y][z].GetRef(), x, y, z);
 			}
 		}
@@ -111,7 +111,7 @@ void Chunk::DrawVox(postype x, postype y, postype z) {
 	}
 	else {
 		if(neighbor->ZFront) {
-			if(neighbor->ZFront->vox[x][y][0].GetID() == 0) {
+			if(neighbor->ZFront->Getblock(x, y, 0)->GetID() == 0) {
 				shard.PushZFront(vox[x][y][z].GetRef(), x, y, z);
 			}
 		}
@@ -125,7 +125,7 @@ void Chunk::DrawVox(postype x, postype y, postype z) {
 	}
 	else {
 		if(neighbor->ZRear) {
-			if(neighbor->ZRear->vox[x][y][CHUNK_Z - 1].GetID() == 0) {
+			if(neighbor->ZRear->Getblock(x, y, CHUNK_Z - 1)->GetID() == 0) {
 				shard.PushZRear(vox[x][y][z].GetRef(), x, y, z);
 			}
 		}
@@ -145,7 +145,7 @@ void Chunk::Update() {
 				else {
 					if(x == 0) {
 						if(neighbor->XRear) {
-							if(neighbor->XRear->vox[CHUNK_X - 1][y][z].GetID() != 0) {
+							if(neighbor->XRear->Getblock(CHUNK_X - 1, y, z)->GetID() != 0) {
 								neighbor->XRear->DrawVox(CHUNK_X - 1, y, z);
 								neighbor->XRear->UpdateMesh();
 							}
@@ -153,7 +153,7 @@ void Chunk::Update() {
 					}
 					else if(x + 1 == CHUNK_X) {
 						if(neighbor->XFront) {
-							if(neighbor->XFront->vox[0][y][z].GetID() != 0) {
+							if(neighbor->XFront->Getblock(0, y, z)->GetID() != 0) {
 								neighbor->XFront->DrawVox(0, y, z);
 								neighbor->XFront->UpdateMesh();
 							}
@@ -161,7 +161,7 @@ void Chunk::Update() {
 					}
 					if(y == 0) {
 						if(neighbor->Bottom) {
-							if(neighbor->Bottom->vox[x][CHUNK_Y - 1][z].GetID() != 0) {
+							if(neighbor->Bottom->Getblock(x, CHUNK_Y - 1, z)->GetID() != 0) {
 								neighbor->Bottom->DrawVox(x, CHUNK_Y - 1, z);
 								neighbor->Bottom->UpdateMesh();
 							}
@@ -169,7 +169,7 @@ void Chunk::Update() {
 					}
 					else if(y + 1 == CHUNK_Y) {
 						if(neighbor->Top) {
-							if(neighbor->Top->vox[x][0][z].GetID() != 0) {
+							if(neighbor->Top->Getblock(x, 0, z)->GetID() != 0) {
 								neighbor->Top->DrawVox(x, 0, z);
 								neighbor->Top->UpdateMesh();
 							}
@@ -177,7 +177,7 @@ void Chunk::Update() {
 					}
 					if(z == 0) {
 						if(neighbor->ZRear) {
-							if(neighbor->ZRear->vox[x][y][CHUNK_Z - 1].GetID() != 0) {
+							if(neighbor->ZRear->Getblock(x, y, CHUNK_Z - 1)->GetID() != 0) {
 								neighbor->ZRear->DrawVox(x, y, CHUNK_Z - 1);
 								neighbor->ZRear->UpdateMesh();
 							}
@@ -185,7 +185,7 @@ void Chunk::Update() {
 					}
 					else if(z + 1 == CHUNK_Z) {
 						if(neighbor->ZFront) {
-							if(neighbor->ZFront->vox[x][y][0].GetID() != 0) {
+							if(neighbor->ZFront->Getblock(x, y, 0)->GetID() != 0) {
 								neighbor->ZFront->DrawVox(x, y, 0);
 								neighbor->ZFront->UpdateMesh();
 							}
