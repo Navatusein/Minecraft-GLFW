@@ -18,13 +18,13 @@ Chunk::Chunk(Texture* textureAtlas, int posx, int posy, int posz){
 	pos.y = posy;
 	pos.z = posz;
 
-	vox = new Voxel **[CHUNK_X];
+	vox = new Voxel ***[CHUNK_X];
 	for(int x = 0; x < CHUNK_X; x++) {
-		vox[x] = new Voxel * [CHUNK_Y];
+		vox[x] = new Voxel ** [CHUNK_Y];
 		for(int y = 0; y < CHUNK_Y; y++) {
-			vox[x][y] = new Voxel[CHUNK_Z];
+			vox[x][y] = new Voxel*[CHUNK_Z];
 			for(int z = 0; z < CHUNK_Z; z++) {
-				vox[x][y][z].Set(0);
+				vox[x][y][z] = new Voxel(0);
 			}
 		}
 	}
@@ -37,6 +37,9 @@ Chunk::Chunk(Texture* textureAtlas, int posx, int posy, int posz){
 Chunk::~Chunk() {
 	for(int x = 0; x < CHUNK_X; x++) {
 		for(int y = 0; y < CHUNK_Y; y++) {
+			for(int z = 0; z < CHUNK_Z; z++) {
+				delete[]vox[x][y][z];
+			}
 			delete[]vox[x][y];
 		}
 		delete[]vox[x];
@@ -51,82 +54,82 @@ void Chunk::SetNeighbors(Neighbor* neighbor) {
 void Chunk::DrawVox(postype x, postype y, postype z) {
 
 	if(y + 1 < CHUNK_Y) {
-		if(vox[x][y + 1][z].GetID() == 0) {
-			shard.PushTop(vox[x][y][z].GetRef(), x, y, z);
+		if(vox[x][y + 1][z]->GetID() == 0) {
+			shard.PushTop(vox[x][y][z]->GetRef(), x, y, z);
 		}
 	}
 	else {
-		shard.PushTop(vox[x][y][z].GetRef(), x, y, z);
 		if(neighbor->Top) {
 			if(neighbor->Top->Getblock(x, 0, z)->GetID() == 0) {
-				shard.PushTop(vox[x][y][z].GetRef(), x, y, z);
+				shard.PushTop(vox[x][y][z]->GetRef(), x, y, z);
 			}
 		}
 	}
 
 	if(y > 0) {
-		if(vox[x][y - 1][z].GetID() == 0) {
-			shard.PushBottom(vox[x][y][z].GetRef(), x, y, z);
+		if(vox[x][y - 1][z]->GetID() == 0) {
+			shard.PushBottom(vox[x][y][z]->GetRef(), x, y, z);
 		}
 	}
-	else { 
-		if(neighbor->Bottom != nullptr) {
-			if(neighbor->Bottom->Getblock(x, CHUNK_Y - 1, z)->GetID() == 0) {
-				//shard.PushBottom(vox[x][y][z].GetRef(), x, y, z);                       // THIS CAUSES A CRASH AND I CAN'T FIGURE OUT WHY    TODO
-			}
+	else {
+		if(neighbor->Bottom) {
+			if(neighbor->Bottom->Getblock(x, CHUNK_Y - 1, z)->GetID() == 0) {                          //*TODO
+				std::cout << x << " " << y << " " << z << " " << vox[x][y][z]->GetID() << "\n";  //*somehow some voxel ids are garbage
+				shard.PushBottom(vox[x][y][z]->GetRef(), x, y, z);                                                  //*this will cause a crash later
+			}																																   
 		}
 	}
 
 	if(x + 1 < CHUNK_X) {
-		if(vox[x + 1][y][z].GetID() == 0) {
-			shard.PushXFront(vox[x][y][z].GetRef(), x, y, z);
+		if(vox[x + 1][y][z]->GetID() == 0) {
+			shard.PushXFront(vox[x][y][z]->GetRef(), x, y, z);
 		}
 	}
 	else {
 		if(neighbor->XFront) {
 			if(neighbor->XFront->Getblock(0, y, z)->GetID() == 0) {
-				shard.PushXFront(vox[x][y][z].GetRef(), x, y, z);
+				shard.PushXFront(vox[x][y][z]->GetRef(), x, y, z);
 			}
 		}
 	}
 
 	if(x > 0) {
-		if(vox[x - 1][y][z].GetID() == 0) {
-			shard.PushXRear(vox[x][y][z].GetRef(), x, y, z);
+		if(vox[x - 1][y][z]->GetID() == 0) {
+			shard.PushXRear(vox[x][y][z]->GetRef(), x, y, z);
 			
 		}
 	}
 	else {
 		if(neighbor->XRear) {
 			if(neighbor->XRear->Getblock(CHUNK_X-1, y, z)->GetID() == 0) {
-				shard.PushXRear(vox[x][y][z].GetRef(), x, y, z);
+				shard.PushXRear(vox[x][y][z]->GetRef(), x, y, z);
 			}
 		}
 	}
 
 	if(z + 1 < CHUNK_Z) {
-		if(vox[x][y][z + 1].GetID() == 0) {
-			shard.PushZFront(vox[x][y][z].GetRef(), x, y, z);
+		if(vox[x][y][z + 1]->GetID() == 0) {
+			shard.PushZFront(vox[x][y][z]->GetRef(), x, y, z);
 		}
 	}
 	else {
 		if(neighbor->ZFront) {
 			if(neighbor->ZFront->Getblock(x, y, 0)->GetID() == 0) {
-				shard.PushZFront(vox[x][y][z].GetRef(), x, y, z);
+				shard.PushZFront(vox[x][y][z]->GetRef(), x, y, z);
 			}
 		}
 	}
 
 	if(z > 0) {
 
-		if(vox[x][y][z - 1].GetID() == 0) {
-			shard.PushZRear(vox[x][y][z].GetRef(), x, y, z);
+		if(vox[x][y][z - 1]->GetID() == 0) {
+			shard.PushZRear(vox[x][y][z]->GetRef(), x, y, z);
 		}
 	}
 	else {
 		if(neighbor->ZRear) {
 			if(neighbor->ZRear->Getblock(x, y, CHUNK_Z - 1)->GetID() == 0) {
-				shard.PushZRear(vox[x][y][z].GetRef(), x, y, z);
+				shard.PushZRear(vox[x][y][z]->GetRef(), x, y, z);
 			}
 		}
 	}
@@ -139,7 +142,7 @@ void Chunk::Update() {
 	for(postype x = 0; x < CHUNK_X; x++) {
 		for(postype y = 0; y < CHUNK_Y; y++) {
 			for(postype z = 0; z < CHUNK_Z; z++) {
-				if(vox[x][y][z].GetID() != 0) {
+				if(vox[x][y][z]->GetID() != 0) {
 					DrawVox(x, y, z);
 				}
 				else {
@@ -199,18 +202,6 @@ void Chunk::Update() {
 	mesh.UpdateMesh();
 }
 
-/*void Chunk::NoChafin_Update() {
-	for(postype x = 0; x < CHUNK_X; x++) {
-		for(postype y = 0; y < CHUNK_Y; y++) {
-			for(postype z = 0; z < CHUNK_Z; z++) {
-				if(vox[x][y][z].GetID() != 0) {
-					DrawVox(x, y, z);
-				}
-			}
-		}
-	}
-}*/
-
 void Chunk::UpdateMesh() {
 	mesh.UpdateMesh();
 }
@@ -224,16 +215,19 @@ void Chunk::Fill() {
 		for(postype y = 0; y < CHUNK_Y; y++) {
 			for(postype z = 0; z < CHUNK_Z; z++) {
 				if(y == 7) {
-					vox[x][y][z].Set(1);
+					vox[x][y][z]->Set(1);
+				}
+				else if(y == 15) {
+					vox[x][y][z]->Set(3);
 				}
 				else if(y >= 5 && y < 7){
-					vox[x][y][z].Set(3);
+					vox[x][y][z]->Set(3);
 				}
 				else if(y < 5) {
-					vox[x][y][z].Set(4);
+					vox[x][y][z]->Set(4);
 				}
 				else {
-					vox[x][y][z].Set(0);
+					vox[x][y][z]->Set(0);
 				}
 			}
 		}
@@ -241,12 +235,12 @@ void Chunk::Fill() {
 }
 
 void Chunk::Setblock(unsigned short int id, postype x, postype y, postype z) {
-	vox[x][y][z].Set(id);
+	vox[x][y][z]->Set(id);
 }
 
 Voxel* Chunk::Getblock(postype x, postype y, postype z) {
 	if(this) {
-		return vox[x][y][z].GetRef();
+		return vox[x][y][z]->GetRef();
 	}
 	else return nullptr;
 }

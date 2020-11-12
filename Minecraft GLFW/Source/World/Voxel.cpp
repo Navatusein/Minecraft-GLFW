@@ -3,6 +3,9 @@
 
 Voxel::Voxel() : id(0){
 }
+Voxel::Voxel(unsigned short id) : id(id) {
+	tVar.randomize();
+}
 
 Voxel::~Voxel() {
 }
@@ -20,7 +23,7 @@ void Voxel::Set(unsigned short int id, textureVariant texVar) {
 }
 
 unsigned short int Voxel::GetID() {
-	return id;
+		return id;
 }
 
 textureVariant* Voxel::Get_tVar() {

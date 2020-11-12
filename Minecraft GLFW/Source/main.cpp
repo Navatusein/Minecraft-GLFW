@@ -74,14 +74,6 @@ int main() {
 	
 	world.GenerateChunk();
 	
-	for(int i = 0; i < 8; i++) {
-		for(int j = i; j < 8; j++) {
-			for(int k = j; k < 8; k++) {
-				world.SetBlock(3, i, k, j);
-			}
-		}
-	}
-	
 	//Main loop
 	while (!Window::WindowShouldClose()) {
 

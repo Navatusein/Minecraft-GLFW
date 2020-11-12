@@ -36,7 +36,6 @@ void BigMesh::Draw(Shader* program) {
 	program->Bind();
 	VAO.Bind();
 	IBO.Bind();
-
 	program->UniformMatrix("transform", transform);
 
 	GLCall(glDrawElements(GL_TRIANGLES, eCount, GL_UNSIGNED_INT, 0));
@@ -79,7 +78,6 @@ void BigMesh::Push(float* vertices, unsigned int add_vCount, unsigned int* indic
 	for(int i = 0; i < add_vCount * 5; i++) {
 		vertexArr[vCount * 5 + i] = vertices[i];
 	}
-
 	for(int i = 0; i < add_eCount; i++) {
 		indexArr[eCount + i] = indices[i] + vCount;
 	}

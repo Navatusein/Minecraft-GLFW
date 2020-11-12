@@ -33,6 +33,10 @@ void ShardMesh::PushTop(Voxel* vox, postype x, postype y, postype z) {
 	{
 		float U = vox->Get_tVar()->getTop();
 		float V = vox->GetID();
+		if(V > ATLAS_W) {
+			return;
+		}
+
 		u[0] = U / ATLAS_H;
 		u[1] = (U + 1) / ATLAS_H;
 		v[0] = (V - 1) / ATLAS_W;
@@ -61,6 +65,9 @@ void ShardMesh::PushBottom(Voxel* vox, postype x, postype y, postype z) {
 	{
 		float U = vox->Get_tVar()->getBottom();
 		float V = vox->GetID();
+		if(V > ATLAS_W) {
+			return;
+		}
 
 		if(V == 1) {
 			V = 3;

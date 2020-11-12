@@ -15,7 +15,7 @@
 class Chunk
 {
 private:
-	Voxel*** vox;
+	Voxel**** vox;
 
 	BigMesh mesh;
 	ShardMesh shard;
@@ -34,7 +34,6 @@ public:
 	void SetNeighbors(Neighbor* neighbor);
 
 	void Update();
-	//void NoChain_Update(); // Update that doesn't update neighboring chunks
 
 	void UpdateMesh();
 

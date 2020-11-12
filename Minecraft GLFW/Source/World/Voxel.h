@@ -7,6 +7,8 @@
 #include "../Mesh/Mesh.h"
 #include "../Graphic/Texture.h"
 
+#define maxID 4;
+
 struct textureVariant
 {
 private:
@@ -72,6 +74,7 @@ private:
 	textureVariant tVar;
 public:
 	Voxel();
+	Voxel(unsigned short id);
 	~Voxel();
 
 	void Set(unsigned short int id);
