@@ -26,7 +26,7 @@ int main() {
 	srand(time(0));
 
 	//Window initialization
-	Window::Initialize(1280, 800, "Hello world");
+	Window::Initialize(2500, 1400, "Hello world");
 	Events::Initialize();
 
 	Shader* shader = CreateShaderProgram("Resource/Shader/mainVertex.glsl", "Resource/Shader/mainFragment.glsl");

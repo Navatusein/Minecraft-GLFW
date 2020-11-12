@@ -54,6 +54,8 @@
     <ClInclude Include="Source\World\World.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resource\Shader\guiShader_fragment.glsl" />
+    <None Include="Resource\Shader\guiShader_vertex.glsl" />
     <None Include="Resource\Shader\mainFragment.glsl" />
     <None Include="Resource\Shader\mainVertex.glsl" />
   </ItemGroup>
@@ -61,6 +63,8 @@
     <Image Include="Resource\Textures\1.png" />
     <Image Include="Resource\Textures\2.png" />
     <Image Include="Resource\Textures\3.png" />
+    <Image Include="Resource\Textures\GUIAtlas.png" />
+    <Image Include="Resource\Textures\TextureAtlas.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

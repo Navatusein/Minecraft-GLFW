@@ -114,6 +114,8 @@
   <ItemGroup>
     <None Include="Resource\Shader\mainFragment.glsl" />
     <None Include="Resource\Shader\mainVertex.glsl" />
+    <None Include="Resource\Shader\guiShader_fragment.glsl" />
+    <None Include="Resource\Shader\guiShader_vertex.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\Textures\1.png">
@@ -123,6 +125,12 @@
       <Filter>Файлы ресурсов</Filter>
     </Image>
     <Image Include="Resource\Textures\3.png">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="Resource\Textures\GUIAtlas.png">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="Resource\Textures\TextureAtlas.png">
       <Filter>Файлы ресурсов</Filter>
     </Image>
   </ItemGroup>
