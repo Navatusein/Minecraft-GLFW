@@ -15,7 +15,7 @@
 class World
 {
 private:
-	std::map<long, Chunk*> chunk_handler;
+	std::map<long long, Chunk*> chunk_handler;
 
 	Texture* textureAtlas;
 public:

@@ -8,7 +8,7 @@ World::World(Texture* textureAtl) : textureAtlas(textureAtl) {
 		for(int y = -DRAW_DISTANCE; y < DRAW_DISTANCE; y++) {
 			for(int z = -DRAW_DISTANCE; z < DRAW_DISTANCE; z++) {
 				Chunk* temp = new Chunk(textureAtl, x, y, z);
-				long index = x + z * pow(2, 24) + y * pow(2, 48);
+				long long index = x + z * pow(2, 24) + y * pow(2, 48);
 				chunk_handler[index] = temp;
 			}
 		}
@@ -17,8 +17,8 @@ World::World(Texture* textureAtl) : textureAtlas(textureAtl) {
 		for(int y = -DRAW_DISTANCE; y < DRAW_DISTANCE; y++) {
 			for(int z = -DRAW_DISTANCE; z < DRAW_DISTANCE; z++) {
 				Neighbor* temp = new Neighbor;
-				long index = x + z * pow(2, 24) + y * pow(2, 48);
-				long tempIndex = (x + 1) + z * pow(2, 24) + y * pow(2, 48);
+				long long index = x + z * pow(2, 24) + y * pow(2, 48);
+				long long tempIndex = (x + 1) + z * pow(2, 24) + y * pow(2, 48);
 				temp->XFront = chunk_handler[tempIndex];
 				tempIndex = (x - 1) + z * pow(2, 24) + y * pow(2, 48);
 				temp->XRear = chunk_handler[tempIndex];
@@ -40,7 +40,7 @@ World::~World() {
 	for(int x = -DRAW_DISTANCE; x < DRAW_DISTANCE; x++) {
 		for(int y = -DRAW_DISTANCE; y < DRAW_DISTANCE; y++) {
 			for(int z = -DRAW_DISTANCE; z < DRAW_DISTANCE; z++) {
-				long index = x + z * pow(2, 24) + y * pow(2, 48);
+				long long index = x + z * pow(2, 24) + y * pow(2, 48);
 				delete chunk_handler[index];
 				chunk_handler.erase(index);
 			}
@@ -59,7 +59,7 @@ void World::GenerateChunk() {
 	for(int x = -DRAW_DISTANCE; x < DRAW_DISTANCE; x++) {
 		for(int y = -DRAW_DISTANCE; y < DRAW_DISTANCE; y++) {
 			for(int z = -DRAW_DISTANCE; z < DRAW_DISTANCE; z++) {
-				long index = x + z * pow(2, 24) + y * pow(2, 48);
+				long long index = x + z * pow(2, 24) + y * pow(2, 48);
 				chunk_handler[index]->Fill();
 				chunk_handler[index]->Update();
 			}
@@ -71,7 +71,7 @@ void World::Draw(Shader* program) {
 	for(int x = -DRAW_DISTANCE; x < DRAW_DISTANCE; x++) {
 		for(int y = -DRAW_DISTANCE; y < DRAW_DISTANCE; y++) {
 			for(int z = -DRAW_DISTANCE; z < DRAW_DISTANCE; z++) {
-				long index = x + z * pow(2, 24) + y * pow(2, 48);
+				long long index = x + z * pow(2, 24) + y * pow(2, 48);
 				chunk_handler[index]->Draw(program);
 			}
 		}
@@ -137,7 +137,7 @@ bool World::SetBlock(unsigned short int id, int x, int y, int z) {
 		zc += 1;
 	}
 
-	long index = xc + zc * pow(2, 24) + yc * pow(2, 48);
+	long long index = xc + zc * pow(2, 24) + yc * pow(2, 48);
 	Chunk*& temp = chunk_handler[index];
 
 	if(!temp) return 0;
@@ -200,7 +200,7 @@ Voxel* World::GetBlock(int x, int y, int z) {
 	}
 
 
-	long index = xc + zc * pow(2, 24) + yc * pow(2, 48);
+	long long index = xc + zc * pow(2, 24) + yc * pow(2, 48);
 	Chunk*& temp = chunk_handler[index];
 	if(!temp) return nullptr;
 
