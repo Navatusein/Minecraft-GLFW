@@ -5,7 +5,7 @@
 #include <glm/ext.hpp>
 #include <glm/glm.hpp>
 
-#include "../Voxel/Chunk.h"
+#include "Chunk.h"
 
 #include "../Graphic/Texture.h"
 #include "../Graphic/Shader.h"
@@ -15,7 +15,7 @@
 class World
 {
 private:
-	std::map<int, std::map<int, Chunk*>> chunk_handler;
+	std::map<long, Chunk*> chunk_handler;
 
 	Texture* textureAtlas;
 public:

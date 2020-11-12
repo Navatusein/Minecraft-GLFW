@@ -44,7 +44,11 @@ Chunk::~Chunk() {
 	delete[]vox;
 }
 
-void Chunk::DrawVox(postype x, postype y, postype z, Chunk* neighbour[6]) {
+void Chunk::SetNeighbors(Neighbor* neighbor) {
+	this->neighbor = neighbor;
+}
+
+void Chunk::DrawVox(postype x, postype y, postype z) {
 
 	if(y + 1 < CHUNK_Y) {
 		if(vox[x][y + 1][z].GetID() == 0) {
@@ -53,11 +57,11 @@ void Chunk::DrawVox(postype x, postype y, postype z, Chunk* neighbour[6]) {
 	}
 	else {
 		shard.PushTop(vox[x][y][z].GetRef(), x, y, z);
-		/*
-		if(nTop != nullptr) {
-			//TODO
+		if(neighbor->Top != nullptr) {
+			if(neighbor->Top->Getblock(x, 0, z) == 0) {
+				shard.PushTop(vox[x][y][z].GetRef(), x, y, z);
+			}
 		}
-		*/
 	}
 
 	if(y > 0) {
@@ -66,12 +70,11 @@ void Chunk::DrawVox(postype x, postype y, postype z, Chunk* neighbour[6]) {
 		}
 	}
 	else {
-		shard.PushBottom(vox[x][y][z].GetRef(), x, y, z);
-		/*
-		if(nBottom != nullptr) {
-			//TODO
+		if(neighbor->Bottom != nullptr) {
+			if(neighbor->Bottom->Getblock(x, CHUNK_Y, z)==0) {
+				shard.PushBottom(vox[x][y][z].GetRef(), x, y, z);
+			}
 		}
-		*/
 	}
 
 	if(x + 1 < CHUNK_X) {
@@ -80,8 +83,8 @@ void Chunk::DrawVox(postype x, postype y, postype z, Chunk* neighbour[6]) {
 		}
 	}
 	else {
-		if(neighbour[0]) {
-			if(neighbour[0]->vox[0][y][z].GetID() == 0) {
+		if(neighbor->XFront) {
+			if(neighbor->XFront->vox[0][y][z].GetID() == 0) {
 				shard.PushXFront(vox[x][y][z].GetRef(), x, y, z);
 			}
 		}
@@ -94,8 +97,8 @@ void Chunk::DrawVox(postype x, postype y, postype z, Chunk* neighbour[6]) {
 		}
 	}
 	else {
-		if(neighbour[1]) {
-			if(neighbour[1]->vox[CHUNK_X - 1][y][z].GetID() == 0) {
+		if(neighbor->XRear) {
+			if(neighbor->XRear->vox[CHUNK_X - 1][y][z].GetID() == 0) {
 				shard.PushXRear(vox[x][y][z].GetRef(), x, y, z);
 			}
 		}
@@ -107,8 +110,8 @@ void Chunk::DrawVox(postype x, postype y, postype z, Chunk* neighbour[6]) {
 		}
 	}
 	else {
-		if(neighbour[2]) {
-			if(neighbour[2]->vox[x][y][0].GetID() == 0) {
+		if(neighbor->ZFront) {
+			if(neighbor->ZFront->vox[x][y][0].GetID() == 0) {
 				shard.PushZFront(vox[x][y][z].GetRef(), x, y, z);
 			}
 		}
@@ -121,8 +124,8 @@ void Chunk::DrawVox(postype x, postype y, postype z, Chunk* neighbour[6]) {
 		}
 	}
 	else {
-		if(neighbour[3]) {
-			if(neighbour[3]->vox[x][y][CHUNK_Z - 1].GetID() == 0) {
+		if(neighbor->ZRear) {
+			if(neighbor->ZRear->vox[x][y][CHUNK_Z - 1].GetID() == 0) {
 				shard.PushZRear(vox[x][y][z].GetRef(), x, y, z);
 			}
 		}
@@ -131,18 +134,84 @@ void Chunk::DrawVox(postype x, postype y, postype z, Chunk* neighbour[6]) {
 
 }
 
-void Chunk::Update(Chunk* neighbour[6]) {
+void Chunk::Update() {
 	mesh.Clear();
 	for(postype x = 0; x < CHUNK_X; x++) {
 		for(postype y = 0; y < CHUNK_Y; y++) {
 			for(postype z = 0; z < CHUNK_Z; z++) {
 				if(vox[x][y][z].GetID() != 0) {
-					DrawVox(x, y, z, neighbour);
+					DrawVox(x, y, z);
+				}
+				else {
+					if(x == 0) {
+						if(neighbor->XRear) {
+							if(neighbor->XRear->vox[CHUNK_X - 1][y][z].GetID() != 0) {
+								neighbor->XRear->DrawVox(CHUNK_X - 1, y, z);
+								neighbor->XRear->UpdateMesh();
+							}
+						}
+					}
+					else if(x + 1 == CHUNK_X) {
+						if(neighbor->XFront) {
+							if(neighbor->XFront->vox[0][y][z].GetID() != 0) {
+								neighbor->XFront->DrawVox(0, y, z);
+								neighbor->XFront->UpdateMesh();
+							}
+						}
+					}
+					if(y == 0) {
+						if(neighbor->Bottom) {
+							if(neighbor->Bottom->vox[x][CHUNK_Y - 1][z].GetID() != 0) {
+								neighbor->Bottom->DrawVox(x, CHUNK_Y - 1, z);
+								neighbor->Bottom->UpdateMesh();
+							}
+						}
+					}
+					else if(y + 1 == CHUNK_Y) {
+						if(neighbor->Top) {
+							if(neighbor->Top->vox[x][0][z].GetID() != 0) {
+								neighbor->Top->DrawVox(x, 0, z);
+								neighbor->Top->UpdateMesh();
+							}
+						}
+					}
+					if(z == 0) {
+						if(neighbor->ZRear) {
+							if(neighbor->ZRear->vox[x][y][CHUNK_Z - 1].GetID() != 0) {
+								neighbor->ZRear->DrawVox(x, y, CHUNK_Z - 1);
+								neighbor->ZRear->UpdateMesh();
+							}
+						}
+					}
+					else if(z + 1 == CHUNK_Z) {
+						if(neighbor->ZFront) {
+							if(neighbor->ZFront->vox[x][y][0].GetID() != 0) {
+								neighbor->ZFront->DrawVox(x, y, 0);
+								neighbor->ZFront->UpdateMesh();
+							}
+						}
+					}
 				}
 			}
 		}
 	}
 
+	mesh.UpdateMesh();
+}
+
+/*void Chunk::NoChafin_Update() {
+	for(postype x = 0; x < CHUNK_X; x++) {
+		for(postype y = 0; y < CHUNK_Y; y++) {
+			for(postype z = 0; z < CHUNK_Z; z++) {
+				if(vox[x][y][z].GetID() != 0) {
+					DrawVox(x, y, z);
+				}
+			}
+		}
+	}
+}*/
+
+void Chunk::UpdateMesh() {
 	mesh.UpdateMesh();
 }
 

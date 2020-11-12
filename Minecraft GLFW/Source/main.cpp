@@ -1,3 +1,5 @@
+#pragma comment(linker, "/STACK:67108864")
+
 #include <iostream>
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
@@ -11,8 +13,6 @@
 #include"Graphic/Shader.h"
 
 #include "Mesh/Mesh.h"
-
-#include "Voxel/Chunk.h"
 
 #include "Mesh/BigMesh.h"
 #include "Mesh/ShardMesh.h"

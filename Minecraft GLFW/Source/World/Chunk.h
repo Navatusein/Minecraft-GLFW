@@ -5,6 +5,8 @@
 #include "../Mesh/BigMesh.h"
 #include "../Mesh/ShardMesh.h"
 
+#include "Container/Neighbor.h"
+
 #define CHUNK_X 16
 #define CHUNK_Y 16
 #define CHUNK_Z 16
@@ -14,20 +16,27 @@ class Chunk
 {
 private:
 	Voxel*** vox;
-	void DrawVox(postype x, postype y, postype z, Chunk* neighbour[6]);
 
 	BigMesh mesh;
 	ShardMesh shard;
 
 	glm::vec3 pos;
 
+	Neighbor* neighbor;
+
 public:
 	Chunk();
 	Chunk(const Chunk& val);
 	Chunk(Texture* textureAtlas, int posx, int posy, int posz);
 	~Chunk();
+	void DrawVox(postype x, postype y, postype z);
 
-	void Update(Chunk* neighbour[6]);
+	void SetNeighbors(Neighbor* neighbor);
+
+	void Update();
+	//void NoChain_Update(); // Update that doesn't update neighboring chunks
+
+	void UpdateMesh();
 
 	void Draw(Shader* program);
 

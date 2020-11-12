@@ -19,10 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\World\Container\Neighbor.cpp" />
     <ClCompile Include="Source\Vertex\IndexBuffer.cpp" />
     <ClCompile Include="Source\Mesh\ShardMesh.cpp" />
     <ClCompile Include="Source\Mesh\BigMesh.cpp" />
-    <ClCompile Include="Source\Voxel\Chunk.cpp" />
+    <ClCompile Include="Source\World\Chunk.cpp" />
     <ClCompile Include="Source\Mesh\Mesh.cpp" />
     <ClCompile Include="Source\Window\Camera.cpp" />
     <ClCompile Include="Source\Graphic\Shader.cpp" />
@@ -32,14 +33,15 @@
     <ClCompile Include="Source\Graphic\Texture.cpp" />
     <ClCompile Include="Source\Vertex\VertexArray.cpp" />
     <ClCompile Include="Source\Vertex\VertexBuffer.cpp" />
-    <ClCompile Include="Source\Voxel\Voxel.cpp" />
+    <ClCompile Include="Source\World\Voxel.cpp" />
     <ClCompile Include="Source\World\World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\World\Container\Neighbor.h" />
     <ClInclude Include="Source\Vertex\IndexBuffer.h" />
     <ClInclude Include="Source\Mesh\ShardMesh.h" />
     <ClInclude Include="Source\Mesh\BigMesh.h" />
-    <ClInclude Include="Source\Voxel\Chunk.h" />
+    <ClInclude Include="Source\World\Chunk.h" />
     <ClInclude Include="Source\Mesh\Mesh.h" />
     <ClInclude Include="Source\Window\Camera.h" />
     <ClInclude Include="Source\Graphic\Shader.h" />
@@ -50,14 +52,22 @@
     <ClInclude Include="Source\Graphic\Texture.h" />
     <ClInclude Include="Source\Vertex\VertexArray.h" />
     <ClInclude Include="Source\Vertex\VertexBuffer.h" />
-    <ClInclude Include="Source\Voxel\Voxel.h" />
+    <ClInclude Include="Source\World\Voxel.h" />
     <ClInclude Include="Source\World\World.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resource\Shader\guiShader_fragment.glsl" />
-    <None Include="Resource\Shader\guiShader_vertex.glsl" />
-    <None Include="Resource\Shader\mainFragment.glsl" />
-    <None Include="Resource\Shader\mainVertex.glsl" />
+    <CustomBuild Include="Resource\Shader\guiShader_fragment.glsl">
+      <FileType>Document</FileType>
+    </CustomBuild>
+    <CustomBuild Include="Resource\Shader\guiShader_vertex.glsl">
+      <FileType>Document</FileType>
+    </CustomBuild>
+    <CustomBuild Include="Resource\Shader\mainFragment.glsl">
+      <FileType>Document</FileType>
+    </CustomBuild>
+    <CustomBuild Include="Resource\Shader\mainVertex.glsl">
+      <FileType>Document</FileType>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\Textures\1.png" />

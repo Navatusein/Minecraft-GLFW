@@ -42,12 +42,6 @@
     <ClCompile Include="Source\Graphic\Shader.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Voxel\Voxel.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Voxel\Chunk.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Mesh\BigMesh.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
@@ -58,6 +52,15 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="Source\World\World.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\World\Chunk.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\World\Voxel.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\World\Container\Neighbor.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -92,12 +95,6 @@
     <ClInclude Include="Source\Graphic\Shader.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Voxel\Voxel.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Voxel\Chunk.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Mesh\BigMesh.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
@@ -110,12 +107,15 @@
     <ClInclude Include="Source\World\World.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resource\Shader\mainFragment.glsl" />
-    <None Include="Resource\Shader\mainVertex.glsl" />
-    <None Include="Resource\Shader\guiShader_fragment.glsl" />
-    <None Include="Resource\Shader\guiShader_vertex.glsl" />
+    <ClInclude Include="Source\World\Voxel.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\World\Chunk.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\World\Container\Neighbor.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\Textures\1.png">
@@ -133,5 +133,11 @@
     <Image Include="Resource\Textures\TextureAtlas.png">
       <Filter>Файлы ресурсов</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\Shader\mainFragment.glsl" />
+    <Resource Include="Resource\Shader\mainVertex.glsl" />
+    <Resource Include="Resource\Shader\guiShader_vertex.glsl" />
+    <Resource Include="Resource\Shader\guiShader_fragment.glsl" />
   </ItemGroup>
 </Project>
