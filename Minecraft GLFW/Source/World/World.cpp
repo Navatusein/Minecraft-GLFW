@@ -59,9 +59,11 @@ void World::GenerateChunk() {
 	for(int x = -DRAW_DISTANCE; x < DRAW_DISTANCE; x++) {
 		for(int y = -DRAW_DISTANCE; y < DRAW_DISTANCE; y++) {
 			for(int z = -DRAW_DISTANCE; z < DRAW_DISTANCE; z++) {
-				long long index = x + z * pow(2, 24) + y * pow(2, 48);
-				chunk_handler[index]->Fill();
-				chunk_handler[index]->Update();
+				if(y == 0) {
+					long long index = x + z * pow(2, 24) + y * pow(2, 48);
+					chunk_handler[index]->Fill();
+					chunk_handler[index]->Update();
+				}
 			}
 		}
 	}
