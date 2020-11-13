@@ -30,7 +30,7 @@ public:
 
 	void Draw(Shader* program);
 
-	void UpdateChunk(int x, int y, int z);
+	void UpdateChunks();
 
 	bool SetBlock(unsigned short int id, int x, int y, int z);
 

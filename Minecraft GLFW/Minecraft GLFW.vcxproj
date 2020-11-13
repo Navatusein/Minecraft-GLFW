@@ -146,7 +146,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)GLM;$(SolutionDir)SOIL\include;$(SolutionDir)GLEW\include;$(SolutionDir)GLFW\include\WIN32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)PerlinNoise\Reputeless\include;$(SolutionDir)GLM;$(SolutionDir)SOIL\include;$(SolutionDir)GLEW\include;$(SolutionDir)GLFW\include\WIN32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -163,7 +163,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)GLM;$(SolutionDir)SOIL\include;$(SolutionDir)GLEW\include;$(SolutionDir)GLFW\include\WIN32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)PerlinNoise\Reputeless\include;$(SolutionDir)GLM;$(SolutionDir)SOIL\include;$(SolutionDir)GLEW\include;$(SolutionDir)GLFW\include\WIN32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

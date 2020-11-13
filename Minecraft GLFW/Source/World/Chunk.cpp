@@ -74,7 +74,7 @@ void Chunk::DrawVox(postype x, postype y, postype z) {
 	else {
 		if(neighbor->Bottom) {
 			if(neighbor->Bottom->Getblock(x, CHUNK_Y - 1, z)->GetID() == 0) {                          //*TODO
-				std::cout << x << " " << y << " " << z << " " << vox[x][y][z]->GetID() << "\n";  //*somehow some voxel ids are garbage
+				//std::cout << x << " " << y << " " << z << " " << vox[x][y][z]->GetID() << "\n";  //*somehow some voxel ids are garbage
 				shard.PushBottom(vox[x][y][z]->GetRef(), x, y, z);                                                  //*this will cause a crash later
 			}																																   
 		}

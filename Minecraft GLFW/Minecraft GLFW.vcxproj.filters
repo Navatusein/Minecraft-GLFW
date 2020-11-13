@@ -135,9 +135,9 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resource\Shader\mainFragment.glsl" />
-    <Resource Include="Resource\Shader\mainVertex.glsl" />
-    <Resource Include="Resource\Shader\guiShader_vertex.glsl" />
-    <Resource Include="Resource\Shader\guiShader_fragment.glsl" />
+    <CustomBuild Include="Resource\Shader\guiShader_fragment.glsl" />
+    <CustomBuild Include="Resource\Shader\guiShader_vertex.glsl" />
+    <CustomBuild Include="Resource\Shader\mainFragment.glsl" />
+    <CustomBuild Include="Resource\Shader\mainVertex.glsl" />
   </ItemGroup>
 </Project>
