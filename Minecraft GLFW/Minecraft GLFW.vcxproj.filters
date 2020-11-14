@@ -133,11 +133,11 @@
     <Image Include="Resource\Textures\TextureAtlas.png">
       <Filter>Файлы ресурсов</Filter>
     </Image>
+    <Image Include="Resource\Shader\mainFragment.glsl" />
+    <Image Include="Resource\Shader\mainVertex.glsl" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Resource\Shader\guiShader_fragment.glsl" />
     <CustomBuild Include="Resource\Shader\guiShader_vertex.glsl" />
-    <CustomBuild Include="Resource\Shader\mainFragment.glsl" />
-    <CustomBuild Include="Resource\Shader\mainVertex.glsl" />
   </ItemGroup>
 </Project>

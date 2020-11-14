@@ -18,9 +18,10 @@ public:
 	vec3 Position;
 
 	float Fov;
+	float render_dist;
 	mat4 Rotation;
 
-	Camera(vec3 Position, float Fov);
+	Camera(vec3 Position, float Fov, float render_dist);
 
 	void Rotate(float x, float y, float z);
 

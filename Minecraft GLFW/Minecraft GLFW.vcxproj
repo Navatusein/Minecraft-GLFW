@@ -65,9 +65,9 @@
     <CustomBuild Include="Resource\Shader\mainFragment.glsl">
       <FileType>Document</FileType>
     </CustomBuild>
-    <CustomBuild Include="Resource\Shader\mainVertex.glsl">
+    <Image Include="Resource\Shader\mainVertex.glsl">
       <FileType>Document</FileType>
-    </CustomBuild>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\Textures\1.png" />

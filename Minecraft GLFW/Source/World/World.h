@@ -14,8 +14,6 @@
 
 #define DRAW_DISTANCE 2
 
-#define WORLD_SEED 124523526
-
 class World
 {
 private:

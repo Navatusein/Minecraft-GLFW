@@ -58,7 +58,7 @@ int main() {
 	glEnable(GL_DEPTH_TEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	Camera* camera = new Camera(vec3(0, 0, 1), radians(70.0f));
+	Camera* camera = new Camera(vec3(0, 0, 1), radians(100.f), 1000.f);
 
 	mat4 Model(1.f);
 	Model = translate(Model, vec3(0.5f, 0, 0));
@@ -72,8 +72,6 @@ int main() {
 	float Speed = 5;
 
 	Events::ToogleCursor();
-
-	//glFrustum(-1.0, 1.0, -1.0, 1.0, 1.5, 20.0);
 
 	World world(textureAtlas, 1);
 	

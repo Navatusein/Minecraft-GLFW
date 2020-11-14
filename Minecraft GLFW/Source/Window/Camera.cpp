@@ -6,7 +6,7 @@ void Camera::UpdateVector() {
     Up = vec3(Rotation * vec4(0, 1, 0, 1));
 }
 
-Camera::Camera(vec3 Position, float Fov) : Position(Position), Fov(Fov), Rotation(Rotation) {
+Camera::Camera(vec3 Position, float Fov, float render_dist) : Position(Position), Fov(Fov), render_dist(render_dist), Rotation(Rotation) {
     UpdateVector();
 }
 
@@ -20,7 +20,7 @@ void Camera::Rotate(float x, float y, float z) {
 
 mat4 Camera::GetProjection() {
     float Aspect = (float)Window::Width / (float)Window::Height;
-    return glm::perspective(Fov, Aspect, 0.1f, 100.0f);
+    return glm::perspective(Fov, Aspect, 0.1f, 1000.0f);
 }
 
 mat4 Camera::GetView() {
