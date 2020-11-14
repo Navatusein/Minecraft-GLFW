@@ -73,9 +73,8 @@ void Chunk::DrawVox(postype x, postype y, postype z) {
 	}
 	else {
 		if(neighbor->Bottom) {
-			if(neighbor->Bottom->Getblock(x, CHUNK_Y - 1, z)->GetID() == 0) {                          //*TODO
-				//std::cout << x << " " << y << " " << z << " " << vox[x][y][z]->GetID() << "\n";  //*somehow some voxel ids are garbage
-				shard.PushBottom(vox[x][y][z]->GetRef(), x, y, z);                                                  //*this will cause a crash later
+			if(neighbor->Bottom->Getblock(x, CHUNK_Y - 1, z)->GetID() == 0) {                              //*TODO    somehow some voxel ids are garbage
+				shard.PushBottom(vox[x][y][z]->GetRef(), x, y, z);                                                     //*this might cause a crash later
 			}																																   
 		}
 	}
@@ -235,7 +234,11 @@ void Chunk::Fill() {
 }
 
 void Chunk::Setblock(unsigned short int id, postype x, postype y, postype z) {
-	vox[x][y][z]->Set(id);
+	if(y >= CHUNK_H) {
+		std::cerr << "chunk y limit has been overflowed\n";
+		return;
+	}
+		vox[x][y][z]->Set(id);
 }
 
 Voxel* Chunk::Getblock(postype x, postype y, postype z) {

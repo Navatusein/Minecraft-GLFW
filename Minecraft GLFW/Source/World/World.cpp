@@ -3,7 +3,10 @@
 #include "World.h"
 #include "Container/Neighbor.h"
 
-World::World(Texture* textureAtl) : textureAtlas(textureAtl) {
+World::World(Texture* textureAtl, long seed) : textureAtlas(textureAtl) {
+	perlin.reseed(WORLD_SEED); //somehow this doesn't accept variables, TODO
+
+
 	for(int x = -DRAW_DISTANCE; x < DRAW_DISTANCE; x++) {
 		for(short y = -DRAW_DISTANCE; y < DRAW_DISTANCE; y++) {
 			for(int z = -DRAW_DISTANCE; z < DRAW_DISTANCE; z++) {
@@ -55,15 +58,49 @@ void World::LoadChunk() {
 void World::UnloadChunk() {
 }
 
+
+
 void World::GenerateChunk() {
+	/*
+	* CHUNK GENERATION ALGORITHM
+	* PLAY WITH IT AS YOU WISH
+	* 
+	*/
+	int octaves = 5;
+	float frequency = 0.2;
+	frequency /= CHUNK_X;
+
 	for(int x = -DRAW_DISTANCE; x < DRAW_DISTANCE; x++) {
-		for(short y = -DRAW_DISTANCE; y < DRAW_DISTANCE; y++) {
-			for(int z = -DRAW_DISTANCE; z < DRAW_DISTANCE; z++) {
-					long long index = x + z * pow(2, 24) + y * pow(2, 48);
-					chunk_handler[index]->Fill();
+		for(int z = -DRAW_DISTANCE; z < DRAW_DISTANCE; z++) {
+			long long index = x + z * pow(2, 24);
+			long long index_up1 = x + z * pow(2, 24) + 1 * pow(2, 48);
+			for(int xx = 0; xx < CHUNK_X; xx++) {
+				float x_key = xx + x * CHUNK_X;
+				for(int zz = 0; zz < CHUNK_Z; zz++) {
+					float z_key = zz + z * CHUNK_Z;
+					float temp;
+					temp = perlin.accumulatedOctaveNoise2D_0_1(x_key * frequency, z_key * frequency, octaves);
+					float final = temp * CHUNK_H * 2;
+					if(final < CHUNK_H) {
+						chunk_handler[index]->Setblock(1, xx, (int)final, zz);
+					}
+					else {
+						chunk_handler[index_up1]->Setblock(1, xx, (int)final-CHUNK_H, zz);
+					}
+					for(int i = final - 1; i; i--) {
+						if(i < CHUNK_H) {
+							chunk_handler[index]->Setblock(3, xx, i, zz);
+						}
+						else {
+							chunk_handler[index_up1]->Setblock(3, xx, i - CHUNK_H, zz);
+						}
+					}
+				}
 			}
 		}
 	}
+
+	//Note that this is crucial, this cycle updates the mesh of all chunks
 	for(int x = -DRAW_DISTANCE; x < DRAW_DISTANCE; x++) {
 		for(short y = -DRAW_DISTANCE; y < DRAW_DISTANCE; y++) {
 			for(int z = -DRAW_DISTANCE; z < DRAW_DISTANCE; z++) {

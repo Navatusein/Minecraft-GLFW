@@ -5,6 +5,8 @@
 #include <glm/ext.hpp>
 #include <glm/glm.hpp>
 
+#include <PerlinNoise.hpp>
+
 #include "Chunk.h"
 
 #include "../Graphic/Texture.h"
@@ -12,14 +14,18 @@
 
 #define DRAW_DISTANCE 2
 
+#define WORLD_SEED 124523526
+
 class World
 {
 private:
 	std::map<long long, Chunk*> chunk_handler;
 
 	Texture* textureAtlas;
+
+	siv::PerlinNoise perlin;
 public:
-	World(Texture* textureAtl);
+	World(Texture* textureAtl, long seed);
 	~World();
 
 	void LoadChunk();

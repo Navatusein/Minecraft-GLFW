@@ -27,8 +27,11 @@ int main() {
 
 	srand(time(0));
 
+
+	unsigned short int m_width = 2500, m_height = 1400;
+
 	//Window initialization
-	Window::Initialize(2500, 1400, "Hello world");
+	Window::Initialize(m_width, m_height, "Hello world");
 	Events::Initialize();
 
 	Shader* shader = CreateShaderProgram("Resource/Shader/mainVertex.glsl", "Resource/Shader/mainFragment.glsl");
@@ -70,7 +73,9 @@ int main() {
 
 	Events::ToogleCursor();
 
-	World world(textureAtlas);
+	//glFrustum(-1.0, 1.0, -1.0, 1.0, 1.5, 20.0);
+
+	World world(textureAtlas, 1);
 	
 	world.GenerateChunk();
 	

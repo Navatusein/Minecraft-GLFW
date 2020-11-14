@@ -7,9 +7,11 @@
 
 #include "Container/Neighbor.h"
 
-#define CHUNK_X 16
-#define CHUNK_Y 16
-#define CHUNK_Z 16
+#define CHUNK_W 32
+#define CHUNK_H 32
+#define CHUNK_X CHUNK_W
+#define CHUNK_Y CHUNK_H
+#define CHUNK_Z CHUNK_W
 
 
 class Chunk
