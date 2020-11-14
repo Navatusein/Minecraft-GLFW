@@ -4,7 +4,7 @@
 #include "Container/Neighbor.h"
 
 World::World(Texture* textureAtl, long seed) : textureAtlas(textureAtl) {
-	perlin.reseed(WORLD_SEED); //somehow this doesn't accept variables, TODO
+	noise.SetNoiseType(FastNoiseLite::NoiseType_Perlin);
 
 
 	for(int x = -DRAW_DISTANCE; x < DRAW_DISTANCE; x++) {
@@ -66,33 +66,32 @@ void World::GenerateChunk() {
 	* PLAY WITH IT AS YOU WISH
 	* 
 	*/
-	int octaves = 5;
-	float frequency = 0.2;
-	frequency /= CHUNK_X;
+	float frequency = 1;
+	//frequency /= CHUNK_X;
 
 	for(int x = -DRAW_DISTANCE; x < DRAW_DISTANCE; x++) {
 		for(int z = -DRAW_DISTANCE; z < DRAW_DISTANCE; z++) {
 			long long index = x + z * pow(2, 24);
-			long long index_up1 = x + z * pow(2, 24) + 1 * pow(2, 48);
+			long long index_down1 = x + z * pow(2, 24) + -1 * pow(2, 48);
 			for(int xx = 0; xx < CHUNK_X; xx++) {
 				float x_key = xx + x * CHUNK_X;
 				for(int zz = 0; zz < CHUNK_Z; zz++) {
 					float z_key = zz + z * CHUNK_Z;
 					float temp;
-					temp = perlin.accumulatedOctaveNoise2D_0_1(x_key * frequency, z_key * frequency, octaves);
+					temp = noise.GetNoise(x_key * frequency, z_key * frequency);
 					float final = temp * CHUNK_H * 2;
-					if(final < CHUNK_H) {
+					if(final >= 0) {
 						chunk_handler[index]->Setblock(1, xx, (int)final, zz);
 					}
 					else {
-						chunk_handler[index_up1]->Setblock(1, xx, (int)final-CHUNK_H, zz);
+						chunk_handler[index_down1]->Setblock(1, xx, (int)final + CHUNK_H, zz);
 					}
-					for(int i = final - 1; i; i--) {
-						if(i < CHUNK_H) {
+					for(int i = final - 1; i > -CHUNK_H; i--) {
+						if(i >= 0) {
 							chunk_handler[index]->Setblock(3, xx, i, zz);
 						}
 						else {
-							chunk_handler[index_up1]->Setblock(3, xx, i - CHUNK_H, zz);
+							chunk_handler[index_down1]->Setblock(3, xx, i + CHUNK_H, zz);
 						}
 					}
 				}

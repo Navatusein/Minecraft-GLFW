@@ -5,7 +5,7 @@
 #include <glm/ext.hpp>
 #include <glm/glm.hpp>
 
-#include <PerlinNoise.hpp>
+#include <FastNoiseLite.h>
 
 #include "Chunk.h"
 
@@ -23,7 +23,7 @@ private:
 
 	Texture* textureAtlas;
 
-	siv::PerlinNoise perlin;
+	FastNoiseLite noise;
 public:
 	World(Texture* textureAtl, long seed);
 	~World();

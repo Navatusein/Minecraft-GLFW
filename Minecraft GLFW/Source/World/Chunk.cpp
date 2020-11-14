@@ -235,7 +235,7 @@ void Chunk::Fill() {
 
 void Chunk::Setblock(unsigned short int id, postype x, postype y, postype z) {
 	if(y >= CHUNK_H) {
-		std::cerr << "chunk y limit has been overflowed\n";
+		//std::cerr << "chunk y limit has been overflowed\n";
 		return;
 	}
 		vox[x][y][z]->Set(id);
