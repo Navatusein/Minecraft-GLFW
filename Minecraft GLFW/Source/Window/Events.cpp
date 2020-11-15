@@ -15,7 +15,7 @@ bool Events::startedCursor = false;
 void cursor_position_callback(GLFWwindow* window, double xpos, double ypos) {
 	if (Events::startedCursor) {
 		Events::deltaX += xpos - Events::x;
-		Events::deltaY += ypos - Events::y;
+		Events::deltaY += ypos - Events::y ;
 	}
 	else {
 		Events::startedCursor = true;
