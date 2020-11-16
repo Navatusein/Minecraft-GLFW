@@ -9,7 +9,7 @@
 World::World(Texture* textureAtl, long seed) : textureAtlas(textureAtl) {
 	noise.SetNoiseType(FastNoiseLite::NoiseType_Perlin);
 
-
+	// initializing chunks
 	for(int x = -DRAW_DISTANCE; x < DRAW_DISTANCE; x++) {
 		for(short y = -DRAW_DISTANCE; y < DRAW_DISTANCE; y++) {
 			for(int z = -DRAW_DISTANCE; z < DRAW_DISTANCE; z++) {
@@ -19,6 +19,8 @@ World::World(Texture* textureAtl, long seed) : textureAtlas(textureAtl) {
 			}
 		}
 	}
+
+	// setting the neighbors for our initialized chunks
 	for(int x = -DRAW_DISTANCE; x < DRAW_DISTANCE; x++) {
 		for(short y = -DRAW_DISTANCE; y < DRAW_DISTANCE; y++) {
 			for(int z = -DRAW_DISTANCE; z < DRAW_DISTANCE; z++) {
@@ -55,10 +57,11 @@ World::~World() {
 }
 
 void World::LoadChunk() {
-
+	//todo
 }
 
 void World::UnloadChunk() {
+	//todo
 }
 
 
@@ -107,6 +110,25 @@ void World::Draw(Shader* program) {
 		for(short y = -DRAW_DISTANCE; y < DRAW_DISTANCE; y++) {
 			for(int z = -DRAW_DISTANCE; z < DRAW_DISTANCE; z++) {
 				long long index = x + z * pow(2, 24) + y * pow(2, 48);
+
+				Chunk& temp = *chunk_handler[index];
+
+				//updates every chunk that has been modified
+				if(!chunk_handler[index]->updated) {
+					temp.Update();    // this is temporary, as soon as next code will be working properly, this line has to be removed
+					try{
+						std::future_status status;
+						status = fut_1.wait_for(std::chrono::microseconds(0));
+						if(status == std::future_status::ready) {
+							fut_1 = std::async(std::launch::async, &Chunk::Update, &*chunk_handler[index]); // this doesn't modify "chunk_handler[index]" values, something isn't right about reference   todo
+						}
+					}
+					catch(const std::future_error){ //this will occur if fut_1 hasn't been initialized yet
+						fut_1 = std::async(std::launch::async, &Chunk::Update, &*chunk_handler[index]);// this too        todo
+					}
+				}
+
+				//generates ungenerated chunks
 				if(!chunk_handler[index]->generated) {
 					try {
 						std::future_status status;
@@ -114,15 +136,17 @@ void World::Draw(Shader* program) {
 						if(status == std::future_status::ready) {
 							Chunk* temp;
 							temp = fut.get();
-							temp->Update();
+							//temp->Update();
 							fut = std::async(std::launch::async, &GenerateChunk, std::ref(*chunk_handler[index]), x, y, z);
 						}
 					}
-					catch(const std::future_error) {
+					catch(const std::future_error) { //this will occur if fut hasn't been initialized yet
 						fut = std::async(std::launch::async, &GenerateChunk, std::ref(*chunk_handler[index]), x, y, z);
 					}
 				}
-				else if(chunk_handler[index]->generated) {
+
+				//draw cycle
+				else if(chunk_handler[index]->updated) {
 					chunk_handler[index]->Draw(program);
 				}
 				
@@ -132,14 +156,13 @@ void World::Draw(Shader* program) {
 	}
 }
 
+// foo that updates every loaded chunk
 void World::UpdateChunks() {
 	for(int x = -DRAW_DISTANCE; x < DRAW_DISTANCE; x++) {
 		for(short y = -DRAW_DISTANCE; y < DRAW_DISTANCE; y++) {
 			for(int z = -DRAW_DISTANCE; z < DRAW_DISTANCE; z++) {
-				if(true) {
-					long long index = x + z * pow(2, 24) + y * pow(2, 48);
-					chunk_handler[index]->Update();
-				}
+				long long index = x + z * pow(2, 24) + y * pow(2, 48);
+				chunk_handler[index]->Update();
 			}
 		}
 	}
@@ -152,50 +175,50 @@ bool World::SetBlock(unsigned short int id, int x, int y, int z) {
 
 	int xc, yc, zc; // chunk position temp variables
 	xc = x; yc = y; zc = z;
+
+
+
 	// normalizing coordinates
-	
-	
-	
 	if(xc < 0) {
-		xc /= CHUNK_Z;
+		xc /= CHUNK_W;
 		xc -= 1;
-		x = abs(abs(x) % CHUNK_X - CHUNK_X);
+		x = abs(abs(x) % CHUNK_W - CHUNK_W);
 	}
 	else {
-		xc /= CHUNK_X;
-		x = abs(x) % CHUNK_X;
+		xc /= CHUNK_W;
+		x = abs(x) % CHUNK_W;
 	}
 
 	if(yc < 0) {
-		yc /= CHUNK_Z;
+		yc /= CHUNK_H;
 		yc -= 1;
-		y = abs(abs(y) % CHUNK_Y - CHUNK_Y);
+		y = abs(abs(y) % CHUNK_H - CHUNK_H);
 	}
 	else {
-		yc /= CHUNK_Y;
-		y = abs(y) % CHUNK_Y;
+		yc /= CHUNK_H;
+		y = abs(y) % CHUNK_H;
 	}
 
 	if(zc < 0) {
-		zc /= CHUNK_Z;
+		zc /= CHUNK_W;
 		zc -= 1;
-		z = abs(abs(z) % CHUNK_Z - CHUNK_Z);
+		z = abs(abs(z) % CHUNK_W - CHUNK_W);
 	}
 	else {
-		zc /= CHUNK_Z;
-		z = abs(z) % CHUNK_Z;
+		zc /= CHUNK_W;
+		z = abs(z) % CHUNK_W;
 	}
 
 	//normalizing block coordinates
-	if(x == CHUNK_X) {
+	if(x == CHUNK_W) {
 		x = 0;
 		xc += 1;
 	}
-	if(y == CHUNK_Y) {
+	if(y == CHUNK_H) {
 		y = 0;
 		yc += 1;
 	}
-	if(z == CHUNK_Z) {
+	if(z == CHUNK_W) {
 		z = 0;
 		zc += 1;
 	}
@@ -205,7 +228,7 @@ bool World::SetBlock(unsigned short int id, int x, int y, int z) {
 
 	if(!temp) return 0;
 	temp->Setblock(id, x, y, z);
-	temp->Update();
+	temp->updated = 0;
 
 	return 1;
 }
@@ -217,47 +240,47 @@ Voxel* World::GetBlock(int x, int y, int z) {
 
 	int xc, yc, zc; // chunk position temp variables
 	xc = x; yc = y; zc = z;
-	// normalizing coordinates
 
+	// normalizing coordinates
 	if(xc < 0) {
-		xc /= CHUNK_Z;
+		xc /= CHUNK_W;
 		xc -= 1;
-		x = abs(abs(x) % CHUNK_X - CHUNK_X);
+		x = abs(abs(x) % CHUNK_W - CHUNK_W);
 	}
 	else {
-		xc /= CHUNK_X;
-		x = abs(x) % CHUNK_X;
+		xc /= CHUNK_W;
+		x = abs(x) % CHUNK_W;
 	}
 
 	if(yc < 0) {
-		yc /= CHUNK_Z;
+		yc /= CHUNK_H;
 		yc -= 1;
-		y = abs(abs(y) % CHUNK_Y - CHUNK_Y);
+		y = abs(abs(y) % CHUNK_H - CHUNK_H);
 	}
 	else {
-		yc /= CHUNK_Y;
-		y = abs(y) % CHUNK_Y;
+		yc /= CHUNK_H;
+		y = abs(y) % CHUNK_H;
 	}
 
 	if(zc < 0) {
-		zc /= CHUNK_Z;
+		zc /= CHUNK_W;
 		zc -= 1;
-		z = abs(abs(z) % CHUNK_Z - CHUNK_Z);
+		z = abs(abs(z) % CHUNK_W - CHUNK_W);
 	}
 	else {
-		zc /= CHUNK_Z;
-		z = abs(z) % CHUNK_Z;
+		zc /= CHUNK_W;
+		z = abs(z) % CHUNK_W;
 	}
 	//normalizing block coordinates
-	if(x == CHUNK_X) {
+	if(x == CHUNK_W) {
 		x = 0;
 		xc += 1;
 	}
-	if(y == CHUNK_Y) {
+	if(y == CHUNK_H) {
 		y = 0;
 		yc += 1;
 	}
-	if(z == CHUNK_Z) {
+	if(z == CHUNK_W) {
 		z = 0;
 		zc += 1;
 	}

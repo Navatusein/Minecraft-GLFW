@@ -25,6 +25,7 @@ private:
 	FastNoiseLite noise;
 
 	std::future<Chunk*> fut;
+	std::future<void> fut_1;
 public:
 	World(Texture* textureAtl, long seed);
 	~World();

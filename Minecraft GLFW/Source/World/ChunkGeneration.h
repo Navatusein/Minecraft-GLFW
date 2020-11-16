@@ -11,7 +11,7 @@ Chunk* GenerateChunk(Chunk& chunk, int x_chunk, int y_chunk, int z_chunk) {
 	* PLAY WITH IT AS YOU WISH
 	*
 	*/
-	long long index = x_chunk + z_chunk * pow(2, 24) + y_chunk * pow(2, 48);
+	//long long index = x_chunk + z_chunk * pow(2, 24) + y_chunk * pow(2, 48);
 
 	FastNoiseLite noise;
 	noise.SetNoiseType(FastNoiseLite::NoiseType_Perlin);
@@ -35,6 +35,7 @@ Chunk* GenerateChunk(Chunk& chunk, int x_chunk, int y_chunk, int z_chunk) {
 			}
 		}
 	}
-	chunk.generated = 1;
+	chunk.generated = true;
+	chunk.updated = false;
 	return &chunk;
 }

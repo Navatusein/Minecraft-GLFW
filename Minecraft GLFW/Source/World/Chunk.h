@@ -7,7 +7,7 @@
 
 #include "Container/Neighbor.h"
 
-#define CHUNK_W 32
+#define CHUNK_W 64
 #define CHUNK_H 32
 #define CHUNK_X CHUNK_W
 #define CHUNK_Y CHUNK_H
@@ -26,6 +26,7 @@ private:
 
 public:
 	bool generated;
+	bool updated;
 	Neighbor* neighbor;
 
 public:
