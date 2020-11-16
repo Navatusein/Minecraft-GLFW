@@ -42,7 +42,7 @@ void Camera::Update() {
 
 mat4 Camera::GetProjection() {
     float Aspect = (float)Window::Width / (float)Window::Height;
-    return glm::perspective(Fov, Aspect, 0.1f, 100.0f);
+    return glm::perspective(Fov, Aspect, 0.1f, render_dist);
 }
 
 mat4 Camera::GetView() {

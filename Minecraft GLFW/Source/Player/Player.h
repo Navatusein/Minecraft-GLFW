@@ -29,6 +29,9 @@ private:
 	float CamY;
 
 	float Speed;
+
+	float FOV;
+	float renderDist;
 public:
 	Player(World* world);
 
