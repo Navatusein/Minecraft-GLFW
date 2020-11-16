@@ -122,6 +122,9 @@
     <ClInclude Include="Source\Player\Player.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="Source\World\ChunkGeneration.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\Textures\1.png">

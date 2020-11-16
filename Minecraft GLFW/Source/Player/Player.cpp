@@ -1,7 +1,7 @@
 #include "Player.h"
 
 Player::Player(World* world) : world(world) {
-	camera = new Camera(vec3(0, 30, 1), radians(70.f), 1000.f);
+	camera = new Camera(vec3(0, 30, 1), radians(70.f), 5000.f);
 
 	LastTime = glfwGetTime();
 	Delta = 0.0f;

@@ -4,7 +4,7 @@ GLFWwindow* Window::window;
 int Window::Width = 0;
 int Window::Height = 0;
 
-int Window::Initialize(int width, int height, const char* title) {
+int Window::Initialize(int width, int height, GLFWmonitor* monitor, const char* title) {
 	//Initialization
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -13,7 +13,7 @@ int Window::Initialize(int width, int height, const char* title) {
 	glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
 	//Create a window
-	window = glfwCreateWindow(width, height, title, nullptr, nullptr);
+	window = glfwCreateWindow(width, height, title, monitor, nullptr);
 	if (window == nullptr) {
 		std::cout << "[Window] Failed to create GLFW Window" << std::endl;
 		glfwTerminate();

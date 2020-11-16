@@ -1,6 +1,7 @@
 #pragma once
 
 #include <map>
+#include <future>
 
 #include <glm/ext.hpp>
 #include <glm/glm.hpp>
@@ -22,6 +23,8 @@ private:
 	Texture* textureAtlas;
 
 	FastNoiseLite noise;
+
+	std::future<Chunk*> fut;
 public:
 	World(Texture* textureAtl, long seed);
 	~World();
@@ -30,7 +33,7 @@ public:
 
 	void UnloadChunk();
 
-	void GenerateChunk();
+	//void GenerateChunk(int x_chunk, int y_chunk, int z_chunk);
 
 	void Draw(Shader* program);
 

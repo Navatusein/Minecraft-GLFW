@@ -15,7 +15,7 @@ public:
 	static GLFWwindow* window;
 
 	//Window initialization method
-	static int Initialize(int width, int height, const char* title);
+	static int Initialize(int width, int height,GLFWmonitor* , const char* title);
 	
 	//Window killing method
 	static void Terminate();

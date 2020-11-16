@@ -29,10 +29,14 @@ int main() {
 
 	srand(time(0));
 
-	unsigned short int m_width = 1280, m_height = 720;
+	GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+	int m_width = 2540, m_height = 1400;
+	int xpos, ypos;
+	//glfwGetMonitorWorkarea(monitor, &xpos, &ypos, &m_width, &m_height);
+
 
 	//Window initialization
-	Window::Initialize(m_width, m_height, "Hello world");
+	Window::Initialize(m_width, m_height, monitor, "Hello world");
 	Events::Initialize();
 
 	Shader* shader = CreateShaderProgram("Resource/Shader/mainVertex.glsl", "Resource/Shader/mainFragment.glsl");
@@ -71,8 +75,6 @@ int main() {
 	Events::ToogleCursor();
 
 	World world(textureAtlas, 1);
-	
-	world.GenerateChunk();
 
 	Player Steve(&world);
 	

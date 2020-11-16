@@ -1,4 +1,3 @@
-#include <fstream>
 #include <string>
 
 #include "Chunk.h"
@@ -28,6 +27,8 @@ Chunk::Chunk(Texture* textureAtlas, int posx, int posy, int posz){
 			}
 		}
 	}
+
+	generated = 0;
 
 	mesh.Move(posx*CHUNK_X, posy*CHUNK_Y, posz*CHUNK_Z);
 }

@@ -1,7 +1,10 @@
 #include <iostream>
+#include <thread>
+#include <chrono>
 
 #include "World.h"
 #include "Container/Neighbor.h"
+#include "ChunkGeneration.h"
 
 World::World(Texture* textureAtl, long seed) : textureAtlas(textureAtl) {
 	noise.SetNoiseType(FastNoiseLite::NoiseType_Perlin);
@@ -60,64 +63,72 @@ void World::UnloadChunk() {
 
 
 
-void World::GenerateChunk() {
-	/*
+/*void World::GenerateChunk(int x_chunk, int y_chunk, int z_chunk) {
+	
 	* CHUNK GENERATION ALGORITHM
 	* PLAY WITH IT AS YOU WISH
 	* 
-	*/
-	float frequency = 1;
-	//frequency /= CHUNK_X;
+	*
+	long long index = x_chunk + z_chunk * pow(2, 24) + y_chunk * pow(2, 48);
+	chunk_handler[index]->generating = 1;
 
-	for(int x = -DRAW_DISTANCE; x < DRAW_DISTANCE; x++) {
-		for(int z = -DRAW_DISTANCE; z < DRAW_DISTANCE; z++) {
-			long long index = x + z * pow(2, 24);
-			long long index_down1 = x + z * pow(2, 24) + -1 * pow(2, 48);
-			for(int xx = 0; xx < CHUNK_X; xx++) {
-				float x_key = xx + x * CHUNK_X;
-				for(int zz = 0; zz < CHUNK_Z; zz++) {
-					float z_key = zz + z * CHUNK_Z;
-					float temp;
-					temp = noise.GetNoise(x_key * frequency, z_key * frequency);
-					float final = temp * CHUNK_H * 2;
-					if(final >= 0) {
-						chunk_handler[index]->Setblock(1, xx, (int)final, zz);
-					}
-					else {
-						chunk_handler[index_down1]->Setblock(1, xx, (int)final + CHUNK_H, zz);
-					}
-					for(int i = final - 1; i > -CHUNK_H; i--) {
-						if(i >= 0) {
-							chunk_handler[index]->Setblock(3, xx, i, zz);
-						}
-						else {
-							chunk_handler[index_down1]->Setblock(3, xx, i + CHUNK_H, zz);
-						}
-					}
+	float frequency = 1;
+	float magnitude = CHUNK_H*2;
+
+
+	for(int x_voxel = 0; x_voxel < CHUNK_X; x_voxel++) {
+		float x_key = x_voxel + x_chunk * CHUNK_X;
+		for(int z_voxel = 0; z_voxel < CHUNK_Z; z_voxel++) {
+			float z_key = z_voxel + z_chunk * CHUNK_Z;
+			float temp;
+			temp = noise.GetNoise(x_key * frequency, z_key * frequency);
+			float final = temp * magnitude;
+			if(final >= 0) {
+				chunk_handler[index]->Setblock(1, x_voxel, (int)final, z_voxel);
+			}
+			for(int i = final - 1; i >= 0; i--) {
+				if(i >= 0) {
+					chunk_handler[index]->Setblock(3, x_voxel, i, z_voxel);
 				}
 			}
 		}
 	}
 
 	//Note that this is crucial, this cycle updates the mesh of all chunks
-	for(int x = -DRAW_DISTANCE; x < DRAW_DISTANCE; x++) {
-		for(short y = -DRAW_DISTANCE; y < DRAW_DISTANCE; y++) {
-			for(int z = -DRAW_DISTANCE; z < DRAW_DISTANCE; z++) {
-				if(true) {
-					long long index = x + z * pow(2, 24) + y * pow(2, 48);
-					chunk_handler[index]->Update();
-				}
-			}
-		}
-	}
-}
+	chunk_handler[index]->Update();
+
+	chunk_handler[index]->generating = 0;
+	chunk_handler[index]->generated = 1;
+}*/
 
 void World::Draw(Shader* program) {
+
 	for(int x = -DRAW_DISTANCE; x < DRAW_DISTANCE; x++) {
 		for(short y = -DRAW_DISTANCE; y < DRAW_DISTANCE; y++) {
 			for(int z = -DRAW_DISTANCE; z < DRAW_DISTANCE; z++) {
 				long long index = x + z * pow(2, 24) + y * pow(2, 48);
-				chunk_handler[index]->Draw(program);
+				if(!chunk_handler[index]->generated) {
+					try {
+						std::future_status status;
+						status = fut.wait_for(std::chrono::microseconds(0));
+						if(status == std::future_status::ready) {
+							std::cout << "caught thread\n";
+							Chunk* temp;
+							temp = fut.get();
+							temp->Update();
+							fut = std::async(std::launch::async, &GenerateChunk, std::ref(*chunk_handler[index]), x, y, z);
+						}
+					}
+					catch(const std::future_error) {
+						std::cout << "initializing new thread\n";
+						fut = std::async(std::launch::async, &GenerateChunk, std::ref(*chunk_handler[index]), x, y, z);
+					}
+				}
+				else if(chunk_handler[index]->generated) {
+					chunk_handler[index]->Draw(program);
+				}
+				
+				
 			}
 		}
 	}

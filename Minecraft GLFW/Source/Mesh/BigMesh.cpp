@@ -1,4 +1,6 @@
 #include <glm/glm.hpp>
+#include <iostream>
+#include <thread>
 
 #include "BigMesh.h"
 
@@ -32,6 +34,7 @@ void BigMesh::Construct(unsigned int max_vCount, unsigned int max_eCount, Textur
 }
 
 void BigMesh::Draw(Shader* program) {
+	//if(vCount == 0) return;
 	textureAtlas->Bind();
 	program->Bind();
 	VAO.Bind();
@@ -52,7 +55,6 @@ void BigMesh::UpdateMesh() {
 	VBO.Construct(vertexArr, vCount);
 	IBO.Construct(indexArr, eCount);
 	VAO.AddBuffer(VBO);
-
 	VAO.Unbind();
 	VBO.Unbind();
 	IBO.Unbind();
