@@ -112,7 +112,6 @@ void World::Draw(Shader* program) {
 						std::future_status status;
 						status = fut.wait_for(std::chrono::microseconds(0));
 						if(status == std::future_status::ready) {
-							std::cout << "caught thread\n";
 							Chunk* temp;
 							temp = fut.get();
 							temp->Update();
@@ -120,7 +119,6 @@ void World::Draw(Shader* program) {
 						}
 					}
 					catch(const std::future_error) {
-						std::cout << "initializing new thread\n";
 						fut = std::async(std::launch::async, &GenerateChunk, std::ref(*chunk_handler[index]), x, y, z);
 					}
 				}

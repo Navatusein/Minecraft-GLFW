@@ -12,14 +12,12 @@ Chunk* GenerateChunk(Chunk& chunk, int x_chunk, int y_chunk, int z_chunk) {
 	*
 	*/
 	long long index = x_chunk + z_chunk * pow(2, 24) + y_chunk * pow(2, 48);
-	std::cout << std::this_thread::get_id() << " here 0\n";
 
 	FastNoiseLite noise;
 	noise.SetNoiseType(FastNoiseLite::NoiseType_Perlin);
 	float frequency = 1;
 	float magnitude = CHUNK_H * 2;
 
-	std::cout << std::this_thread::get_id() << " here 1\n";
 	for(int x_voxel = 0; x_voxel < CHUNK_X; x_voxel++) {
 		float x_key = x_voxel + x_chunk * CHUNK_X;
 		for(int z_voxel = 0; z_voxel < CHUNK_Z; z_voxel++) {
@@ -38,6 +36,5 @@ Chunk* GenerateChunk(Chunk& chunk, int x_chunk, int y_chunk, int z_chunk) {
 		}
 	}
 	chunk.generated = 1;
-	std::cout << "thread " << std::this_thread::get_id() << " has finished\n";
 	return &chunk;
 }
