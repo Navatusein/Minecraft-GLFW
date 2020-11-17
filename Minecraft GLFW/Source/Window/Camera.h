@@ -15,7 +15,7 @@ private:
 public:
 	vec3 Front;
 	//vec3 Right;
-	//vec3 Up;
+	vec3 Up;
 	vec3 Position;
 
 	float pitch;

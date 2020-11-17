@@ -53,11 +53,11 @@ void Player::KeyBoardUpdate() {
 		}
 
 		if (Events::Pressed(KM_KEY_D)) {
-			camera->Position += glm::normalize(glm::cross(camera->Front, camera->Up)) * Delta * Speed;
+			camera->Position += glm::normalize(glm::cross(camera->Front, vec3(0.0f, 1.0f, 0.0f))) * Delta * Speed;
 		}
 
 		if (Events::Pressed(KM_KEY_A)) {
-			camera->Position -= glm::normalize(glm::cross(camera->Front, camera->Up)) * Delta * Speed;
+			camera->Position -= glm::normalize(glm::cross(camera->Front, vec3(0.0f, 1.0f, 0.0f))) * Delta * Speed;
 		}
 
 		if (Events::Pressed(KM_KEY_SPACE)) {
