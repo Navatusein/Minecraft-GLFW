@@ -8,7 +8,7 @@ Player::Player(World* world) : world(world) {
 	LastTime = glfwGetTime();
 	Delta = 0.0f;
 
-	Speed = 5;
+	Speed = 15;
 }
 
 void Player::KeyBoardUpdate() {
@@ -61,13 +61,14 @@ void Player::KeyBoardUpdate() {
 		}
 
 		if (Events::Pressed(KM_KEY_SPACE)) {
-			camera->Position.y += 1 * Delta * Speed;
+			camera->Position.y += Delta * Speed;
 		}
 
 		if (Events::Pressed(KM_KEY_LEFT_SHIFT)) {
-			camera->Position.y -= 1 * Delta * Speed;
+			camera->Position.y -= Delta * Speed;
 		}
 		
+		/*
 		CamY += -Events::deltaY / Window::Height * 2;
 		CamX += -Events::deltaX / Window::Height * 2;
 
@@ -79,8 +80,8 @@ void Player::KeyBoardUpdate() {
 		}
 		camera->Rotation = mat4(1.f);
 		camera->Rotate(CamY, CamX, 0);
-		
-		//camera->Update()
+		*/
+		camera->Update();
 	}
 }
 

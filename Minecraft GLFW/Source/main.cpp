@@ -77,7 +77,7 @@ int main() {
 	World world(textureAtlas, 1);
 
 	Player Steve(&world);
-	
+
 	//Main loop
 	while (!Window::WindowShouldClose()) {
 

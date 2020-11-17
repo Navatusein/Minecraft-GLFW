@@ -11,11 +11,11 @@ using namespace glm;
 
 class Camera {
 private:
-	void UpdateVector();
+	//void UpdateVector();
 public:
 	vec3 Front;
-	vec3 Right;
-	vec3 Up;
+	//vec3 Right;
+	//vec3 Up;
 	vec3 Position;
 
 	float pitch;
@@ -27,7 +27,7 @@ public:
 
 	Camera(vec3 Position, float Fov, float render_dist);
 
-	void Rotate(float x, float y, float z);
+	//void Rotate(float x, float y, float z);
 
 	void Update();
 
