@@ -30,7 +30,7 @@ void Player::KeyBoardUpdate() {
 			glm::vec3 end;
 			glm::vec3 norm;
 			glm::vec3 iend;
-			world->RayCast(camera->Position, camera->Front, 20.f, end, norm, iend);
+			world->RayCast(Position, View, 20.f, end, norm, iend);
 			if(world->GetBlock(iend.x, iend.y, iend.z)->GetID() != 0) {
 				world->SetBlock(0, iend.x, iend.y, iend.z);
 			}
@@ -40,7 +40,7 @@ void Player::KeyBoardUpdate() {
 			glm::vec3 end;
 			glm::vec3 norm;
 			glm::vec3 iend;
-			world->RayCast(camera->Position, camera->Front, 20.f, end, norm, iend);
+			world->RayCast(Position, View, 20.f, end, norm, iend);
 			if(world->GetBlock(iend.x, iend.y, iend.z)->GetID() != 0) {
 				world->SetBlock(3, iend.x + norm.x, iend.y + norm.y, iend.z + norm.z);
 			}
