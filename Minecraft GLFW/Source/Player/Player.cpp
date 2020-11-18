@@ -8,7 +8,7 @@ Player::Player(World* world) : world(world) {
 	LastTime = glfwGetTime();
 	Delta = 0.0f;
 
-	Speed = 15;
+	Speed = 10;
 }
 
 void Player::KeyBoardUpdate() {
@@ -42,22 +42,26 @@ void Player::KeyBoardUpdate() {
 			world->SetBlock(3, iend.x + norm.x, iend.y + norm.y, iend.z + norm.z);
 		}
 
-
+		const float PI = 3.141592653;
 
 		if (Events::Pressed(KM_KEY_W)) {
-			camera->Position += camera->Front * Delta * Speed;
+			camera->Position.x += cos(radians(camera->yaw)) * Delta * Speed;
+			camera->Position.z += sin(radians(camera->yaw)) * Delta * Speed;
 		}
 
 		if (Events::Pressed(KM_KEY_S)) {
-			camera->Position -= camera->Front * Delta * Speed;
+			camera->Position.x -= cos(radians(camera->yaw)) * Delta * Speed;
+			camera->Position.z -= sin(radians(camera->yaw)) * Delta * Speed;
 		}
 
 		if (Events::Pressed(KM_KEY_D)) {
-			camera->Position += glm::normalize(glm::cross(camera->Front, vec3(0.0f, 1.0f, 0.0f))) * Delta * Speed;
+			camera->Position.x -= cos(radians(camera->yaw - 90)) * Delta * Speed;
+			camera->Position.z -= sin(radians(camera->yaw - 90)) * Delta * Speed;
 		}
 
 		if (Events::Pressed(KM_KEY_A)) {
-			camera->Position -= glm::normalize(glm::cross(camera->Front, vec3(0.0f, 1.0f, 0.0f))) * Delta * Speed;
+			camera->Position.x += cos(radians(camera->yaw - 90)) * Delta * Speed;
+			camera->Position.z += sin(radians(camera->yaw - 90)) * Delta * Speed;
 		}
 
 		if (Events::Pressed(KM_KEY_SPACE)) {
@@ -67,20 +71,6 @@ void Player::KeyBoardUpdate() {
 		if (Events::Pressed(KM_KEY_LEFT_SHIFT)) {
 			camera->Position.y -= Delta * Speed;
 		}
-		
-		/*
-		CamY += -Events::deltaY / Window::Height * 2;
-		CamX += -Events::deltaX / Window::Height * 2;
-
-		if (CamY < -radians(89.0f)) {
-			CamY = -radians(89.0f);
-		}
-		if (CamY > radians(89.0f)) {
-			CamY = radians(89.0f);
-		}
-		camera->Rotation = mat4(1.f);
-		camera->Rotate(CamY, CamX, 0);
-		*/
 		camera->Update();
 	}
 }

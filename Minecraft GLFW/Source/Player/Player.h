@@ -25,9 +25,6 @@ private:
 	float LastTime;
 	float Delta;
 
-	float CamX;
-	float CamY;
-
 	float Speed;
 
 	float FOV;

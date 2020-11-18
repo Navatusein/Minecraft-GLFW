@@ -90,7 +90,6 @@ int main() {
 		shader->Unbind();
 
 		//Draw here
-		
 		world.Draw(shader);
 
 		// Swapping frame buffers

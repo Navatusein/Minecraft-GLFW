@@ -1,32 +1,12 @@
 #include "Camera.h"
 
 
-Camera::Camera(vec3 Position, float Fov, float render_dist) : Position(Position), Fov(Fov), render_dist(render_dist), Rotation(Rotation) {
-    //UpdateVector();
-    
+Camera::Camera(vec3 Position, float Fov, float render_dist) : Position(Position), Fov(Fov), render_dist(render_dist), Rotation(Rotation) { 
     Front = glm::vec3(0.0f, 0.0f, -1.0f);
-    Up = glm::vec3(0.0f, 1.0f, 0.0f);
     yaw = -90.0f;
     pitch = 0.0f;
     
 }
-
-/*
-void Camera::UpdateVector() {
-    Front = vec3(Rotation * vec4(0, 0, -1, 1));
-    Right = vec3(Rotation * vec4(1, 0, 0, 1));
-    Up = vec3(Rotation * vec4(0, 1, 0, 1));
-}
-
-
-void Camera::Rotate(float x, float y, float z) {
-    Rotation = rotate(Rotation, z, vec3(0, 0, 1));
-    Rotation = rotate(Rotation, y, vec3(0, 1, 0));
-    Rotation = rotate(Rotation, x, vec3(1, 0, 0));
-
-    UpdateVector();
-}
-*/
 void Camera::Update() {
     yaw += Events::deltaX * 0.15;
     pitch += Events::deltaY * 0.15;
@@ -35,6 +15,13 @@ void Camera::Update() {
     }
     if (pitch < -89.0f) {
         pitch = -89.0f;
+    }
+
+    if (yaw > 360) {
+        yaw = 0;
+    }
+    if (yaw < 0) {
+        yaw = 360;
     }
     glm::vec3 front;
     front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
@@ -49,5 +36,5 @@ mat4 Camera::GetProjection() {
 }
 
 mat4 Camera::GetView() {
-    return glm::lookAt(Position, Position + Front, Up);
+    return glm::lookAt(Position, Position + Front, glm::vec3(0.0f, 1.0f, 0.0f));
 }
