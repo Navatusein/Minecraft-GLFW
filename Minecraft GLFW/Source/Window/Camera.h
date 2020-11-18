@@ -11,20 +11,13 @@ using namespace glm;
 
 class Camera {
 private:
-
-public:
-	vec3 Front;
-	vec3 Up;
-	vec3 Position;
-
-	float pitch;
-	float yaw;
+	vec3* View;
+	vec3* Position;
 
 	float Fov;
-	float render_dist;
-	mat4 Rotation;
-
-	Camera(vec3 Position, float Fov, float render_dist);
+	float RenderDistance;
+public:
+	Camera(vec3* Position, vec3* View, float Fov, float render_dist);
 
 	void Update();
 

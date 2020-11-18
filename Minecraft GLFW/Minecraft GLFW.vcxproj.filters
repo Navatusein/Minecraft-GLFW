@@ -125,6 +125,9 @@
     <ClInclude Include="Source\World\ChunkGeneration.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Entity\Entity.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\Textures\1.png">
@@ -148,5 +151,11 @@
     <CustomBuild Include="Resource\Shader\guiShader_fragment.glsl" />
     <CustomBuild Include="Resource\Shader\guiShader_vertex.glsl" />
     <CustomBuild Include="Resource\Shader\mainFragment.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resource\Shader\crosshairFragment.glsl" />
+    <None Include="Resource\Shader\crosshairVertex.glsl" />
+    <None Include="Resource\Shader\guiShaderFragment.glsl" />
+    <None Include="Resource\Shader\guiShaderVertex.glsl" />
   </ItemGroup>
 </Project>

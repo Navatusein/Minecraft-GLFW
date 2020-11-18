@@ -9,6 +9,8 @@
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 
+#include "../Entity/Entity.h"
+
 #include "../Window/Window.h"
 #include "../Window/Camera.h"
 #include "../Window/Events.h"
@@ -16,7 +18,7 @@
 
 #include "../World/World.h"
 
-class Player {
+class Player : public Entity {
 private:
 	Camera* camera;
 
@@ -27,12 +29,16 @@ private:
 
 	float Speed;
 
+	float pitch;
+	float yaw;
+
 	float FOV;
 	float renderDist;
 public:
 	Player(World* world);
 
 	void KeyBoardUpdate();
+	void MouseUpdate();
 
 	Camera* getCamera();
 
