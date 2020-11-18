@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Voxel.h"
 #include "../Graphic/Shader.h"
 
@@ -8,7 +9,8 @@
 #include "Container/Neighbor.h"
 
 #define CHUNK_W 64
-#define CHUNK_H 32
+#define CHUNK_H 64
+
 #define CHUNK_X CHUNK_W
 #define CHUNK_Y CHUNK_H
 #define CHUNK_Z CHUNK_W
@@ -30,6 +32,7 @@ public:
 	Neighbor* neighbor;
 
 public:
+	
 	Chunk();
 	Chunk(const Chunk& val);
 	Chunk(Texture* textureAtlas, int posx, int posy, int posz);
@@ -37,8 +40,6 @@ public:
 	void DrawVox(postype x, postype y, postype z);
 
 	void SetNeighbors(Neighbor* neighbor);
-
-	void Update();
 
 	void UpdateMesh();
 
@@ -51,5 +52,8 @@ public:
 	Voxel* Getblock(postype x, postype y, postype z);
 
 	glm::vec3 GetPos();
+
+	friend void UpdateChunk(Chunk& chunk);
 };
+void UpdateChunk(Chunk& chunk);
 

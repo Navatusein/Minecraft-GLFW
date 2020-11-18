@@ -34,7 +34,7 @@ void BigMesh::Construct(unsigned int max_vCount, unsigned int max_eCount, Textur
 }
 
 void BigMesh::Draw(Shader* program) {
-	//if(vCount == 0) return;
+	if(vCount == 0) return;
 	textureAtlas->Bind();
 	program->Bind();
 	VAO.Bind();

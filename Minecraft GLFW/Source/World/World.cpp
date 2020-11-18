@@ -10,9 +10,9 @@ World::World(Texture* textureAtl, long seed) : textureAtlas(textureAtl) {
 	noise.SetNoiseType(FastNoiseLite::NoiseType_Perlin);
 
 	// initializing chunks
-	for(int x = -DRAW_DISTANCE; x < DRAW_DISTANCE; x++) {
-		for(short y = -DRAW_DISTANCE; y < DRAW_DISTANCE; y++) {
-			for(int z = -DRAW_DISTANCE; z < DRAW_DISTANCE; z++) {
+	for(int x = -H_DRAW_DISTANCE; x < H_DRAW_DISTANCE; x++) {
+		for(short y = -V_DRAW_DISTANCE; y < V_DRAW_DISTANCE; y++) {
+			for(int z = -H_DRAW_DISTANCE; z < H_DRAW_DISTANCE; z++) {
 				Chunk* temp = new Chunk(textureAtl, x, y, z);
 				long long index = x + z * pow(2, 24) + y * pow(2, 48);
 				chunk_handler[index] = temp;
@@ -21,9 +21,9 @@ World::World(Texture* textureAtl, long seed) : textureAtlas(textureAtl) {
 	}
 
 	// setting the neighbors for our initialized chunks
-	for(int x = -DRAW_DISTANCE; x < DRAW_DISTANCE; x++) {
-		for(short y = -DRAW_DISTANCE; y < DRAW_DISTANCE; y++) {
-			for(int z = -DRAW_DISTANCE; z < DRAW_DISTANCE; z++) {
+	for(int x = -H_DRAW_DISTANCE; x < H_DRAW_DISTANCE; x++) {
+		for(short y = -V_DRAW_DISTANCE; y < V_DRAW_DISTANCE; y++) {
+			for(int z = -H_DRAW_DISTANCE; z < H_DRAW_DISTANCE; z++) {
 				Neighbor* temp = new Neighbor;
 				long long index = x + z * pow(2, 24) + y * pow(2, 48);
 				long long tempIndex = (x + 1) + z * pow(2, 24) + y * pow(2, 48);
@@ -45,9 +45,9 @@ World::World(Texture* textureAtl, long seed) : textureAtlas(textureAtl) {
 }
 
 World::~World() {
-	for(int x = -DRAW_DISTANCE; x < DRAW_DISTANCE; x++) {
-		for(short y = -DRAW_DISTANCE; y < DRAW_DISTANCE; y++) {
-			for(int z = -DRAW_DISTANCE; z < DRAW_DISTANCE; z++) {
+	for(int x = -H_DRAW_DISTANCE; x < H_DRAW_DISTANCE; x++) {
+		for(short y = -V_DRAW_DISTANCE; y < V_DRAW_DISTANCE; y++) {
+			for(int z = -H_DRAW_DISTANCE; z < H_DRAW_DISTANCE; z++) {
 				long long index = x + z * pow(2, 24) + y * pow(2, 48);
 				delete chunk_handler[index];
 				chunk_handler.erase(index);
@@ -64,68 +64,29 @@ void World::UnloadChunk() {
 	//todo
 }
 
-
-
-/*void World::GenerateChunk(int x_chunk, int y_chunk, int z_chunk) {
-	
-	* CHUNK GENERATION ALGORITHM
-	* PLAY WITH IT AS YOU WISH
-	* 
-	*
-	long long index = x_chunk + z_chunk * pow(2, 24) + y_chunk * pow(2, 48);
-	chunk_handler[index]->generating = 1;
-
-	float frequency = 1;
-	float magnitude = CHUNK_H*2;
-
-
-	for(int x_voxel = 0; x_voxel < CHUNK_X; x_voxel++) {
-		float x_key = x_voxel + x_chunk * CHUNK_X;
-		for(int z_voxel = 0; z_voxel < CHUNK_Z; z_voxel++) {
-			float z_key = z_voxel + z_chunk * CHUNK_Z;
-			float temp;
-			temp = noise.GetNoise(x_key * frequency, z_key * frequency);
-			float final = temp * magnitude;
-			if(final >= 0) {
-				chunk_handler[index]->Setblock(1, x_voxel, (int)final, z_voxel);
-			}
-			for(int i = final - 1; i >= 0; i--) {
-				if(i >= 0) {
-					chunk_handler[index]->Setblock(3, x_voxel, i, z_voxel);
-				}
-			}
-		}
-	}
-
-	//Note that this is crucial, this cycle updates the mesh of all chunks
-	chunk_handler[index]->Update();
-
-	chunk_handler[index]->generating = 0;
-	chunk_handler[index]->generated = 1;
-}*/
-
 void World::Draw(Shader* program) {
 
-	for(int x = -DRAW_DISTANCE; x < DRAW_DISTANCE; x++) {
-		for(short y = -DRAW_DISTANCE; y < DRAW_DISTANCE; y++) {
-			for(int z = -DRAW_DISTANCE; z < DRAW_DISTANCE; z++) {
+	for(int x = -H_DRAW_DISTANCE; x < H_DRAW_DISTANCE; x++) {
+		for(short y = -V_DRAW_DISTANCE; y < V_DRAW_DISTANCE; y++) {
+			for(int z = -H_DRAW_DISTANCE; z < H_DRAW_DISTANCE; z++) {
 				long long index = x + z * pow(2, 24) + y * pow(2, 48);
 
 				Chunk& temp = *chunk_handler[index];
 
 				//updates every chunk that has been modified
 				if(!chunk_handler[index]->updated) {
-					temp.Update();    // this is temporary, as soon as next code will be working properly, this line has to be removed
-					try{
+					UpdateChunk(temp);	// this is temporary, as soon as next code will be working properly, this line has to be removed
+					/*try {
 						std::future_status status;
 						status = fut_1.wait_for(std::chrono::microseconds(0));
 						if(status == std::future_status::ready) {
-							fut_1 = std::async(std::launch::async, &Chunk::Update, &*chunk_handler[index]); // this doesn't modify "chunk_handler[index]" values, something isn't right about reference   todo
+							fut_1.get();
+							fut_1 = std::async(std::launch::async, &UpdateChunk, std::ref(*chunk_handler[index]));
 						}
 					}
-					catch(const std::future_error){ //this will occur if fut_1 hasn't been initialized yet
-						fut_1 = std::async(std::launch::async, &Chunk::Update, &*chunk_handler[index]);// this too        todo
-					}
+					catch(const std::future_error) { //this will occur if fut hasn't been initialized yet
+						fut_1 = std::async(std::launch::async, &UpdateChunk, std::ref(*chunk_handler[index]));
+					}*/
 				}
 
 				//generates ungenerated chunks
@@ -134,14 +95,12 @@ void World::Draw(Shader* program) {
 						std::future_status status;
 						status = fut.wait_for(std::chrono::microseconds(0));
 						if(status == std::future_status::ready) {
-							Chunk* temp;
-							temp = fut.get();
-							//temp->Update();
-							fut = std::async(std::launch::async, &GenerateChunk, std::ref(*chunk_handler[index]), x, y, z);
+							fut.get();
+							fut = std::async(std::launch::async, &GenerateChunk, std::ref(temp), x, y, z);
 						}
 					}
 					catch(const std::future_error) { //this will occur if fut hasn't been initialized yet
-						fut = std::async(std::launch::async, &GenerateChunk, std::ref(*chunk_handler[index]), x, y, z);
+						fut = std::async(std::launch::async, &GenerateChunk, std::ref(temp), x, y, z);
 					}
 				}
 
@@ -158,18 +117,18 @@ void World::Draw(Shader* program) {
 
 // foo that updates every loaded chunk
 void World::UpdateChunks() {
-	for(int x = -DRAW_DISTANCE; x < DRAW_DISTANCE; x++) {
-		for(short y = -DRAW_DISTANCE; y < DRAW_DISTANCE; y++) {
-			for(int z = -DRAW_DISTANCE; z < DRAW_DISTANCE; z++) {
+	for(int x = -H_DRAW_DISTANCE; x < H_DRAW_DISTANCE; x++) {
+		for(short y = -V_DRAW_DISTANCE; y < V_DRAW_DISTANCE; y++) {
+			for(int z = -H_DRAW_DISTANCE; z < H_DRAW_DISTANCE; z++) {
 				long long index = x + z * pow(2, 24) + y * pow(2, 48);
-				chunk_handler[index]->Update();
+				chunk_handler[index]->updated = false;
 			}
 		}
 	}
 }
 
 bool World::SetBlock(unsigned short int id, int x, int y, int z) {
-	if(abs(x) / CHUNK_X > DRAW_DISTANCE || abs(z) / CHUNK_Z > DRAW_DISTANCE) {
+	if(abs(x) / CHUNK_W > H_DRAW_DISTANCE || abs(z) / CHUNK_W > H_DRAW_DISTANCE || abs(y) / CHUNK_H > V_DRAW_DISTANCE) {
 		return 0;
 	}
 
@@ -234,7 +193,7 @@ bool World::SetBlock(unsigned short int id, int x, int y, int z) {
 }
 
 Voxel* World::GetBlock(int x, int y, int z) {
-	if(abs(x) / CHUNK_X > DRAW_DISTANCE || abs(z) / CHUNK_Z > DRAW_DISTANCE) {
+	if(abs(x) / CHUNK_W > H_DRAW_DISTANCE || abs(z) / CHUNK_W > H_DRAW_DISTANCE || abs(y) / CHUNK_H > V_DRAW_DISTANCE) {
 		return 0;
 	}
 

@@ -13,7 +13,8 @@
 #include "../Graphic/Texture.h"
 #include "../Graphic/Shader.h"
 
-#define DRAW_DISTANCE 2
+#define H_DRAW_DISTANCE 2
+#define V_DRAW_DISTANCE 1
 
 class World
 {

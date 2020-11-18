@@ -138,7 +138,7 @@ void Chunk::DrawVox(postype x, postype y, postype z) {
 
 }
 
-void Chunk::Update() {
+/*void Chunk::Update() {
 	mesh.Clear();
 	for(postype x = 0; x < CHUNK_W; x++) {
 		for(postype y = 0; y < CHUNK_H; y++) {
@@ -202,7 +202,7 @@ void Chunk::Update() {
 
 	mesh.UpdateMesh();
 	updated = true;
-}
+}*/
 
 void Chunk::UpdateMesh() {
 	mesh.UpdateMesh();
@@ -253,4 +253,71 @@ Voxel* Chunk::Getblock(postype x, postype y, postype z) {
 
 glm::vec3 Chunk::GetPos() {
 	return pos;
+}
+
+
+void UpdateChunk(Chunk& chunk) {
+	chunk.mesh.Clear();
+	for(postype x = 0; x < CHUNK_W; x++) {
+		for(postype y = 0; y < CHUNK_H; y++) {
+			for(postype z = 0; z < CHUNK_W; z++) {
+				if(chunk.vox[x][y][z]->GetID() != 0) {
+					chunk.DrawVox(x, y, z);
+				}
+				else {
+					if(x == 0) {
+						if(chunk.neighbor->XRear) {
+							if(chunk.neighbor->XRear->Getblock(CHUNK_W - 1, y, z)->GetID() != 0) {
+								chunk.neighbor->XRear->DrawVox(CHUNK_W - 1, y, z);
+								chunk.neighbor->XRear->UpdateMesh();
+							}
+						}
+					}
+					else if(x + 1 == CHUNK_W) {
+						if(chunk.neighbor->XFront) {
+							if(chunk.neighbor->XFront->Getblock(0, y, z)->GetID() != 0) {
+								chunk.neighbor->XFront->DrawVox(0, y, z);
+								chunk.neighbor->XFront->UpdateMesh();
+							}
+						}
+					}
+					if(y == 0) {
+						if(chunk.neighbor->Bottom) {
+							if(chunk.neighbor->Bottom->Getblock(x, CHUNK_H - 1, z)->GetID() != 0) {
+								chunk.neighbor->Bottom->DrawVox(x, CHUNK_H - 1, z);
+								chunk.neighbor->Bottom->UpdateMesh();
+							}
+						}
+					}
+					else if(y + 1 == CHUNK_H) {
+						if(chunk.neighbor->Top) {
+							if(chunk.neighbor->Top->Getblock(x, 0, z)->GetID() != 0) {
+								chunk.neighbor->Top->DrawVox(x, 0, z);
+								chunk.neighbor->Top->UpdateMesh();
+							}
+						}
+					}
+					if(z == 0) {
+						if(chunk.neighbor->ZRear) {
+							if(chunk.neighbor->ZRear->Getblock(x, y, CHUNK_W - 1)->GetID() != 0) {
+								chunk.neighbor->ZRear->DrawVox(x, y, CHUNK_W - 1);
+								chunk.neighbor->ZRear->UpdateMesh();
+							}
+						}
+					}
+					else if(z + 1 == CHUNK_W) {
+						if(chunk.neighbor->ZFront) {
+							if(chunk.neighbor->ZFront->Getblock(x, y, 0)->GetID() != 0) {
+								chunk.neighbor->ZFront->DrawVox(x, y, 0);
+								chunk.neighbor->ZFront->UpdateMesh();
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	chunk.mesh.UpdateMesh();
+	chunk.updated = true;
 }
