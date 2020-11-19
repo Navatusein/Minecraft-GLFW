@@ -29,12 +29,6 @@ private:
 
 	AABB HitBox;
 
-	vec3 Velocity;
-	vec3 m_acceleration;
-
-	float LastTime;
-	float Delta;
-
 	float Speed;
 
 	float pitch;
@@ -43,7 +37,6 @@ private:
 	float FOV;
 	float renderDist;
 
-	bool isOnGround;
 	bool isFlying;
 	bool isFlyOn;
 

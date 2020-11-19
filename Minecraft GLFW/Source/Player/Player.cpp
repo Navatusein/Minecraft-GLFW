@@ -53,7 +53,7 @@ Player::Player(World* world) :HitBox(Dimensions), world(world) {
 	LastTime = glfwGetTime();
 	Delta = 0.0f;
 
-	Speed = 0.2;
+	Speed = 0.5;
 
 	isFlying = false;
 	isFlyOn = false;
