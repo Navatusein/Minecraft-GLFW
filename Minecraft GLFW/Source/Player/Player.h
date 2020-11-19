@@ -15,6 +15,9 @@
 #include "../Window/Camera.h"
 #include "../Window/Events.h"
 
+#include "../ErrorHandling.h"
+
+#include "../Physics/AABB.h"
 
 #include "../World/World.h"
 
@@ -23,6 +26,10 @@ private:
 	Camera* camera;
 
 	World* world;
+
+	AABB HitBox;
+
+	vec3 Velocity;
 
 	float LastTime;
 	float Delta;
@@ -34,8 +41,18 @@ private:
 
 	float FOV;
 	float renderDist;
+
+	bool isOnGround;
+	bool isFluing;
+
+	bool isFlyOn;
+
+	void CollisionTest(const vec3& Velocity_);
+
 public:
 	Player(World* world);
+
+	void CheckCollision();
 
 	void KeyBoardUpdate();
 	void MouseUpdate();

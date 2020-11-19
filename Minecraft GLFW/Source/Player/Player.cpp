@@ -1,14 +1,81 @@
 #include "Player.h"
 
-Player::Player(World* world) : world(world) {
+const vec3 Dimensions(0.5, 1.5, 0.5);
+
+void Player::CollisionTest(const vec3& Velocity_) {
+	for (size_t x = Position.x - Dimensions.x; x < Position.x + Dimensions.x; x++) {
+		for (size_t y = Position.y - Dimensions.y; y < Position.y + Dimensions.y; y++) {
+			for (size_t z = Position.z - Dimensions.z; z < Position.z + Dimensions.z; z++) {
+				auto Block = world->GetBlock(x, y, z);
+				if (Block) {
+					if (Block->GetID() != 0) {
+						if (Velocity_.x > 0)
+						{
+							Position.x = x - Dimensions.x;
+						}
+						if (Velocity_.x < 0)
+						{
+							Position.x = x + Dimensions.x + 1;
+						}
+						if (Velocity_.y > 0)
+						{
+							Position.y = y - Dimensions.y;
+							Velocity.y = 0;
+						}
+						if (Velocity_.y < 0)
+						{
+							Position.y = y + Dimensions.y + 1;
+							isOnGround = true;
+							Velocity.y = 0;
+						}
+						if (Velocity_.z > 0)
+						{
+							Position.z = z - Dimensions.z;
+						}
+						if (Velocity_.z < 0)
+						{
+							Position.z = z + Dimensions.z + 1;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+Player::Player(World* world) :HitBox(Dimensions), world(world) {
+	
+	Position = {0, 12, 0};
+
 	FOV = 100.f;
 	renderDist = 10000.f;
 	camera = new Camera(&Position, &View, radians(FOV), renderDist);
+
+	yaw = 90;
+	pitch = 0;
 
 	LastTime = glfwGetTime();
 	Delta = 0.0f;
 
 	Speed = 10;
+}
+
+void Player::CheckCollision() {
+	Position.x += Velocity.x * Delta;
+	CollisionTest({ Velocity.x, 0, 0 });
+
+	Position.y += Velocity.y * Delta;
+	CollisionTest({ 0, Velocity.y, 0 });
+
+	Position.z += Velocity.z * Delta;
+	CollisionTest({ 0, 0, Velocity.z });
+	
+	Velocity.x *= 0.996;
+	Velocity.z *= 0.996;
+	Velocity.y *= 0.996;
+	
+	std::cout << Velocity.x << " " << Velocity.y << " " << Velocity.z << "\n";
+	
 }
 
 void Player::KeyBoardUpdate() {
@@ -47,33 +114,37 @@ void Player::KeyBoardUpdate() {
 		}
 
 		if (Events::Pressed(KM_KEY_W)) {
-			Position.x += cos(radians(yaw)) * Delta * Speed;
-			Position.z += sin(radians(yaw)) * Delta * Speed;
+			Velocity.x += cos(radians(yaw)) * Delta * Speed;
+			Velocity.z += sin(radians(yaw)) * Delta * Speed;
 		}
 
 		if (Events::Pressed(KM_KEY_S)) {
-			Position.x -= cos(radians(yaw)) * Delta * Speed;
-			Position.z -= sin(radians(yaw)) * Delta * Speed;
+			Velocity.x -= cos(radians(yaw)) * Delta * Speed;
+			Velocity.z -= sin(radians(yaw)) * Delta * Speed;
 		}
 
 		if (Events::Pressed(KM_KEY_D)) {
-			Position.x -= cos(radians(yaw - 90)) * Delta * Speed;
-			Position.z -= sin(radians(yaw - 90)) * Delta * Speed;
+			Velocity.x -= cos(radians(yaw - 90)) * Delta * Speed;
+			Velocity.z -= sin(radians(yaw - 90)) * Delta * Speed;
 		}
 
 		if (Events::Pressed(KM_KEY_A)) {
-			Position.x += cos(radians(yaw - 90)) * Delta * Speed;
-			Position.z += sin(radians(yaw - 90)) * Delta * Speed;
+			Velocity.x += cos(radians(yaw - 90)) * Delta * Speed;
+			Velocity.z += sin(radians(yaw - 90)) * Delta * Speed;
 		}
 
 		if (Events::Pressed(KM_KEY_SPACE)) {
-			Position.y += Delta * Speed;
+			Velocity.y += Delta * Speed;
+		}
+		if (Events::Pressed(KM_KEY_V)) {
+			Velocity = { 0,0,0 };
 		}
 
 		if (Events::Pressed(KM_KEY_LEFT_SHIFT)) {
-			Position.y -= Delta * Speed;
+			Velocity.y -= Delta * Speed;
 		}
 		MouseUpdate();
+		CheckCollision();
 	}
 }
 
