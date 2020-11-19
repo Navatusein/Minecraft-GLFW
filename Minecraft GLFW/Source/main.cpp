@@ -1,10 +1,12 @@
 #pragma comment(linker, "/STACK:67108864")
 
+#include <Windows.h>
 #include <iostream>
+#include <ctime>
+#include <future>
+
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
-
-#include <Windows.h>
 
 #include "ErrorHandling.h"
 
@@ -20,6 +22,7 @@
 #include "Mesh/ShardMesh.h"
 
 #include "World/World.h"
+#include "World/ChunkUpdaterCall.h"
 
 #include "Player/Player.h"
 
@@ -77,6 +80,9 @@ int main() {
 	World world(textureAtlas, 1);
 
 	Player Steve(&world);
+
+
+	std::future<void> fut = std::async(std::launch::async, &Call_UpdateChunks, std::ref(world), 3000); // launching asynchronous task to update all chunks once
 
 	//Main loop
 	while (!Window::WindowShouldClose()) {

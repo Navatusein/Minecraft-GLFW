@@ -50,6 +50,5 @@ public:
 	Voxel* RayCast(glm::vec3 pos, glm::vec3 dir, float maxDist, glm::vec3& end, glm::vec3& norm, glm::vec3& iend);
 
 	AABB getBlockAABB(const glm::vec3 Pos);
-
 };
 

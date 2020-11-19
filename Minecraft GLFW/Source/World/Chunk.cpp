@@ -264,7 +264,7 @@ void UpdateChunk(Chunk& chunk) {
 				if(chunk.vox[x][y][z]->GetID() != 0) {
 					chunk.DrawVox(x, y, z);
 				}
-				else {
+				/*else {
 					if(x == 0) {
 						if(chunk.neighbor->XRear) {
 							if(chunk.neighbor->XRear->Getblock(CHUNK_W - 1, y, z)->GetID() != 0) {
@@ -313,7 +313,7 @@ void UpdateChunk(Chunk& chunk) {
 							}
 						}
 					}
-				}
+				}*/
 			}
 		}
 	}

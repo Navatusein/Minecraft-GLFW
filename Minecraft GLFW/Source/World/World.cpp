@@ -65,7 +65,7 @@ void World::UnloadChunk() {
 }
 
 void World::Draw(Shader* program) {
-
+	bool chunkWasUpdated = 0; // checks if any chunk was updated this frame, so we won't update any more chunks;
 	for(int x = -H_DRAW_DISTANCE; x < H_DRAW_DISTANCE; x++) {
 		for(short y = -V_DRAW_DISTANCE; y < V_DRAW_DISTANCE; y++) {
 			for(int z = -H_DRAW_DISTANCE; z < H_DRAW_DISTANCE; z++) {
@@ -74,19 +74,10 @@ void World::Draw(Shader* program) {
 				Chunk& temp = *chunk_handler[index];
 
 				//updates every chunk that has been modified
-				if(!chunk_handler[index]->updated) {
-					UpdateChunk(temp);	// this is temporary, as soon as next code will be working properly, this line has to be removed
-					/*try {
-						std::future_status status;
-						status = fut_1.wait_for(std::chrono::microseconds(0));
-						if(status == std::future_status::ready) {
-							fut_1.get();
-							fut_1 = std::async(std::launch::async, &UpdateChunk, std::ref(*chunk_handler[index]));
-						}
+				if(!chunkWasUpdated) {
+					if(!chunk_handler[index]->updated) {
+						UpdateChunk(temp);
 					}
-					catch(const std::future_error) { //this will occur if fut hasn't been initialized yet
-						fut_1 = std::async(std::launch::async, &UpdateChunk, std::ref(*chunk_handler[index]));
-					}*/
 				}
 
 				//generates ungenerated chunks
