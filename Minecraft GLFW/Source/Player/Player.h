@@ -30,6 +30,7 @@ private:
 	AABB HitBox;
 
 	vec3 Velocity;
+	vec3 m_acceleration;
 
 	float LastTime;
 	float Delta;
@@ -43,19 +44,25 @@ private:
 	float renderDist;
 
 	bool isOnGround;
-	bool isFluing;
-
+	bool isFlying;
 	bool isFlyOn;
 
 	void CollisionTest(const vec3& Velocity_);
 
-public:
-	Player(World* world);
+	void MouseUpdate();
+
+	void KeyBoardUpdate();
 
 	void CheckCollision();
 
-	void KeyBoardUpdate();
-	void MouseUpdate();
+	void PhysicUpdate();
+public:
+	Player(World* world);
+
+	
+	void Update();
+	
+	
 
 	Camera* getCamera();
 

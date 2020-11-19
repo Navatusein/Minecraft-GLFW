@@ -342,3 +342,9 @@ Voxel* World::RayCast(glm::vec3 pos, glm::vec3 dir, float maxDist, glm::vec3& en
 	norm.x = norm.y = norm.z = 0.0f;
 	return nullptr;
 }
+
+AABB World::getBlockAABB(glm::vec3 Pos) {
+	AABB blockAABB({ 1.0, 1.0, 1.0 });
+	blockAABB.Update(Pos);
+	return blockAABB;
+}

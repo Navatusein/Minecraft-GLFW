@@ -2,38 +2,34 @@
 
 const vec3 Dimensions(0.5, 1.5, 0.5);
 
-void Player::CollisionTest(const vec3& Velocity_) {
-	for (size_t x = Position.x - Dimensions.x; x < Position.x + Dimensions.x; x++) {
-		for (size_t y = Position.y - Dimensions.y; y < Position.y + Dimensions.y; y++) {
-			for (size_t z = Position.z - Dimensions.z; z < Position.z + Dimensions.z; z++) {
-				auto Block = world->GetBlock(x, y, z);
-				if (Block) {
-					if (Block->GetID() != 0) {
-						if (Velocity_.x > 0)
-						{
-							Position.x = x - Dimensions.x;
-						}
-						if (Velocity_.x < 0)
-						{
-							Position.x = x + Dimensions.x + 1;
-						}
-						if (Velocity_.y > 0)
-						{
+void Player::CollisionTest(const vec3& Velocity__) {
+	for (int x = Position.x - Dimensions.x; x < Position.x + Dimensions.x; x++) {
+		for (int y = Position.y - Dimensions.y; y < Position.y + 0.7; y++) {
+			for (int z = Position.z - Dimensions.z; z < Position.z + Dimensions.z; z++) {
+				auto block = world->GetBlock(x, y, z);
+				if (block) {
+					if (block->GetID() != 0) {
+						if (Velocity__.y > 0) {
 							Position.y = y - Dimensions.y;
 							Velocity.y = 0;
 						}
-						if (Velocity_.y < 0)
-						{
-							Position.y = y + Dimensions.y + 1;
+						else if (Velocity__.y < 0) {
 							isOnGround = true;
+							Position.y = y + Dimensions.y + 1;
 							Velocity.y = 0;
 						}
-						if (Velocity_.z > 0)
-						{
+
+						if (Velocity__.x > 0) {
+							Position.x = x - Dimensions.x;
+						}
+						else if (Velocity__.x < 0) {
+							Position.x = x + Dimensions.x + 1;
+						}
+
+						if (Velocity__.z > 0) {
 							Position.z = z - Dimensions.z;
 						}
-						if (Velocity_.z < 0)
-						{
+						else if (Velocity__.z < 0) {
 							Position.z = z + Dimensions.z + 1;
 						}
 					}
@@ -57,10 +53,25 @@ Player::Player(World* world) :HitBox(Dimensions), world(world) {
 	LastTime = glfwGetTime();
 	Delta = 0.0f;
 
-	Speed = 10;
+	Speed = 0.2;
+
+	isFlying = false;
+	isFlyOn = false;
+	isOnGround = false;
+}
+
+void Player::Update() {
+	KeyBoardUpdate();
+	MouseUpdate();
+	PhysicUpdate();
+	CheckCollision();
 }
 
 void Player::CheckCollision() {
+
+	Velocity += m_acceleration;
+	m_acceleration = { 0, 0, 0 };
+
 	Position.x += Velocity.x * Delta;
 	CollisionTest({ Velocity.x, 0, 0 });
 
@@ -70,12 +81,27 @@ void Player::CheckCollision() {
 	Position.z += Velocity.z * Delta;
 	CollisionTest({ 0, 0, Velocity.z });
 	
-	Velocity.x *= 0.996;
-	Velocity.z *= 0.996;
-	Velocity.y *= 0.996;
+	Velocity.x *= 0.95;
+	Velocity.z *= 0.95;
+
+	if (isFlying) {
+		Velocity.y *= 0.95f;
+	}
 	
-	std::cout << Velocity.x << " " << Velocity.y << " " << Velocity.z << "\n";
-	
+}
+
+void Player::PhysicUpdate() {
+	if (!isFlying) {
+		if (!isOnGround) {
+			Velocity.y -= 40 * Delta;
+		}
+		isOnGround = false;
+	}
+
+	if (Position.y <= -10 && !isFlying) {
+		Position.y = 300;
+	}
+
 }
 
 void Player::KeyBoardUpdate() {
@@ -114,34 +140,42 @@ void Player::KeyBoardUpdate() {
 		}
 
 		if (Events::Pressed(KM_KEY_W)) {
-			Velocity.x += cos(radians(yaw)) * Delta * Speed;
-			Velocity.z += sin(radians(yaw)) * Delta * Speed;
+			m_acceleration.x += cos(radians(yaw)) * Speed;
+			m_acceleration.z += sin(radians(yaw)) * Speed;
 		}
 
 		if (Events::Pressed(KM_KEY_S)) {
-			Velocity.x -= cos(radians(yaw)) * Delta * Speed;
-			Velocity.z -= sin(radians(yaw)) * Delta * Speed;
+			m_acceleration.x -= cos(radians(yaw)) * Speed;
+			m_acceleration.z -= sin(radians(yaw)) * Speed;
 		}
 
 		if (Events::Pressed(KM_KEY_D)) {
-			Velocity.x -= cos(radians(yaw - 90)) * Delta * Speed;
-			Velocity.z -= sin(radians(yaw - 90)) * Delta * Speed;
+			m_acceleration.x -= cos(radians(yaw - 90)) * Speed;
+			m_acceleration.z -= sin(radians(yaw - 90)) * Speed;
 		}
 
 		if (Events::Pressed(KM_KEY_A)) {
-			Velocity.x += cos(radians(yaw - 90)) * Delta * Speed;
-			Velocity.z += sin(radians(yaw - 90)) * Delta * Speed;
+			m_acceleration.x += cos(radians(yaw - 90)) * Speed;
+			m_acceleration.z += sin(radians(yaw - 90)) * Speed;
 		}
 
 		if (Events::Pressed(KM_KEY_SPACE)) {
-			Velocity.y += Delta * Speed;
+			if (!isFlying) {
+				if (isOnGround) {
+					isOnGround = false;
+					m_acceleration.y += Speed * 50;
+				}
+			}
+			else {
+				m_acceleration.y += Speed * 3;
+			}
 		}
 		if (Events::Pressed(KM_KEY_V)) {
-			Velocity = { 0,0,0 };
+			m_acceleration = { 0,0,0 };
 		}
 
 		if (Events::Pressed(KM_KEY_LEFT_SHIFT)) {
-			Velocity.y -= Delta * Speed;
+			m_acceleration.y -= Speed;
 		}
 		MouseUpdate();
 		CheckCollision();

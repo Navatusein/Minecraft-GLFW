@@ -10,6 +10,8 @@
 
 #include "Chunk.h"
 
+#include "../Physics/AABB.h"
+
 #include "../Graphic/Texture.h"
 #include "../Graphic/Shader.h"
 
@@ -46,6 +48,8 @@ public:
 	Voxel* GetBlock(int x, int y, int z);
 
 	Voxel* RayCast(glm::vec3 pos, glm::vec3 dir, float maxDist, glm::vec3& end, glm::vec3& norm, glm::vec3& iend);
+
+	AABB getBlockAABB(const glm::vec3 Pos);
 
 };
 

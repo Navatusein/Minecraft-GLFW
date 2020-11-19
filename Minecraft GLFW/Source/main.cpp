@@ -81,7 +81,7 @@ int main() {
 	//Main loop
 	while (!Window::WindowShouldClose()) {
 
-		Steve.KeyBoardUpdate();
+		Steve.Update();
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
