@@ -21,6 +21,8 @@
 
 #include "../World/World.h"
 
+#define TERMINAL_VELOCITY 150 // determines maximum freefall speed
+
 class Player : public Entity {
 private:
 	Camera* camera;
@@ -29,13 +31,8 @@ private:
 
 	AABB HitBox;
 
-	vec3 Velocity;
-	vec3 m_acceleration;
-
-	float LastTime;
-	float Delta;
-
 	float Speed;
+	float JumpForce;
 
 	float pitch;
 	float yaw;
@@ -43,11 +40,8 @@ private:
 	float FOV;
 	float renderDist;
 
-	bool isOnGround;
 	bool isFlying;
 	bool isFlyOn;
-
-	void CollisionTest(const vec3& Velocity_);
 
 	void MouseUpdate();
 
@@ -56,6 +50,8 @@ private:
 	void CheckCollision();
 
 	void PhysicUpdate();
+
+	void CollisionTest();
 public:
 	Player(World* world);
 

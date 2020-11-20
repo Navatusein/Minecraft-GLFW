@@ -1,47 +1,11 @@
 #include "Player.h"
 
-const vec3 Dimensions(0.5, 1.5, 0.5);
+const vec3 Dimensions(0.4, 1.5, 0.4);
 
-void Player::CollisionTest(const vec3& Velocity__) {
-	for (int x = Position.x - Dimensions.x; x < Position.x + Dimensions.x; x++) {
-		for (int y = Position.y - Dimensions.y; y < Position.y + 0.7; y++) {
-			for (int z = Position.z - Dimensions.z; z < Position.z + Dimensions.z; z++) {
-				auto block = world->GetBlock(x, y, z);
-				if (block) {
-					if (block->GetID() != 0) {
-						if (Velocity__.y > 0) {
-							Position.y = y - Dimensions.y;
-							Velocity.y = 0;
-						}
-						else if (Velocity__.y < 0) {
-							isOnGround = true;
-							Position.y = y + Dimensions.y + 1;
-							Velocity.y = 0;
-						}
-
-						if (Velocity__.x > 0) {
-							Position.x = x - Dimensions.x;
-						}
-						else if (Velocity__.x < 0) {
-							Position.x = x + Dimensions.x + 1;
-						}
-
-						if (Velocity__.z > 0) {
-							Position.z = z - Dimensions.z;
-						}
-						else if (Velocity__.z < 0) {
-							Position.z = z + Dimensions.z + 1;
-						}
-					}
-				}
-			}
-		}
-	}
-}
 
 Player::Player(World* world) :HitBox(Dimensions), world(world) {
 	
-	Position = {0, 12, 0};
+	Position = {5, 16, 5};
 
 	FOV = 100.f;
 	renderDist = 10000.f;
@@ -53,10 +17,11 @@ Player::Player(World* world) :HitBox(Dimensions), world(world) {
 	LastTime = glfwGetTime();
 	Delta = 0.0f;
 
-	Speed = 0.2;
+	Speed = 5;
+	JumpForce = 1;
 
 	isFlying = false;
-	isFlyOn = false;
+	isFlyOn = false; // this doesn't seem to be used
 	isOnGround = false;
 }
 
@@ -68,40 +33,38 @@ void Player::Update() {
 
 void Player::CheckCollision() {
 
-	Velocity += m_acceleration;
+	Velocity += m_acceleration * Delta;
 	m_acceleration = { 0, 0, 0 };
 
+	CollisionTest();
+
 	Position.x += Velocity.x * Delta;
-	CollisionTest({ Velocity.x, 0, 0 });
-
 	Position.y += Velocity.y * Delta;
-	CollisionTest({ 0, Velocity.y, 0 });
-
 	Position.z += Velocity.z * Delta;
-	CollisionTest({ 0, 0, Velocity.z });
-	
-	Velocity.x *= 0.95;
-	Velocity.z *= 0.95;
 
-	if (isFlying) {
-		Velocity.y *= 0.95f;
-	}
-	
 }
 
 void Player::PhysicUpdate() {
 	if (!isFlying) {
 		if (!isOnGround) {
-			Velocity.y -= 40 * Delta;
+			if(Velocity.y > -TERMINAL_VELOCITY) {
+				m_acceleration.y -= GRAVITY;
+			}
 		}
-		isOnGround = false;
 	}
 
-	if (Position.y <= -10 && !isFlying) {
-		Position.y = 300;
+	// drag
+	float drag = 0.95 * Delta; // this is temporary, until better implementation 
+
+	Velocity.x *= -drag + 1;
+	Velocity.z *= -drag + 1;
+	if(isFlying) {
+		Velocity.y *= -drag + 1;
 	}
 
 }
+
+
 
 void Player::KeyBoardUpdate() {
 	float currentTime = glfwGetTime();
@@ -122,9 +85,9 @@ void Player::KeyBoardUpdate() {
 			glm::vec3 end;
 			glm::vec3 norm;
 			glm::vec3 iend;
-			world->RayCast(Position, View, 20.f, end, norm, iend);
+			world->RayCast(camera->GetPosition(), View, 20.f, end, norm, iend);
 			if(world->GetBlock(iend.x, iend.y, iend.z)->GetID() != 0) {
-				world->SetBlock(0, iend.x, iend.y, iend.z);
+				world->SetBlock_u(0, iend.x, iend.y, iend.z);
 			}
 		}
 
@@ -132,9 +95,9 @@ void Player::KeyBoardUpdate() {
 			glm::vec3 end;
 			glm::vec3 norm;
 			glm::vec3 iend;
-			world->RayCast(Position, View, 20.f, end, norm, iend);
+			world->RayCast(camera->GetPosition(), View, 20.f, end, norm, iend);
 			if(world->GetBlock(iend.x, iend.y, iend.z)->GetID() != 0) {
-				world->SetBlock(3, iend.x + norm.x, iend.y + norm.y, iend.z + norm.z);
+				world->SetBlock_u(3, iend.x + norm.x, iend.y + norm.y, iend.z + norm.z);
 			}
 		}
 
@@ -159,16 +122,24 @@ void Player::KeyBoardUpdate() {
 		}
 
 		if (Events::Pressed(KM_KEY_SPACE)) {
-			if (!isFlying) {
-				if (isOnGround) {
-					isOnGround = false;
-					m_acceleration.y += Speed * 50;
-				}
+			if (isFlying) {
+				m_acceleration.y += Speed;
 			}
 			else {
-				m_acceleration.y += Speed * 3;
+				if(isOnGround) {
+					Velocity.y += JumpForce;
+				}
 			}
 		}
+
+		/*if(Events::JustClicked(KM_KEY_SPACE)) {
+			if(isOnGround) {
+				Velocity.y += JumpForce;
+			}
+		}*/
+
+	}
+	else {
 		if (Events::Pressed(KM_KEY_V)) {
 			m_acceleration = { 0,0,0 };
 		}
@@ -211,3 +182,91 @@ Camera* Player::getCamera() {
 Player::~Player() {
 	delete camera;
 }
+
+
+void Player::CollisionTest() {
+	float definition = 0.1;
+
+	bool yNeg_Obstructed = false;
+	bool yPos_Obstructed = false;
+	for(float x = Position.x - Dimensions.x; x <= Position.x + Dimensions.x; x += definition) {
+		for(float z = Position.z - Dimensions.z; z <= Position.z + Dimensions.z; z += definition) {
+			if(world->GetBlock(x, Position.y, z)) {
+				if(world->GetBlock(x, Position.y, z)->GetID() != 0) {
+					yNeg_Obstructed = true;
+				}
+			}
+			if(world->GetBlock(x, Position.y + Dimensions.y, z)) {
+				if(world->GetBlock(x, Position.y + Dimensions.y, z)->GetID() != 0) {
+					yPos_Obstructed = true;
+				}
+			}
+		}
+	}
+
+	bool zNeg_Obstructed = false;
+	bool zPos_Obstructed = false;
+	for(float x = Position.x - Dimensions.x + definition * 2; x <= Position.x + Dimensions.x; x += definition) {
+		for(float y = Position.y + definition*2; y <= Position.y + Dimensions.y; y += definition) {
+			if(world->GetBlock(x, y, Position.z - Dimensions.z)) {
+				if(world->GetBlock(x, y, Position.z - Dimensions.z)->GetID() != 0) {
+					zNeg_Obstructed = true;
+				}
+			}
+			if(world->GetBlock(x, y, Position.z + Dimensions.z)) {
+				if(world->GetBlock(x, y, Position.z + Dimensions.z)->GetID() != 0) {
+					zPos_Obstructed = true;
+				}
+			}
+		}
+	}
+
+	bool xNeg_Obstructed = false;
+	bool xPos_Obstructed = false;
+	for(float z = Position.z - Dimensions.z + definition * 2; z <= Position.z + Dimensions.z; z += definition) {
+		for(float y = Position.y + definition * 2; y <= Position.y + Dimensions.y; y += definition) {
+			if(world->GetBlock(Position.x - Dimensions.x, y, z)) {
+				if(world->GetBlock(Position.x - Dimensions.x, y, z)->GetID() != 0) {
+					xNeg_Obstructed = true;
+				}
+			}
+			if(world->GetBlock(Position.x + Dimensions.x, y, z)) {
+				if(world->GetBlock(Position.x + Dimensions.x, y, z)->GetID() != 0) {
+					xPos_Obstructed = true;
+				}
+			}
+		}
+	}
+
+	if(yNeg_Obstructed) {
+		isOnGround = true;
+		if(Velocity.y < 0) {
+			Velocity.y = 0;
+		}
+	}
+	else {
+		isOnGround = false;
+	}
+
+	if(Velocity.y < 0 && yNeg_Obstructed) {
+		Velocity.y = 0;
+	}
+	else if(Velocity.y > 0 && yPos_Obstructed) {
+		Velocity.y = 0;
+	}
+
+	if(Velocity.x < 0 && xNeg_Obstructed) {
+		Velocity.x = 0;
+	}
+	else if(Velocity.x > 0 && xPos_Obstructed) {
+		Velocity.x = 0;
+	}
+
+	if(Velocity.z < 0 && zNeg_Obstructed) {
+		Velocity.z = 0;
+	}
+	else if(Velocity.z > 0 && zPos_Obstructed) {
+		Velocity.z = 0;
+	}
+}
+
