@@ -1,6 +1,6 @@
 #include "Player.h"
 
-const vec3 Dimensions(0.4, 1.5, 0.4);
+const vec3 Dimensions(0.3, 1.5, 0.3);
 
 
 Player::Player(World* world) :HitBox(Dimensions), world(world) {
@@ -18,7 +18,7 @@ Player::Player(World* world) :HitBox(Dimensions), world(world) {
 	Delta = 0.0f;
 
 	Speed = 5;
-	JumpForce = 1;
+	JumpForce = 10;
 
 	isFlying = false;
 	isFlyOn = false; // this doesn't seem to be used
@@ -127,7 +127,7 @@ void Player::KeyBoardUpdate() {
 			}
 			else {
 				if (isOnGround) {
-					Velocity.y += JumpForce;
+					Velocity.y = JumpForce;
 				}
 			}
 		}
@@ -138,7 +138,7 @@ void Player::KeyBoardUpdate() {
 			}
 		}*/
 		if (Events::Pressed(KM_KEY_V)) {
-			m_acceleration = { 0,0,0 };
+			Velocity = { 0,0,0 };
 		}
 
 		if (Events::Pressed(KM_KEY_LEFT_SHIFT)) {
@@ -187,15 +187,11 @@ void Player::CollisionTest() {
 	bool yPos_Obstructed = false;
 	for(float x = Position.x - Dimensions.x; x <= Position.x + Dimensions.x; x += definition) {
 		for(float z = Position.z - Dimensions.z; z <= Position.z + Dimensions.z; z += definition) {
-			if(world->GetBlock(x, Position.y, z)) {
-				if(world->GetBlock(x, Position.y, z)->GetID() != 0) {
-					yNeg_Obstructed = true;
-				}
+			if(world->GetObstruction(x, Position.y, z)) {
+				yNeg_Obstructed = true;
 			}
-			if(world->GetBlock(x, Position.y + Dimensions.y, z)) {
-				if(world->GetBlock(x, Position.y + Dimensions.y, z)->GetID() != 0) {
-					yPos_Obstructed = true;
-				}
+			if(world->GetObstruction(x, Position.y + Dimensions.y, z)) {
+				yPos_Obstructed = true;
 			}
 		}
 	}
@@ -204,15 +200,11 @@ void Player::CollisionTest() {
 	bool zPos_Obstructed = false;
 	for(float x = Position.x - Dimensions.x + definition * 2; x <= Position.x + Dimensions.x; x += definition) {
 		for(float y = Position.y + definition*2; y <= Position.y + Dimensions.y; y += definition) {
-			if(world->GetBlock(x, y, Position.z - Dimensions.z)) {
-				if(world->GetBlock(x, y, Position.z - Dimensions.z)->GetID() != 0) {
-					zNeg_Obstructed = true;
-				}
+			if(world->GetObstruction(x, y, Position.z - Dimensions.z)) {
+				zNeg_Obstructed = true;
 			}
-			if(world->GetBlock(x, y, Position.z + Dimensions.z)) {
-				if(world->GetBlock(x, y, Position.z + Dimensions.z)->GetID() != 0) {
+			if(world->GetObstruction(x, y, Position.z + Dimensions.z)) {
 					zPos_Obstructed = true;
-				}
 			}
 		}
 	}
@@ -221,15 +213,11 @@ void Player::CollisionTest() {
 	bool xPos_Obstructed = false;
 	for(float z = Position.z - Dimensions.z + definition * 2; z <= Position.z + Dimensions.z; z += definition) {
 		for(float y = Position.y + definition * 2; y <= Position.y + Dimensions.y; y += definition) {
-			if(world->GetBlock(Position.x - Dimensions.x, y, z)) {
-				if(world->GetBlock(Position.x - Dimensions.x, y, z)->GetID() != 0) {
-					xNeg_Obstructed = true;
-				}
+			if(world->GetObstruction(Position.x - Dimensions.x, y, z)) {
+				xNeg_Obstructed = true;
 			}
-			if(world->GetBlock(Position.x + Dimensions.x, y, z)) {
-				if(world->GetBlock(Position.x + Dimensions.x, y, z)->GetID() != 0) {
-					xPos_Obstructed = true;
-				}
+			if(world->GetObstruction(Position.x + Dimensions.x, y, z)) {
+				xPos_Obstructed = true;
 			}
 		}
 	}

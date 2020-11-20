@@ -309,6 +309,72 @@ Voxel* World::GetBlock(int x, int y, int z) {
 	return temp->Getblock(x, y, z);
 }
 
+bool World::GetObstruction(float xx, float yy, float zz) {
+	if(xx < 0) xx--;
+	if(yy < 0) yy--;
+	if(zz < 0) zz--;
+	int x = xx, y = yy, z = zz;
+	if(abs(x) / CHUNK_W > H_DRAW_DISTANCE || abs(z) / CHUNK_W > H_DRAW_DISTANCE || abs(y) / CHUNK_H > V_DRAW_DISTANCE) {
+		return false;
+	}
+
+	int xc, yc, zc; // chunk position temp variables
+	xc = x; yc = y; zc = z;
+
+	// normalizing coordinates
+	if(xc < 0) {
+		xc /= CHUNK_W;
+		xc -= 1;
+		x = abs(abs(x) % CHUNK_W - CHUNK_W);
+	}
+	else {
+		xc /= CHUNK_W;
+		x = abs(x) % CHUNK_W;
+	}
+
+	if(yc < 0) {
+		yc /= CHUNK_H;
+		yc -= 1;
+		y = abs(abs(y) % CHUNK_H - CHUNK_H);
+	}
+	else {
+		yc /= CHUNK_H;
+		y = abs(y) % CHUNK_H;
+	}
+
+	if(zc < 0) {
+		zc /= CHUNK_W;
+		zc -= 1;
+		z = abs(abs(z) % CHUNK_W - CHUNK_W);
+	}
+	else {
+		zc /= CHUNK_W;
+		z = abs(z) % CHUNK_W;
+	}
+	//normalizing block coordinates
+	if(x == CHUNK_W) {
+		x = 0;
+		xc += 1;
+	}
+	if(y == CHUNK_H) {
+		y = 0;
+		yc += 1;
+	}
+	if(z == CHUNK_W) {
+		z = 0;
+		zc += 1;
+	}
+
+
+	long long index = xc + zc * pow(2, 24) + yc * pow(2, 48);
+	Chunk*& temp = chunk_handler[index];
+	if(!temp) return false;
+	if(temp->Getblock(x, y, z)->GetID() == 0) {
+		return false;
+	}
+	else return true;
+}
+
 Voxel* World::RayCast(glm::vec3 pos, glm::vec3 dir, float maxDist, glm::vec3& end, glm::vec3& norm, glm::vec3& iend) {
 	float px = pos.x;
 	float py = pos.y;
