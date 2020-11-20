@@ -86,7 +86,7 @@ void Player::KeyBoardUpdate() {
 			glm::vec3 norm;
 			glm::vec3 iend;
 			world->RayCast(camera->GetPosition(), View, 20.f, end, norm, iend);
-			if(world->GetBlock(iend.x, iend.y, iend.z)->GetID() != 0) {
+			if (world->GetBlock(iend.x, iend.y, iend.z)->GetID() != 0) {
 				world->SetBlock_u(0, iend.x, iend.y, iend.z);
 			}
 		}
@@ -96,7 +96,7 @@ void Player::KeyBoardUpdate() {
 			glm::vec3 norm;
 			glm::vec3 iend;
 			world->RayCast(camera->GetPosition(), View, 20.f, end, norm, iend);
-			if(world->GetBlock(iend.x, iend.y, iend.z)->GetID() != 0) {
+			if (world->GetBlock(iend.x, iend.y, iend.z)->GetID() != 0) {
 				world->SetBlock_u(3, iend.x + norm.x, iend.y + norm.y, iend.z + norm.z);
 			}
 		}
@@ -126,7 +126,7 @@ void Player::KeyBoardUpdate() {
 				m_acceleration.y += Speed;
 			}
 			else {
-				if(isOnGround) {
+				if (isOnGround) {
 					Velocity.y += JumpForce;
 				}
 			}
@@ -137,9 +137,6 @@ void Player::KeyBoardUpdate() {
 				Velocity.y += JumpForce;
 			}
 		}*/
-
-	}
-	else {
 		if (Events::Pressed(KM_KEY_V)) {
 			m_acceleration = { 0,0,0 };
 		}
@@ -148,7 +145,6 @@ void Player::KeyBoardUpdate() {
 			m_acceleration.y -= Speed;
 		}
 		MouseUpdate();
-		CheckCollision();
 	}
 }
 
