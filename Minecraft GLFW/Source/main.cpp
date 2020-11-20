@@ -65,7 +65,7 @@ int main() {
 		return 1;
 	}
 
-	glClearColor(0.6f, 0.62f, 0.65f, 1);
+	glClearColor(0.24f, 0.47f, 0.69f, 1);
 
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_BLEND);

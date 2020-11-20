@@ -368,7 +368,7 @@ bool World::GetObstruction(float xx, float yy, float zz) {
 
 	long long index = xc + zc * pow(2, 24) + yc * pow(2, 48);
 	Chunk*& temp = chunk_handler[index];
-	if(!temp) return false;
+	if(!temp) return true;
 	if(temp->Getblock(x, y, z)->GetID() == 0) {
 		return false;
 	}
