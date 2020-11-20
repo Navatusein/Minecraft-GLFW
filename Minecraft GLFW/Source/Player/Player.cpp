@@ -18,7 +18,7 @@ Player::Player(World* world) :HitBox(Dimensions), world(world) {
 	Delta = 0.0f;
 
 	Speed = 5;
-	JumpForce = 8;
+	JumpForce = 1;
 
 	isFlying = false;
 	isFlyOn = false; // this doesn't seem to be used
@@ -86,7 +86,7 @@ void Player::KeyBoardUpdate() {
 			glm::vec3 end;
 			glm::vec3 norm;
 			glm::vec3 iend;
-			world->RayCast(Position, View, 20.f, end, norm, iend);
+			world->RayCast(camera->GetPosition(), View, 20.f, end, norm, iend);
 			if(world->GetBlock(iend.x, iend.y, iend.z)->GetID() != 0) {
 				world->SetBlock_u(0, iend.x, iend.y, iend.z);
 			}
@@ -96,7 +96,7 @@ void Player::KeyBoardUpdate() {
 			glm::vec3 end;
 			glm::vec3 norm;
 			glm::vec3 iend;
-			world->RayCast(Position, View, 20.f, end, norm, iend);
+			world->RayCast(camera->GetPosition(), View, 20.f, end, norm, iend);
 			if(world->GetBlock(iend.x, iend.y, iend.z)->GetID() != 0) {
 				world->SetBlock_u(3, iend.x + norm.x, iend.y + norm.y, iend.z + norm.z);
 			}
@@ -129,17 +129,15 @@ void Player::KeyBoardUpdate() {
 			else {
 				if(isOnGround) {
 					Velocity.y += JumpForce;
-					isOnGround = false;
 				}
 			}
 		}
 
-		if(Events::JustClicked(KM_KEY_SPACE)) {
+		/*if(Events::JustClicked(KM_KEY_SPACE)) {
 			if(isOnGround) {
 				Velocity.y += JumpForce;
-				isOnGround = false;
 			}
-		}
+		}*/
 
 	}
 	else {
@@ -209,8 +207,8 @@ void Player::CollisionTest() {
 
 	bool zNeg_Obstructed = false;
 	bool zPos_Obstructed = false;
-	for(float x = Position.x - Dimensions.x; x <= Position.x + Dimensions.x; x += definition) {
-		for(float y = Position.y; y <= Position.y + Dimensions.y; y += definition) {
+	for(float x = Position.x - Dimensions.x + definition * 2; x <= Position.x + Dimensions.x; x += definition) {
+		for(float y = Position.y + definition*2; y <= Position.y + Dimensions.y; y += definition) {
 			if(world->GetBlock(x, y, Position.z - Dimensions.z)) {
 				if(world->GetBlock(x, y, Position.z - Dimensions.z)->GetID() != 0) {
 					zNeg_Obstructed = true;
@@ -226,8 +224,8 @@ void Player::CollisionTest() {
 
 	bool xNeg_Obstructed = false;
 	bool xPos_Obstructed = false;
-	for(float z = Position.z - Dimensions.z; z <= Position.z + Dimensions.z; z += definition) {
-		for(float y = Position.y; y <= Position.y + Dimensions.y; y += definition) {
+	for(float z = Position.z - Dimensions.z + definition * 2; z <= Position.z + Dimensions.z; z += definition) {
+		for(float y = Position.y + definition * 2; y <= Position.y + Dimensions.y; y += definition) {
 			if(world->GetBlock(Position.x - Dimensions.x, y, z)) {
 				if(world->GetBlock(Position.x - Dimensions.x, y, z)->GetID() != 0) {
 					xNeg_Obstructed = true;
@@ -239,6 +237,16 @@ void Player::CollisionTest() {
 				}
 			}
 		}
+	}
+
+	if(yNeg_Obstructed) {
+		isOnGround = true;
+		if(Velocity.y < 0) {
+			Velocity.y = 0;
+		}
+	}
+	else {
+		isOnGround = false;
 	}
 
 	if(Velocity.y < 0 && yNeg_Obstructed) {

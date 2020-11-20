@@ -23,6 +23,7 @@ public:
 
 	mat4 GetProjection();
 	mat4 GetView();
+	vec3 GetPosition();
 
 };
 
