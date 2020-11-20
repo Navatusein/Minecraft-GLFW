@@ -1,7 +1,7 @@
 #include "Camera.h"
 
 
-Camera::Camera(vec3* Position, vec3* View, float Fov, float RenderDistance) : Position(Position), View(View), Fov(Fov), RenderDistance(RenderDistance) {
+Camera::Camera(vec3* Position, vec3* View, float* Fov, float RenderDistance) : Position(Position), View(View), Fov(Fov), RenderDistance(RenderDistance) {
  
 }
 void Camera::Update() {
@@ -9,7 +9,7 @@ void Camera::Update() {
 }
 
 mat4 Camera::GetProjection() {
-    return glm::perspective(Fov, (float)Window::Width / (float)Window::Height, 0.1f, RenderDistance);
+    return glm::perspective(glm::radians(*Fov), (float)Window::Width / (float)Window::Height, 0.1f, RenderDistance);
 }
 
 mat4 Camera::GetView() {

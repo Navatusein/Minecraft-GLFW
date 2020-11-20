@@ -14,10 +14,10 @@ private:
 	vec3* View;
 	vec3* Position;
 
-	float Fov;
+	float* Fov;
 	float RenderDistance;
 public:
-	Camera(vec3* Position, vec3* View, float Fov, float render_dist);
+	Camera(vec3* Position, vec3* View, float* Fov, float render_dist);
 
 	void Update();
 

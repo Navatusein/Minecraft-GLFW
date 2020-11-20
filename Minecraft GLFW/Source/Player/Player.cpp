@@ -7,9 +7,9 @@ Player::Player(World* world) :HitBox(Dimensions), world(world) {
 	
 	Position = {5, 16, 5};
 
-	FOV = 100.f;
+	FOVSettings = 100.f;
 	renderDist = 10000.f;
-	camera = new Camera(&Position, &View, radians(FOV), renderDist);
+	camera = new Camera(&Position, &View, &FOV, renderDist);
 
 	yaw = 90;
 	pitch = 0;
@@ -55,13 +55,13 @@ void Player::PhysicUpdate() {
 
 	// drag
 	float drag = 0.95 * Delta; // this is temporary, until better implementation 
-
+	if(isOnGround) drag *= 5;
 	Velocity.x *= -drag + 1;
 	Velocity.z *= -drag + 1;
+
 	if(isFlying) {
 		Velocity.y *= -drag + 1;
 	}
-
 }
 
 
@@ -70,6 +70,8 @@ void Player::KeyBoardUpdate() {
 	float currentTime = glfwGetTime();
 	Delta = currentTime - LastTime;
 	LastTime = currentTime;
+
+	FOV = FOVSettings;
 
 	// Events test
 	if (Events::JustPressed(KM_KEY_ESCAPE)) {
@@ -100,38 +102,53 @@ void Player::KeyBoardUpdate() {
 				world->SetBlock_u(3, iend.x + norm.x, iend.y + norm.y, iend.z + norm.z);
 			}
 		}
-
-		if (Events::Pressed(KM_KEY_W)) {
-			m_acceleration.x += cos(radians(yaw)) * Speed;
-			m_acceleration.z += sin(radians(yaw)) * Speed;
-		}
-
-		if (Events::Pressed(KM_KEY_S)) {
-			m_acceleration.x -= cos(radians(yaw)) * Speed;
-			m_acceleration.z -= sin(radians(yaw)) * Speed;
-		}
-
-		if (Events::Pressed(KM_KEY_D)) {
-			m_acceleration.x -= cos(radians(yaw - 90)) * Speed;
-			m_acceleration.z -= sin(radians(yaw - 90)) * Speed;
-		}
-
-		if (Events::Pressed(KM_KEY_A)) {
-			m_acceleration.x += cos(radians(yaw - 90)) * Speed;
-			m_acceleration.z += sin(radians(yaw - 90)) * Speed;
-		}
-
-		if (Events::Pressed(KM_KEY_SPACE)) {
-			if (isFlying) {
-				m_acceleration.y += Speed;
+		{
+			float Speed = this->Speed;
+			if(Events::Pressed(KM_KEY_LEFT_CONTROL)) {
+				if(isOnGround) {
+					Speed /= 2;
+				}
+				else if(isFlying){
+					m_acceleration.y -= Speed;
+				}
 			}
-			else {
-				if (isOnGround) {
-					Velocity.y = JumpForce;
+			if(Events::Pressed(KM_KEY_LEFT_SHIFT)) {
+				Speed *= 1.5;
+				FOV = FOVSettings + 15;
+			}
+			if(isOnGround) Speed *= 4;
+			if(Events::Pressed(KM_KEY_W)) {
+
+				m_acceleration.x += cos(radians(yaw)) * Speed;
+				m_acceleration.z += sin(radians(yaw)) * Speed;
+			}
+
+			if(Events::Pressed(KM_KEY_S)) {
+				m_acceleration.x -= cos(radians(yaw)) * Speed;
+				m_acceleration.z -= sin(radians(yaw)) * Speed;
+			}
+
+			if(Events::Pressed(KM_KEY_D)) {
+				m_acceleration.x -= cos(radians(yaw - 90)) * Speed;
+				m_acceleration.z -= sin(radians(yaw - 90)) * Speed;
+			}
+
+			if(Events::Pressed(KM_KEY_A)) {
+				m_acceleration.x += cos(radians(yaw - 90)) * Speed;
+				m_acceleration.z += sin(radians(yaw - 90)) * Speed;
+			}
+
+			if(Events::Pressed(KM_KEY_SPACE)) {
+				if(isFlying) {
+					m_acceleration.y += Speed;
+				}
+				else {
+					if(isOnGround) {
+						Velocity.y = JumpForce;
+					}
 				}
 			}
 		}
-
 		/*if(Events::JustClicked(KM_KEY_SPACE)) {
 			if(isOnGround) {
 				Velocity.y += JumpForce;
@@ -141,9 +158,7 @@ void Player::KeyBoardUpdate() {
 			Velocity = { 0,0,0 };
 		}
 
-		if (Events::Pressed(KM_KEY_LEFT_SHIFT)) {
-			m_acceleration.y -= Speed;
-		}
+		
 		MouseUpdate();
 	}
 }

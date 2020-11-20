@@ -38,6 +38,7 @@ private:
 	float yaw;
 
 	float FOV;
+	float FOVSettings;
 	float renderDist;
 
 	bool isFlying;
