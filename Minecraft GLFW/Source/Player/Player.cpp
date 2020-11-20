@@ -62,7 +62,6 @@ Player::Player(World* world) :HitBox(Dimensions), world(world) {
 
 void Player::Update() {
 	KeyBoardUpdate();
-	MouseUpdate();
 	PhysicUpdate();
 	CheckCollision();
 }
