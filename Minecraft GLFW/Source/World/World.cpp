@@ -77,6 +77,7 @@ void World::Draw(Shader* program) {
 				if(!chunkWasUpdated) {
 					if(!chunk_handler[index]->updated) {
 						UpdateChunk(temp);
+						chunkWasUpdated = true;
 					}
 				}
 
@@ -178,6 +179,71 @@ bool World::SetBlock(unsigned short int id, int x, int y, int z) {
 
 	if(!temp) return 0;
 	temp->Setblock(id, x, y, z);
+	temp->updated = 0;
+
+	return 1;
+}
+
+bool World::SetBlock_u(unsigned short int id, int x, int y, int z) {
+	if(abs(x) / CHUNK_W > H_DRAW_DISTANCE || abs(z) / CHUNK_W > H_DRAW_DISTANCE || abs(y) / CHUNK_H > V_DRAW_DISTANCE) {
+		return 0;
+	}
+
+	int xc, yc, zc; // chunk position temp variables
+	xc = x; yc = y; zc = z;
+
+
+
+	// normalizing coordinates
+	if(xc < 0) {
+		xc /= CHUNK_W;
+		xc -= 1;
+		x = abs(abs(x) % CHUNK_W - CHUNK_W);
+	}
+	else {
+		xc /= CHUNK_W;
+		x = abs(x) % CHUNK_W;
+	}
+
+	if(yc < 0) {
+		yc /= CHUNK_H;
+		yc -= 1;
+		y = abs(abs(y) % CHUNK_H - CHUNK_H);
+	}
+	else {
+		yc /= CHUNK_H;
+		y = abs(y) % CHUNK_H;
+	}
+
+	if(zc < 0) {
+		zc /= CHUNK_W;
+		zc -= 1;
+		z = abs(abs(z) % CHUNK_W - CHUNK_W);
+	}
+	else {
+		zc /= CHUNK_W;
+		z = abs(z) % CHUNK_W;
+	}
+
+	//normalizing block coordinates
+	if(x == CHUNK_W) {
+		x = 0;
+		xc += 1;
+	}
+	if(y == CHUNK_H) {
+		y = 0;
+		yc += 1;
+	}
+	if(z == CHUNK_W) {
+		z = 0;
+		zc += 1;
+	}
+
+	long long index = xc + zc * pow(2, 24) + yc * pow(2, 48);
+	Chunk*& temp = chunk_handler[index];
+
+	if(!temp) return 0;
+	temp->Setblock_u(id, x, y, z);
 	temp->updated = 0;
 
 	return 1;

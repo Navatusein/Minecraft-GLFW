@@ -18,6 +18,8 @@
 #define H_DRAW_DISTANCE 2
 #define V_DRAW_DISTANCE 1
 
+#define GRAVITY 9.8
+
 class World
 {
 private:
@@ -44,6 +46,7 @@ public:
 	void UpdateChunks();
 
 	bool SetBlock(unsigned short int id, int x, int y, int z);
+	bool SetBlock_u(unsigned short int id, int x, int y, int z);
 
 	Voxel* GetBlock(int x, int y, int z);
 

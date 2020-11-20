@@ -8,8 +8,8 @@
 
 #include "Container/Neighbor.h"
 
-#define CHUNK_W 64
-#define CHUNK_H 64
+#define CHUNK_W 32
+#define CHUNK_H 32
 
 #define CHUNK_X CHUNK_W
 #define CHUNK_Y CHUNK_H
@@ -48,6 +48,7 @@ public:
 	void Fill();
 
 	void Setblock(unsigned short int id, postype x, postype y, postype z);
+	void Setblock_u(unsigned short int id, postype x, postype y, postype z);
 
 	Voxel* Getblock(postype x, postype y, postype z);
 
