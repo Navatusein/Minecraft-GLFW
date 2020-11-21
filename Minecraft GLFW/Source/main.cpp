@@ -50,13 +50,6 @@ int main() {
 		return -1;
 	}
 
-	Shader* fontShader = CreateShaderProgram("Resource/Shader/fontVertex.glsl", "Resource/Shader/fontFragment.glsl");
-	if (shader == nullptr) {
-		std::cerr << "[main] Failed to load main shader" << std::endl;
-		Window::Terminate();
-		return -1;
-	}
-
 	Shader* guiShader = CreateShaderProgram("Resource/Shader/guiShaderVertex.glsl", "Resource/Shader/guiShaderFragment.glsl");
 	if (guiShader == nullptr) {
 		std::cerr << "[main] Failed to load gui shader" << std::endl;
@@ -133,15 +126,15 @@ int main() {
 		shader->UniformMatrix("projview", Steve.getCamera()->GetProjection() * Steve.getCamera()->GetView());
 		shader->Unbind();
 
-		// Begin text drawing (this for instance calls glUseProgram)
-		gltBeginDraw();
+		//// Begin text drawing (this for instance calls glUseProgram)
+		//gltBeginDraw();
 
-		// Draw any amount of text between begin and end
-		gltColor(1.0f, 1.0f, 1.0f, 1.0f);
-		gltDrawText2D(text, 100, 100, 3);
+		//// Draw any amount of text between begin and end
+		//gltColor(1.0f, 1.0f, 1.0f, 1.0f);
+		//gltDrawText2D(text, 100, 100, 3);
 
-		// Finish drawing text
-		gltEndDraw();
+		//// Finish drawing text
+		//gltEndDraw();
 		
 		//Draw here
 		world.Draw(shader);
