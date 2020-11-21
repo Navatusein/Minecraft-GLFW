@@ -11,6 +11,7 @@ int Window::Initialize(int width, int height, GLFWmonitor* monitor, const char* 
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
+	glfwWindowHint(GLFW_MAXIMIZED, GL_TRUE);
 
 	//Create a window
 	window = glfwCreateWindow(width, height, title, monitor, nullptr);
