@@ -40,6 +40,7 @@
     <ClCompile Include="Source\World\World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\gltext.h" />
     <ClInclude Include="Source\Graphic\GUI\GUIMesh.h" />
     <ClInclude Include="Source\Physics\AABB.h" />
     <ClInclude Include="Source\Entity\Entity.h" />
@@ -202,14 +203,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Noise;$(SolutionDir)GLM;$(SolutionDir)FreeType\x65\include;$(SolutionDir)SOIL\x65\include;$(SolutionDir)GLEW\x65\include;$(SolutionDir)GLFW\x65\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Noise;$(SolutionDir)GLM;$(SolutionDir)SOIL\x65\include;$(SolutionDir)GLEW\x65\include;$(SolutionDir)GLFW\x65\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)FreeType\x65\lib;$(SolutionDir)GLEW\x65\lib;$(SolutionDir)SOIL\x65\lib;$(SolutionDir)GLFW\x65\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;glew32s.lib;SOIL.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)GLEW\x65\lib;$(SolutionDir)SOIL\x65\lib;$(SolutionDir)GLFW\x65\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;glew32s.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -220,7 +221,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Noise;$(SolutionDir)GLM;$(SolutionDir)FreeType\x65\include;$(SolutionDir)SOIL\x65\include;$(SolutionDir)GLEW\x65\include;$(SolutionDir)GLFW\x65\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Noise;$(SolutionDir)GLM;$(SolutionDir)SOIL\x65\include;$(SolutionDir)GLEW\x65\include;$(SolutionDir)GLFW\x65\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -228,8 +229,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)FreeType\x65\lib;$(SolutionDir)GLEW\x65\lib;$(SolutionDir)SOIL\x65\lib;$(SolutionDir)GLFW\x65\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;glew32s.lib;SOIL.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)GLEW\x65\lib;$(SolutionDir)SOIL\x65\lib;$(SolutionDir)GLFW\x65\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;glew32s.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

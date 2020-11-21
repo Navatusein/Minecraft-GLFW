@@ -146,6 +146,9 @@
     <ClInclude Include="Source\Graphic\GUI\GUIMesh.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="Source\gltext.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\Textures\1.png">

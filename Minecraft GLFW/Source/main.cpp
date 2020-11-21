@@ -126,24 +126,27 @@ int main() {
 		shader->UniformMatrix("projview", Steve.getCamera()->GetProjection() * Steve.getCamera()->GetView());
 		shader->Unbind();
 
-		//// Begin text drawing (this for instance calls glUseProgram)
-		//gltBeginDraw();
-
-		//// Draw any amount of text between begin and end
-		//gltColor(1.0f, 1.0f, 1.0f, 1.0f);
-		//gltDrawText2D(text, 100, 100, 3);
-
-		//// Finish drawing text
-		//gltEndDraw();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		//Draw here
 		world.Draw(shader);
 		gui.Draw(guiShader);
 		
-		// Swapping frame buffers
-		Window::SwapBuffers();
+		// Begin text drawing (this for instance calls glUseProgram)
+		gltBeginDraw();
+
+		// Draw any amount of text between begin and end
+		gltColor(1.0f, 1.0f, 1.0f, 1.0f);
+		gltDrawText2D(text, 100, 100, 3);
+
+		// Finish drawing text
+		gltEndDraw();
+
 		// Pulling Events
 		Events::PullEvents();
+
+		// Swapping frame buffers
+		Window::SwapBuffers();
 	}
 	
 	delete shader;
