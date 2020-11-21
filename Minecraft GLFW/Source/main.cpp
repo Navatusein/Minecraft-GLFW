@@ -34,14 +34,9 @@ int main() {
 
 	srand(time(0));
 
-	GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-	int m_width = 2540, m_height = 1400;
-	int xpos, ypos;
-	//glfwGetMonitorWorkarea(monitor, &xpos, &ypos, &m_width, &m_height);
-
 
 	//Window initialization
-	Window::Initialize(m_width, m_height, monitor, "Hello world");
+	Window::Initialize("Hello world", true);
 	Events::Initialize();
 
 	Shader* shader = CreateShaderProgram("Resource/Shader/mainVertex.glsl", "Resource/Shader/mainFragment.glsl");
@@ -79,7 +74,6 @@ int main() {
 	glEnable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 
 	float vertices[] = {
 		-0.075f, -0.1f, 0.f, 0.f,
