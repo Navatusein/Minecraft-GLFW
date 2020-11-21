@@ -1,6 +1,7 @@
 #include "Window.h"
 
 GLFWwindow* Window::window;
+GLFWmonitor* Window::monitor;
 int Window::Width = 0;
 int Window::Height = 0;
 
@@ -14,7 +15,7 @@ int Window::Initialize(const char* title, bool fullscreen) {
 	glfwWindowHint(GLFW_SCALE_TO_MONITOR, GL_TRUE);
 	glfwWindowHint(GLFW_MAXIMIZED, GL_TRUE);
 
-	GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+	monitor = glfwGetPrimaryMonitor();
 	if(monitor == nullptr) {
 		std::cout << "[Window] Failed to create GLFW Window" << std::endl;
 		glfwTerminate();
@@ -58,6 +59,10 @@ void Window::Terminate() {
 
 bool Window::WindowShouldClose() {
 	return glfwWindowShouldClose(window);
+}
+
+bool Window::WindowIsFocused() {
+	return glfwGetWindowAttrib(window, GLFW_FOCUSED);
 }
 
 void Window::SetWindowShouldClose(bool flag) {

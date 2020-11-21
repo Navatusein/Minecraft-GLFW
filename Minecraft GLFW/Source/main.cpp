@@ -106,23 +106,21 @@ int main() {
 
 	//Main loop
 	while (!Window::WindowShouldClose()) {
+
 		Steve.Update();
 
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
 		shader->Bind();
 		shader->UniformMatrix("projview", Steve.getCamera()->GetProjection() * Steve.getCamera()->GetView());
 		shader->Unbind();
 
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		//Draw here
 		world.Draw(shader);
 		gui.Draw(guiShader);
-	
-		
 
-		// Swapping frame buffers
-		Window::SwapBuffers();
+
 		Events::PullEvents();
+		Window::SwapBuffers();
 	}
 	
 	delete shader;

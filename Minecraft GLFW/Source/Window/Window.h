@@ -12,6 +12,7 @@ public:
 	static int Width;
 	static int Height;
 
+	static GLFWmonitor* monitor;
 	static GLFWwindow* window;
 
 	//Window initialization method
@@ -22,6 +23,8 @@ public:
 	
 	//Method for checking if a window is open
 	static bool WindowShouldClose();
+
+	static bool WindowIsFocused();
 	
 	//Window close method
 	static void SetWindowShouldClose(bool flag);

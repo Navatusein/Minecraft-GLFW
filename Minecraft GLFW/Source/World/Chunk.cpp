@@ -30,6 +30,7 @@ Chunk::Chunk(Texture* textureAtlas, int posx, int posy, int posz){
 
 	generated = false;
 	updated = true;
+	updating = false;
 
 	mesh.Move(posx*CHUNK_W, posy*CHUNK_H, posz*CHUNK_W);
 }
@@ -348,6 +349,7 @@ glm::vec3 Chunk::GetPos() {
 
 
 void UpdateChunk(Chunk& chunk) {
+	chunk.updating = true;
 	chunk.mesh.Clear();
 	for(postype x = 0; x < CHUNK_W; x++) {
 		for(postype y = 0; y < CHUNK_H; y++) {
@@ -361,4 +363,5 @@ void UpdateChunk(Chunk& chunk) {
 
 	chunk.mesh.UpdateMesh();
 	chunk.updated = true;
+	chunk.updating = false;
 }

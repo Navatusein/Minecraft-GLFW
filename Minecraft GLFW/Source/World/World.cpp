@@ -97,7 +97,7 @@ void World::Draw(Shader* program) {
 				}
 
 				//draw cycle
-				else if(chunk_handler[index]->updated) {
+				else if(!chunk_handler[index]->updating) {
 					chunk_handler[index]->Draw(program);
 				}
 				
@@ -107,13 +107,13 @@ void World::Draw(Shader* program) {
 	}
 }
 
-// foo that updates every loaded chunk
+// foo that updates every loaded chunk5
 void World::UpdateChunks() {
 	for(int x = -H_DRAW_DISTANCE; x < H_DRAW_DISTANCE; x++) {
 		for(short y = -V_DRAW_DISTANCE; y < V_DRAW_DISTANCE; y++) {
 			for(int z = -H_DRAW_DISTANCE; z < H_DRAW_DISTANCE; z++) {
 				long long index = x + z * pow(2, 24) + y * pow(2, 48);
-				chunk_handler[index]->updated = false;
+				chunk_handler[index]->updated = false; // flags every chunks to be updated
 			}
 		}
 	}
