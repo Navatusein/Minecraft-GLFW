@@ -28,8 +28,9 @@ private:
 
 public:
 	bool generated;
-	bool updated;
-	Neighbor* neighbor;
+	bool updated; // flag for chunk to be udpated
+	bool updating; // flag for draw function not to draw a chunks that is updating
+	Neighbor* neighbor; // pointers to neighboring chunks
 
 public:
 	

@@ -126,10 +126,9 @@ int main() {
 
 	//Main loop
 	while (!Window::WindowShouldClose()) {
+
 		Steve.Update();
 
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
 		shader->Bind();
 		shader->UniformMatrix("projview", Steve.getCamera()->GetProjection() * Steve.getCamera()->GetView());
 		shader->Unbind();

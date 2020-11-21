@@ -25,11 +25,12 @@ void GUIMesh::Draw(Shader* program) {
 }
 
 void GUIMesh::Push(Vertex4<float>* vertices, unsigned int vCount, unsigned int* indices, unsigned int eCount) {
+	int temp = vertexArr.size();
 	for(int i = 0; i < vCount; i++) {
 		vertexArr.push_back(vertices[i]);
 	}
 	for(int i = 0; i < eCount; i++) {
-		indexArr.push_back(indices[i]);
+		indexArr.push_back(indices[i] + temp);
 	}
 }
 
