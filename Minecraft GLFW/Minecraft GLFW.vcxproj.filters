@@ -179,4 +179,7 @@
     <None Include="Resource\Shader\guiShaderFragment.glsl" />
     <None Include="Resource\Shader\guiShaderVertex.glsl" />
   </ItemGroup>
+  <ItemGroup>
+    <Font Include="Resource\rs.ttf" />
+  </ItemGroup>
 </Project>

@@ -28,18 +28,29 @@
 
 #include "Player/Player.h"
 
+
+//In one C or C++ file, define GLT_IMPLEMENTATION prior to inclusion to create the implementation.
+#define GLT_IMPLEMENTATION
+#include "gltext.h"
+
 using namespace glm;
 
 int main() {
 
 	srand(time(0));
 
-
 	//Window initialization
-	Window::Initialize("Hello world", true);
+	Window::Initialize("Hello world", false);
 	Events::Initialize();
 
 	Shader* shader = CreateShaderProgram("Resource/Shader/mainVertex.glsl", "Resource/Shader/mainFragment.glsl");
+	if (shader == nullptr) {
+		std::cerr << "[main] Failed to load main shader" << std::endl;
+		Window::Terminate();
+		return -1;
+	}
+
+	Shader* fontShader = CreateShaderProgram("Resource/Shader/fontVertex.glsl", "Resource/Shader/fontFragment.glsl");
 	if (shader == nullptr) {
 		std::cerr << "[main] Failed to load main shader" << std::endl;
 		Window::Terminate();
@@ -104,6 +115,15 @@ int main() {
 
 	std::future<void> fut = std::async(std::launch::async, &Call_UpdateChunks, std::ref(world), 3000); // launching asynchronous task to update all chunks once
 
+	// Initialize glText
+	gltInit();
+
+	// Creating text
+	GLTtext* text = gltCreateText();
+	gltSetText(text, "Hello World!");
+
+
+
 	//Main loop
 	while (!Window::WindowShouldClose()) {
 		Steve.Update();
@@ -114,21 +134,34 @@ int main() {
 		shader->UniformMatrix("projview", Steve.getCamera()->GetProjection() * Steve.getCamera()->GetView());
 		shader->Unbind();
 
+		// Begin text drawing (this for instance calls glUseProgram)
+		gltBeginDraw();
+
+		// Draw any amount of text between begin and end
+		gltColor(1.0f, 1.0f, 1.0f, 1.0f);
+		gltDrawText2D(text, 100, 100, 3);
+
+		// Finish drawing text
+		gltEndDraw();
+		
 		//Draw here
 		world.Draw(shader);
 		gui.Draw(guiShader);
-	
 		
-
 		// Swapping frame buffers
 		Window::SwapBuffers();
+		// Pulling Events
 		Events::PullEvents();
 	}
 	
 	delete shader;
 	delete guiShader; //fix memory leak 
 	delete textureAtlas;
-	
+
+	// Deleting text
+	gltDeleteText(text);
+	// Destroy glText
+	gltTerminate();
 
 	// Closing the window
 	Window::Terminate();
