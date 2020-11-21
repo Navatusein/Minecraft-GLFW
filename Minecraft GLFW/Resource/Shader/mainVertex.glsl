@@ -10,7 +10,7 @@ uniform mat4 transform;
 uniform mat4 projview;
 
 void main(){
-	a_color = vec4(1.0f,1.0f,1.0f,1.0f);
-	a_texCoord = vec2(v_texCoord.x, 1.0-v_texCoord.y);
-	gl_Position = projview* transform * vec4(v_position, 1.0);
+	a_color = vec4(1.f, 1.f, 1.f, 1.f);
+	a_texCoord = vec2(v_texCoord.x, 1.f-v_texCoord.y);
+	gl_Position = projview * transform * vec4(v_position, 1.f);
 }

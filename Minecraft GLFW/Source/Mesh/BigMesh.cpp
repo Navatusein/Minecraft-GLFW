@@ -52,7 +52,7 @@ void BigMesh::Draw(Shader* program) {
 void BigMesh::UpdateMesh() {
 	VBO.Delete();
 
-	VBO.Construct(vertexArr, vCount);
+	VBO.Construct(vertexArr, vCount*5);
 	IBO.Construct(indexArr, eCount);
 	VAO.AddBuffer(VBO);
 	VAO.Unbind();

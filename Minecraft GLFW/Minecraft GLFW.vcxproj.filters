@@ -69,7 +69,7 @@
     <ClCompile Include="Source\Physics\AABB.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Graphic\GUI\GUIHandler.cpp">
+    <ClCompile Include="Source\Graphic\GUI\GUIMesh.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -140,7 +140,10 @@
     <ClInclude Include="Source\World\ChunkUpdaterCall.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Graphic\GUI\GUIHandler.h">
+    <ClInclude Include="Source\Vertex\VertexLayout\Vertex4.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphic\GUI\GUIMesh.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
@@ -161,6 +164,9 @@
       <Filter>Файлы ресурсов</Filter>
     </Image>
     <Image Include="Resource\Shader\mainVertex.glsl" />
+    <Image Include="Resource\Textures\Untitled.png">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Resource\Shader\guiShader_fragment.glsl" />

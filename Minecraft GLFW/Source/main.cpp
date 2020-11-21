@@ -14,7 +14,9 @@
 #include "Window/Events.h"
 #include "Window/Camera.h"
 
-#include"Graphic/Shader.h"
+#include "Graphic/Shader.h"
+
+#include "Graphic/GUI/GUIMesh.h"
 
 #include "Mesh/Mesh.h"
 
@@ -46,24 +48,30 @@ int main() {
 	if (shader == nullptr) {
 		std::cerr << "[main] Failed to load main shader" << std::endl;
 		Window::Terminate();
-		return 1;
+		return -1;
 	}
-	/*
-	Shader* crosshairShader = CreateShaderProgram("Resource/Shader/crosshairVertex.glsl", "Resource/Shader/crosshairFragment.glsl");
-	if (shader == nullptr) {
-		std::cerr << "[main] Failed to load crosshair shader" << std::endl;
+
+	Shader* guiShader = CreateShaderProgram("Resource/Shader/guiShaderVertex.glsl", "Resource/Shader/guiShaderFragment.glsl");
+	if (guiShader == nullptr) {
+		std::cerr << "[main] Failed to load gui shader" << std::endl;
 		Window::Terminate();
-		return 1;
+		return -1;
 	}
-	*/
 
 	Texture* textureAtlas = CreateTexture("Resource/Textures/TextureAtlas.png");
 	if (textureAtlas == nullptr) {
-		std::cerr << "[main] Failed to load texture" << std::endl;
-		delete shader;
+		std::cerr << "[main] Failed to load texture atlas" << std::endl;
 		Window::Terminate();
-		return 1;
+		return -1;
 	}
+
+	Texture * guiTextureAtlas = CreateTexture("Resource/Textures/Untitled.png");
+	if(guiTextureAtlas == nullptr) {
+		std::cerr << "[main] Failed to load gui texture atlas" << std::endl;
+		Window::Terminate();
+		return -1;
+	}
+
 
 	glClearColor(0.24f, 0.47f, 0.69f, 1);
 
@@ -72,6 +80,19 @@ int main() {
 	glEnable(GL_DEPTH_TEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+
+	float vertices[] = {
+		-0.075f, -0.1f, 0.f, 0.f,
+		0.075f, -0.1f, 1.f, 0.f,
+		0.075f, 0.1f, 1.f, 1.f,
+		-0.075f, 0.1f, 0.f, 1.f,
+	};
+	unsigned int indices[] = {
+		0, 1, 2,
+		0, 2, 3,
+	};
+
+
 	mat4 Model(1.f);
 	Model = translate(Model, vec3(0.5f, 0, 0));
 
@@ -79,14 +100,18 @@ int main() {
 
 	World world(textureAtlas, 1);
 
+	GUIMesh gui(guiTextureAtlas);
+
 	Player Steve(&world);
+
+	gui.Push((Vertex4<float>*)vertices, 4, indices, 6);
+	gui.UpdateMesh();
 
 
 	std::future<void> fut = std::async(std::launch::async, &Call_UpdateChunks, std::ref(world), 3000); // launching asynchronous task to update all chunks once
 
 	//Main loop
 	while (!Window::WindowShouldClose()) {
-
 		Steve.Update();
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -97,6 +122,9 @@ int main() {
 
 		//Draw here
 		world.Draw(shader);
+		gui.Draw(guiShader);
+	
+		
 
 		// Swapping frame buffers
 		Window::SwapBuffers();
