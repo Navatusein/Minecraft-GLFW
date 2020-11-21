@@ -132,7 +132,9 @@ int main() {
 	}
 	
 	delete shader;
+	delete guiShader; //fix memory leak 
 	delete textureAtlas;
+	
 
 	// Closing the window
 	Window::Terminate();
