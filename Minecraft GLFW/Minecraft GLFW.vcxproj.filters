@@ -72,9 +72,6 @@
     <ClCompile Include="Source\Graphic\GUI\GUIMesh.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Graphic\GUI\GUIElement.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Window\Window.h">
@@ -149,7 +146,7 @@
     <ClInclude Include="Source\Graphic\GUI\GUIMesh.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Graphic\GUI\GUIElement.h">
+    <ClInclude Include="Source\gltext.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
@@ -184,5 +181,8 @@
     <None Include="Resource\Shader\crosshairVertex.glsl" />
     <None Include="Resource\Shader\guiShaderFragment.glsl" />
     <None Include="Resource\Shader\guiShaderVertex.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Resource\rs.ttf" />
   </ItemGroup>
 </Project>
