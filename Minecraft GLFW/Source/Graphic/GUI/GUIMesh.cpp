@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-GUIMesh::GUIMesh(Texture* textureAtlas) : textureAtlas(textureAtlas){
+GUIMesh::GUIMesh(Texture* textureAtlas, float monitorScale) : textureAtlas(textureAtlas) , monitorScale(monitorScale){
 }
 
 GUIMesh::~GUIMesh() {
@@ -48,4 +48,8 @@ void GUIMesh::UpdateMesh() {
 void GUIMesh::Clear() {
 	vertexArr.clear();
 	indexArr.clear();
+}
+
+float GUIMesh::GetMonitorScale() {
+	return monitorScale;
 }

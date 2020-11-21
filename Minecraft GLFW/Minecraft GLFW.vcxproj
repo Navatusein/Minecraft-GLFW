@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Graphic\GUI\GUIElement.cpp" />
     <ClCompile Include="Source\Graphic\GUI\GUIMesh.cpp" />
     <ClCompile Include="Source\Physics\AABB.cpp" />
     <ClCompile Include="Source\Player\Player.cpp" />
@@ -40,6 +41,7 @@
     <ClCompile Include="Source\World\World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Graphic\GUI\GUIElement.h" />
     <ClInclude Include="Source\Graphic\GUI\GUIMesh.h" />
     <ClInclude Include="Source\Physics\AABB.h" />
     <ClInclude Include="Source\Entity\Entity.h" />

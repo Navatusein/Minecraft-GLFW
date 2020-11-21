@@ -60,7 +60,7 @@ int main() {
 		return -1;
 	}
 
-	Texture * guiTextureAtlas = CreateTexture("Resource/Textures/Untitled.png");
+	Texture * guiTextureAtlas = CreateTexture("Resource/Textures/guiAtlas.png");
 	if(guiTextureAtlas == nullptr) {
 		std::cerr << "[main] Failed to load gui texture atlas" << std::endl;
 		Window::Terminate();
@@ -94,7 +94,7 @@ int main() {
 
 	World world(textureAtlas, 1);
 
-	GUIMesh gui(guiTextureAtlas);
+	GUIMesh gui(guiTextureAtlas, (float)Window::Width/(float)Window::Height);
 
 	Player Steve(&world);
 

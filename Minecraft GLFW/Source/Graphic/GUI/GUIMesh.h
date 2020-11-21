@@ -24,11 +24,13 @@ private:
 
 	Texture* textureAtlas;
 
+	float monitorScale;
+
 	std::vector<Vertex4<float>> vertexArr;
 	std::vector<unsigned int> indexArr;
 
 public:
-	GUIMesh(Texture* textureAtlas);
+	GUIMesh(Texture* textureAtlas, float monitorScale);
 	~GUIMesh();
 
 	void Draw(Shader* program);
@@ -38,5 +40,7 @@ public:
 	void UpdateMesh();
 
 	void Clear();
+
+	float GetMonitorScale();
 };
 
