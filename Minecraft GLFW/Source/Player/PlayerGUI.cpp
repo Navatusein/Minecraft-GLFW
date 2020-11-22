@@ -2,7 +2,7 @@
 
 PlayerGUI::PlayerGUI(Texture* guitexture, float windowscale) {
 	gui = new GUIMesh(guitexture, windowscale);
-	crosshair = new GUIElement(gui, 1);
+	crosshair = new Crosshair(gui, 1);
 
 	crosshair->Scale(0.08f, 0.08f);
 	crosshair->Push();

@@ -18,7 +18,7 @@ Player::Player(World* world, PlayerGUI* pGUI) :HitBox(Dimensions), world(world),
 	Delta = 0.0f;
 
 	Speed = 5;
-	JumpForce = 10;
+	JumpForce = 7.5;
 
 	isFlying = false;
 	isFlyOn = false; // this doesn't seem to be used
