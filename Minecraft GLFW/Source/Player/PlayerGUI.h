@@ -15,5 +15,8 @@ public:
 	~PlayerGUI();
 
 	void Draw(Shader* program);
+
+	void ToggleCrosshair();
+	void TriggerCrosshair();
 };
 

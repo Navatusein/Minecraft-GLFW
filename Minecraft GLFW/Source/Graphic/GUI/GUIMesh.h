@@ -11,9 +11,6 @@
 #include "../../Graphic/Texture.h"
 #include "../../Graphic/Shader.h"
 
-#define ATLAS_W 1024
-#define ATLAS_H 1024
-
 class GUIMesh
 {
 private:

@@ -41,6 +41,7 @@ using namespace glm;
 int main() {
 
 	srand(time(0));
+	std::ios_base::sync_with_stdio(0);
 
 	//Window initialization
 	Window::Initialize("Hello world", false);
@@ -67,7 +68,7 @@ int main() {
 		return -1;
 	}
 
-	Texture * guiTextureAtlas = CreateTexture("Resource/Textures/Reticle.png");
+	Texture * guiTextureAtlas = CreateTexture("Resource/Textures/Crosshair.png");
 	if(guiTextureAtlas == nullptr) {
 		std::cerr << "[main] Failed to load gui texture atlas" << std::endl;
 		Window::Terminate();
