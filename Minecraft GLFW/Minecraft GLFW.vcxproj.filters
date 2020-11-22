@@ -170,6 +170,9 @@
     <Image Include="Resource\Textures\Untitled.png">
       <Filter>Файлы ресурсов</Filter>
     </Image>
+    <Image Include="Resource\Textures\Reticle.png">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Resource\Shader\guiShader_fragment.glsl" />

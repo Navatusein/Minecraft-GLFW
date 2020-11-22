@@ -17,6 +17,7 @@
 #include "Graphic/Shader.h"
 
 #include "Graphic/GUI/GUIMesh.h"
+#include "Graphic/GUI/GUIElement.h"
 
 #include "Mesh/Mesh.h"
 
@@ -64,7 +65,7 @@ int main() {
 		return -1;
 	}
 
-	Texture * guiTextureAtlas = CreateTexture("Resource/Textures/guiAtlas.png");
+	Texture * guiTextureAtlas = CreateTexture("Resource/Textures/Reticle.png");
 	if(guiTextureAtlas == nullptr) {
 		std::cerr << "[main] Failed to load gui texture atlas" << std::endl;
 		Window::Terminate();
@@ -102,7 +103,9 @@ int main() {
 
 	Player Steve(&world);
 
-	gui.Push((Vertex4<float>*)vertices, 4, indices, 6);
+	GUIElement crosshair(&gui, 1);
+	crosshair.Scale(0.08f, 0.08f);
+	crosshair.Push();
 	gui.UpdateMesh();
 
 

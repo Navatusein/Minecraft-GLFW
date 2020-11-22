@@ -79,6 +79,7 @@
     <Image Include="Resource\Shader\mainVertex.glsl">
       <FileType>Document</FileType>
     </Image>
+    <Image Include="Resource\Textures\Reticle.png" />
     <Image Include="Resource\Textures\Untitled.png" />
   </ItemGroup>
   <ItemGroup>
