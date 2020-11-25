@@ -3,9 +3,9 @@
 #include <ctime>
 #include <random>
 
-#include "../Graphic/Shader.h"
-#include "../Mesh/Mesh.h"
-#include "../Graphic/Texture.h"
+#include "../../Graphic/Shader.h"
+#include "../../Mesh/Mesh.h"
+#include "../../Graphic/Texture.h"
 
 #define maxID 4;
 

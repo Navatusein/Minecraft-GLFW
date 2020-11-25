@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Voxel.h"
+#include "Voxel/Voxel.h"
 #include "../Graphic/Shader.h"
 
 #include "../Mesh/BigMesh.h"

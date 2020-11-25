@@ -3,7 +3,7 @@
 #include <glm/ext.hpp>
 
 #include "BigMesh.h"
-#include "../World/Voxel.h"
+#include "../World/Voxel//Voxel.h"
 
 class ShardMesh
 {

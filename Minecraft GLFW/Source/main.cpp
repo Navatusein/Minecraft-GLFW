@@ -29,10 +29,11 @@
 
 #include "Player/Player.h"
 
+#include "World/Voxel/VoxelDataBase.h"
 
 //In one C or C++ file, define GLT_IMPLEMENTATION prior to inclusion to create the implementation.
 #define GLT_IMPLEMENTATION
-#include "gltext.h"
+#include "FontRender/gltext.h"
 
 using namespace glm;
 
@@ -108,7 +109,6 @@ int main() {
 	crosshair.Push();
 	gui.UpdateMesh();
 
-
 	std::future<void> fut = std::async(std::launch::async, &Call_UpdateChunks, std::ref(world), 3000); // launching asynchronous task to update all chunks once
 
 	// Initialize glText
@@ -117,8 +117,6 @@ int main() {
 	// Creating text
 	GLTtext* text = gltCreateText();
 	gltSetText(text, "Hello World!");
-
-
 
 	//Main loop
 	while (!Window::WindowShouldClose()) {
@@ -140,7 +138,7 @@ int main() {
 
 		// Draw any amount of text between begin and end
 		gltColor(1.0f, 1.0f, 1.0f, 1.0f);
-		gltDrawText2D(text, 100, 100, 3);
+		gltDrawText2D(text, 10, 30, 1);
 
 		// Finish drawing text
 		gltEndDraw();

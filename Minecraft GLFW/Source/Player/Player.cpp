@@ -99,7 +99,7 @@ void Player::KeyBoardUpdate() {
 			glm::vec3 iend;
 			world->RayCast(camera->GetPosition(), View, 20.f, end, norm, iend);
 			if (world->GetBlock(iend.x, iend.y, iend.z)->GetID() != 0) {
-				world->SetBlock_u(3, iend.x + norm.x, iend.y + norm.y, iend.z + norm.z);
+				world->SetBlock_u(4, iend.x + norm.x, iend.y + norm.y, iend.z + norm.z);
 			}
 		}
 		{
