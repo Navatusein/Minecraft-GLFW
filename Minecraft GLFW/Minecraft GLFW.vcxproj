@@ -19,14 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Utility\Mexception.cpp" />
-    <ClCompile Include="Source\World\Voxel\VoxelData.cpp" />
     <ClCompile Include="Source\Graphic\GUI\GUIElements\Crosshair.cpp" />
     <ClCompile Include="Source\Player\PlayerGUI.cpp" />
     <ClCompile Include="Source\Graphic\GUI\GUIElement.cpp" />
     <ClCompile Include="Source\Graphic\GUI\GUIMesh.cpp" />
     <ClCompile Include="Source\Physics\AABB.cpp" />
     <ClCompile Include="Source\Player\Player.cpp" />
+    <ClCompile Include="Source\Utility\Mexception.cpp" />
     <ClCompile Include="Source\World\Container\Neighbor.cpp" />
     <ClCompile Include="Source\Vertex\IndexBuffer.cpp" />
     <ClCompile Include="Source\Mesh\ShardMesh.cpp" />
@@ -42,17 +41,15 @@
     <ClCompile Include="Source\Vertex\VertexArray.cpp" />
     <ClCompile Include="Source\Vertex\VertexBuffer.cpp" />
     <ClCompile Include="Source\World\Voxel\Voxel.cpp" />
+    <ClCompile Include="Source\World\Voxel\VoxelData.cpp" />
     <ClCompile Include="Source\World\World.cpp" />
     <ClCompile Include="Source\World\Voxel\VoxelDataBase.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Source\Utility\Mexception.h" />
     <ClInclude Include="Source\Utility\NotCopyable.h" />
     <ClInclude Include="Source\Utility\NotMovable.h" />
     <ClInclude Include="Source\Utility\Singleton.h" />
     <ClInclude Include="Source\World\Voxel\VoxelData.h" />
     <ClInclude Include="Source\FontRender\gltext.h" />
-    <ClInclude Include="Source\Graphic\GUI\GUIElement.h" />
     <ClInclude Include="Source\Graphic\GUI\GUIElements\Crosshair.h" />
     <ClInclude Include="Source\Graphic\GUI\GUIElement.h" />
     <ClInclude Include="Source\Player\PlayerGUI.h" />
