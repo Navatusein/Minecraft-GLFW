@@ -111,7 +111,7 @@ int main() {
 		VoxelDataBase a;
 	}
 	catch (Mexception a) {
-		std::cout << a.getError() << std::endl;
+		a.PrintError();
 	}
 	//Main loop
 	while (!Window::WindowShouldClose()) {
