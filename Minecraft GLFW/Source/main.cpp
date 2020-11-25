@@ -29,7 +29,9 @@
 
 #include "Player/Player.h"
 
+#include "Player/PlayerGUI.h"
 #include "World/Voxel/VoxelDataBase.h"
+
 
 //In one C or C++ file, define GLT_IMPLEMENTATION prior to inclusion to create the implementation.
 #define GLT_IMPLEMENTATION
@@ -40,6 +42,7 @@ using namespace glm;
 int main() {
 
 	srand(time(0));
+	std::ios_base::sync_with_stdio(0);
 
 	//Window initialization
 	Window::Initialize("Hello world", false);
@@ -66,7 +69,7 @@ int main() {
 		return -1;
 	}
 
-	Texture * guiTextureAtlas = CreateTexture("Resource/Textures/Reticle.png");
+	Texture * guiTextureAtlas = CreateTexture("Resource/Textures/Crosshair.png");
 	if(guiTextureAtlas == nullptr) {
 		std::cerr << "[main] Failed to load gui texture atlas" << std::endl;
 		Window::Terminate();
@@ -81,18 +84,6 @@ int main() {
 	glEnable(GL_DEPTH_TEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	float vertices[] = {
-		-0.075f, -0.1f, 0.f, 0.f,
-		0.075f, -0.1f, 1.f, 0.f,
-		0.075f, 0.1f, 1.f, 1.f,
-		-0.075f, 0.1f, 0.f, 1.f,
-	};
-	unsigned int indices[] = {
-		0, 1, 2,
-		0, 2, 3,
-	};
-
-
 	mat4 Model(1.f);
 	Model = translate(Model, vec3(0.5f, 0, 0));
 
@@ -100,16 +91,13 @@ int main() {
 
 	World world(textureAtlas, 1);
 
-	GUIMesh gui(guiTextureAtlas, (float)Window::Width/(float)Window::Height);
+	PlayerGUI pGUI(guiTextureAtlas, (float)Window::Width / (float)Window::Height);
 
-	Player Steve(&world);
+	Player Steve(&world, &pGUI);
+	
 
-	GUIElement crosshair(&gui, 1);
-	crosshair.Scale(0.08f, 0.08f);
-	crosshair.Push();
-	gui.UpdateMesh();
-
-	std::future<void> fut = std::async(std::launch::async, &Call_UpdateChunks, std::ref(world), 3000); // launching asynchronous task to update all chunks once
+	// launching asynchronous task to update all chunks once after 3000ms
+	std::future<void> fut = std::async(std::launch::async, &Call_UpdateChunks, std::ref(world), 3000); 
 
 	// Initialize glText
 	gltInit();
@@ -130,8 +118,9 @@ int main() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		//Draw here
+		
 		world.Draw(shader);
-		gui.Draw(guiShader);
+		Steve.DrawGUI(guiShader);
 		
 		// Begin text drawing (this for instance calls glUseProgram)
 		gltBeginDraw();
@@ -143,15 +132,12 @@ int main() {
 		// Finish drawing text
 		gltEndDraw();
 
-		// Pulling Events
 		Events::PullEvents();
-
-		// Swapping frame buffers
 		Window::SwapBuffers();
 	}
 	
 	delete shader;
-	delete guiShader; //fix memory leak 
+	delete guiShader;
 	delete textureAtlas;
 
 	// Deleting text
@@ -159,7 +145,6 @@ int main() {
 	// Destroy glText
 	gltTerminate();
 
-	// Closing the window
 	Window::Terminate();
 	return 0;
 }

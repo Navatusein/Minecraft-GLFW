@@ -21,6 +21,10 @@
 
 #include "../World/World.h"
 
+#include "../Graphic/Shader.h"
+
+#include "PlayerGUI.h"
+
 #define TERMINAL_VELOCITY 150 // determines maximum freefall speed
 
 class Player : public Entity {
@@ -30,6 +34,8 @@ private:
 	World* world;
 
 	AABB HitBox;
+
+	PlayerGUI* pGUI;
 
 	float Speed;
 	float JumpForce;
@@ -44,6 +50,19 @@ private:
 	bool isFlying;
 	bool isFlyOn;
 
+public:
+	Player(World* world, PlayerGUI* pGUI);
+
+	
+	void Update();
+	
+	void DrawGUI(Shader* program);
+
+	Camera* getCamera();
+
+	~Player();
+
+private:
 	void MouseUpdate();
 
 	void KeyBoardUpdate();
@@ -53,17 +72,6 @@ private:
 	void PhysicUpdate();
 
 	void CollisionTest();
-public:
-	Player(World* world);
-
-	
-	void Update();
-	
-	
-
-	Camera* getCamera();
-
-	~Player();
 
 };
 

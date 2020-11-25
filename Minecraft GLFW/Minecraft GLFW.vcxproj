@@ -21,6 +21,8 @@
   <ItemGroup>
     <ClCompile Include="Source\Utility\Mexception.cpp" />
     <ClCompile Include="Source\World\Voxel\VoxelData.cpp" />
+    <ClCompile Include="Source\Graphic\GUI\GUIElements\Crosshair.cpp" />
+    <ClCompile Include="Source\Player\PlayerGUI.cpp" />
     <ClCompile Include="Source\Graphic\GUI\GUIElement.cpp" />
     <ClCompile Include="Source\Graphic\GUI\GUIMesh.cpp" />
     <ClCompile Include="Source\Physics\AABB.cpp" />
@@ -51,6 +53,10 @@
     <ClInclude Include="Source\World\Voxel\VoxelData.h" />
     <ClInclude Include="Source\FontRender\gltext.h" />
     <ClInclude Include="Source\Graphic\GUI\GUIElement.h" />
+    <ClInclude Include="Source\Graphic\GUI\GUIElements\Crosshair.h" />
+    <ClInclude Include="Source\Graphic\GUI\GUIElement.h" />
+    <ClInclude Include="Source\Player\PlayerGUI.h" />
+    <ClInclude Include="Source\gltext.h" />
     <ClInclude Include="Source\Graphic\GUI\GUIMesh.h" />
     <ClInclude Include="Source\Physics\AABB.h" />
     <ClInclude Include="Source\Entity\Entity.h" />

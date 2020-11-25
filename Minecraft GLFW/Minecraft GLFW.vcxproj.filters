@@ -72,6 +72,12 @@
     <ClCompile Include="Source\Graphic\GUI\GUIElement.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Player\PlayerGUI.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphic\GUI\GUIElements\Crosshair.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
     <ClCompile Include="Source\World\Voxel\Voxel.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
@@ -183,6 +189,18 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Source\World\Voxel\VoxelsID.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\gltext.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Player\PlayerGUI.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphic\GUI\GUIElement.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphic\GUI\GUIElements\Crosshair.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

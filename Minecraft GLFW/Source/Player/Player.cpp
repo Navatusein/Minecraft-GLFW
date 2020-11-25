@@ -3,7 +3,7 @@
 const vec3 Dimensions(0.3, 1.5, 0.3);
 
 
-Player::Player(World* world) :HitBox(Dimensions), world(world) {
+Player::Player(World* world, PlayerGUI* pGUI) :HitBox(Dimensions), world(world), pGUI(pGUI) {
 	
 	Position = {5, 16, 5};
 
@@ -18,7 +18,7 @@ Player::Player(World* world) :HitBox(Dimensions), world(world) {
 	Delta = 0.0f;
 
 	Speed = 5;
-	JumpForce = 10;
+	JumpForce = 7.5;
 
 	isFlying = false;
 	isFlyOn = false; // this doesn't seem to be used
@@ -29,6 +29,10 @@ void Player::Update() {
 	KeyBoardUpdate();
 	PhysicUpdate();
 	CheckCollision();
+}
+
+void Player::DrawGUI(Shader* program) {
+	pGUI->Draw(program);
 }
 
 void Player::CheckCollision() {

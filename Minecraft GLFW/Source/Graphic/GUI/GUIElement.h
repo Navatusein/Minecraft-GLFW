@@ -3,9 +3,12 @@
 
 #include "GUIMesh.h"
 
+#define ATLAS_W 64
+#define ATLAS_H 32
+
 class GUIElement
 {
-private:
+protected:
 	unsigned short textureID;
 	glm::vec2 position;
 	glm::vec2 scale;
