@@ -8,5 +8,6 @@ private:
 public:
 	Mexception(std::string message);
 
+	std::string getError();
 };
 

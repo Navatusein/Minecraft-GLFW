@@ -1,7 +1,7 @@
 #include "VoxelData.h"
 
 VoxelData::VoxelData(std::string fileName) {
-	std::ifstream fin("Resourse/Blocks/" + fileName + ".block");
+	std::ifstream fin("Resource/Blocks/" + fileName + ".block");
 
 	if (!fin.is_open()) {
 		throw Mexception("[VoxelData] Error open block file: " + fileName);
@@ -9,13 +9,14 @@ VoxelData::VoxelData(std::string fileName) {
 
 	
 
-	bool DifferentSide;
+	bool DifferentSide = false;
 
 	unsigned char AllRead = 0;
 
 	std::string Line;
 
-	while (std::getline(fin, Line)) {
+	while (!fin.eof()) {
+		fin >> Line;
 		if (Line == "ID") {
 			unsigned short id;
 			fin >> id;
@@ -39,6 +40,13 @@ VoxelData::VoxelData(std::string fileName) {
 			AllRead++;
 		}
 		else if (!DifferentSide && Line == "Textures") {
+			unsigned short Tbegin;
+			unsigned char Tcount;
+
+			fin >> Tbegin;
+			fin >> Tcount;
+
+			Data.textures[0] = { Tbegin, Tcount };
 			AllRead++;
 		}
 		else if (DifferentSide && Line == "TextureUpSide") {
@@ -48,7 +56,7 @@ VoxelData::VoxelData(std::string fileName) {
 			fin >> Tbegin;
 			fin >> Tcount;
 
-			Data.textures[1] = { Tbegin, Tcount };
+			Data.textures[0] = { Tbegin, Tcount };
 			AllRead++;
 		}
 		else if (DifferentSide && Line == "TextureDownSide") {
@@ -58,7 +66,7 @@ VoxelData::VoxelData(std::string fileName) {
 			fin >> Tbegin;
 			fin >> Tcount;
 
-			Data.textures[2] = { Tbegin, Tcount };
+			Data.textures[1] = { Tbegin, Tcount };
 			AllRead++;
 		}
 		else if (DifferentSide && Line == "TextureSide") {
@@ -68,7 +76,7 @@ VoxelData::VoxelData(std::string fileName) {
 			fin >> Tbegin;
 			fin >> Tcount;
 
-			Data.textures[3] = { Tbegin, Tcount };
+			Data.textures[2] = { Tbegin, Tcount };
 			AllRead++;
 		}
 		else if (Line == "Opaque") {
@@ -80,7 +88,7 @@ VoxelData::VoxelData(std::string fileName) {
 
 			AllRead++;
 		}
-		else if (DifferentSide && Line == "Collidable") {
+		else if (Line == "Collidable") {
 			bool Collidable;
 
 			fin >> Collidable;
@@ -94,7 +102,7 @@ VoxelData::VoxelData(std::string fileName) {
 	fin.close();
 
 	if ((AllRead != 8 && DifferentSide) || (AllRead != 6 && !DifferentSide)) {
-		throw Mexception("[VoxelData] Error block file read: " + fileName);
+		throw Mexception("[VoxelData] Error block file read: " + fileName + " reded: " + std::to_string(AllRead) + " param" );
 	}
 
 }

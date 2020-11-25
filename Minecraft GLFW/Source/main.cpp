@@ -30,6 +30,7 @@
 #include "Player/Player.h"
 
 #include "Player/PlayerGUI.h"
+
 #include "World/Voxel/VoxelDataBase.h"
 
 
@@ -106,6 +107,12 @@ int main() {
 	GLTtext* text = gltCreateText();
 	gltSetText(text, "Hello World!");
 
+	try {
+		VoxelDataBase a;
+	}
+	catch (Mexception a) {
+		std::cout << a.getError() << std::endl;
+	}
 	//Main loop
 	while (!Window::WindowShouldClose()) {
 
