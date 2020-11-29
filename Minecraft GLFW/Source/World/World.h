@@ -18,7 +18,7 @@
 #define H_DRAW_DISTANCE 2
 #define V_DRAW_DISTANCE 1
 
-#define GRAVITY 9.8
+#define GRAVITY 16
 
 class World
 {
