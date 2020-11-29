@@ -16,8 +16,8 @@ public:
 
     ~Item(){};
 
-    int Max_amount(Item item){
-        return item.max_amount;
+    int Max_amount(){
+        return this->max_amount;
     }
 
     string GetID(){
@@ -25,7 +25,7 @@ public:
     }
 };
 
-class InventorySlot : Item{
+class InventorySlot{
 private:
     Item item; // передмет
     unsigned int amount;// его количество 
@@ -33,8 +33,8 @@ public:
     InventorySlot(){};
 
     InventorySlot(Item item, int amount) : item(item){
-        if(amount > Max_amount(item))
-        this->amount = Max_amount(item);
+        if(amount > item.Max_amount())
+        this->amount = item.Max_amount();
         else{
             this->amount = amount;
         }
@@ -58,7 +58,7 @@ public:
    
 };
 
-class Inventory : Item{
+class Inventory{
 private:
 unsigned int size;//количество слотов
 vector<InventorySlot> inventory; // инвентарь со слотами 
@@ -109,9 +109,9 @@ public:
             }
         }
 
-        if(Max_amount(item) < amount || inventory[i].GetAmount() + amount > Max_amount(item)){
-            amount -= (Max_amount(item) - inventory[i].GetAmount());
-            inventory[i].changeAmount(Max_amount(item));
+        if(item.Max_amount() < amount || inventory[i].GetAmount() + amount > item.Max_amount()){
+            amount -= (item.Max_amount() - inventory[i].GetAmount());
+            inventory[i].changeAmount(item.Max_amount());
             int j = FindFree();
             if(i == 0){
                 cout<<"No more free space"<<endl;
