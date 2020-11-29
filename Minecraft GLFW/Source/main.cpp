@@ -49,6 +49,7 @@ int main() {
 	Window::Initialize("Hello world", false);
 	Events::Initialize();
 
+	//Initializatioo of main Shader
 	Shader* shader = CreateShaderProgram("Resource/Shader/mainVertex.glsl", "Resource/Shader/mainFragment.glsl");
 	if (shader == nullptr) {
 		std::cerr << "[main] Failed to load main shader" << std::endl;
@@ -56,6 +57,7 @@ int main() {
 		return -1;
 	}
 
+	//Initializatioo of gui Shader
 	Shader* guiShader = CreateShaderProgram("Resource/Shader/guiShaderVertex.glsl", "Resource/Shader/guiShaderFragment.glsl");
 	if (guiShader == nullptr) {
 		std::cerr << "[main] Failed to load gui shader" << std::endl;
@@ -63,6 +65,7 @@ int main() {
 		return -1;
 	}
 
+	//Initializatioo of texture atlas
 	Texture* textureAtlas = CreateTexture("Resource/Textures/TextureAtlas.png");
 	if (textureAtlas == nullptr) {
 		std::cerr << "[main] Failed to load texture atlas" << std::endl;
@@ -70,6 +73,7 @@ int main() {
 		return -1;
 	}
 
+	//Initializatioo of gui atlas
 	Texture * guiTextureAtlas = CreateTexture("Resource/Textures/Crosshair.png");
 	if(guiTextureAtlas == nullptr) {
 		std::cerr << "[main] Failed to load gui texture atlas" << std::endl;

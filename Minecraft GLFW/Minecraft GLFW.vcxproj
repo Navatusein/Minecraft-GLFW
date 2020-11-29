@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Models\Model.cpp" />
     <ClCompile Include="Source\Graphic\GUI\GUIElements\Crosshair.cpp" />
     <ClCompile Include="Source\Player\PlayerGUI.cpp" />
     <ClCompile Include="Source\Graphic\GUI\GUIElement.cpp" />
@@ -44,6 +45,7 @@
     <ClCompile Include="Source\World\Voxel\VoxelData.cpp" />
     <ClCompile Include="Source\World\World.cpp" />
     <ClCompile Include="Source\World\Voxel\VoxelDataBase.cpp" />
+    <ClInclude Include="Source\Models\Model.h" />
     <ClInclude Include="Source\Utility\Mexception.h" />
     <ClInclude Include="Source\Utility\NotCopyable.h" />
     <ClInclude Include="Source\Utility\NotMovable.h" />
