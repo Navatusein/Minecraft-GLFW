@@ -1,4 +1,4 @@
-#include "InventorySlot.h"
+//#include "InventorySlot.h"
 #include "ItemStack.h"
 
 ItemStack::ItemStack() : item(nullptr), count(0) {}
