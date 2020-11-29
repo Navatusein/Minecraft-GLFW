@@ -19,6 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Inventory\Inventory.cpp" />
+    <ClCompile Include="Source\Inventory\ItemStack.cpp" />
+    <ClCompile Include="Source\Inventory\Item.cpp" />
     <ClCompile Include="Source\Models\Model.cpp" />
     <ClCompile Include="Source\Graphic\GUI\GUIElements\Crosshair.cpp" />
     <ClCompile Include="Source\Player\PlayerGUI.cpp" />
@@ -45,6 +48,9 @@
     <ClCompile Include="Source\World\Voxel\VoxelData.cpp" />
     <ClCompile Include="Source\World\World.cpp" />
     <ClCompile Include="Source\World\Voxel\VoxelDataBase.cpp" />
+    <ClInclude Include="Source\Inventory\Inventory.h" />
+    <ClInclude Include="Source\Inventory\ItemStack.h" />
+    <ClInclude Include="Source\Inventory\Item.h" />
     <ClInclude Include="Source\Models\Model.h" />
     <ClInclude Include="Source\Utility\Mexception.h" />
     <ClInclude Include="Source\Utility\NotCopyable.h" />
