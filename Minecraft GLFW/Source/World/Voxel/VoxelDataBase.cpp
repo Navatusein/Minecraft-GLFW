@@ -3,13 +3,13 @@
 #define MaxID 4
 
 VoxelDataBase::VoxelDataBase() {
-	Voxels[(int)BlocksID::Air] = std::make_unique<VoxelData>("Air");
+	Voxels[(int)BlocksID::Air].ReadFile("Air");
 }
 
 const VoxelData& VoxelDataBase::getVoxel(BlocksID id) {
-	return *Voxels[(int)id];
+	return Voxels[(int)id];
 }
 
 const BlockData& VoxelDataBase::getVoxelData(BlocksID id) {
-	return Voxels[(int)id]->getData();
+	return Voxels[(int)id].getData();
 }

@@ -32,7 +32,9 @@ class VoxelData {
 private:
 	BlockData Data;
 public:
-	VoxelData(std::string file);
+	VoxelData();
+
+	void ReadFile(std::string fileName);
 
 	const BlockData& getData();
 

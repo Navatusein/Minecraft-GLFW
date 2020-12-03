@@ -1,13 +1,13 @@
 #include "VoxelData.h"
 
-VoxelData::VoxelData(std::string fileName) {
+VoxelData::VoxelData() {}
+
+void VoxelData::ReadFile(std::string fileName) {
 	std::ifstream fin("Resource/Blocks/" + fileName + ".block");
 
 	if (!fin.is_open()) {
 		throw Mexception("[VoxelData] Error open block file: " + fileName);
 	}
-
-	
 
 	bool DifferentSide = false;
 
@@ -102,7 +102,7 @@ VoxelData::VoxelData(std::string fileName) {
 	fin.close();
 
 	if ((AllRead != 8 && DifferentSide) || (AllRead != 6 && !DifferentSide)) {
-		throw Mexception("[VoxelData] Error block file read: " + fileName + " reded: " + std::to_string(AllRead) + " param" );
+		throw Mexception("[VoxelData] Error block file read: " + fileName + " reded: " + std::to_string(AllRead) + " param");
 	}
 
 }
