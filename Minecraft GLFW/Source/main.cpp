@@ -33,11 +33,6 @@
 
 #include "World/Voxel/VoxelDataBase.h"
 
-
-//In one C or C++ file, define GLT_IMPLEMENTATION prior to inclusion to create the implementation.
-#define GLT_IMPLEMENTATION
-#include "FontRender/gltext.h"
-
 using namespace glm;
 
 int main() {
@@ -105,18 +100,17 @@ int main() {
 	std::future<void> fut = std::async(std::launch::async, &Call_UpdateChunks, std::ref(world), 3000); 
 
 	// Initialize glText
-	gltInit();
+	//gltInit();
 
-	// Creating text
-	GLTtext* text = gltCreateText();
-	gltSetText(text, "Hello World!");
 
+	/*
 	try {
 		VoxelDataBase a;
 	}
 	catch (Mexception a) {
 		a.PrintError();
 	}
+	*/
 	//Main loop
 	while (!Window::WindowShouldClose()) {
 
@@ -134,14 +128,14 @@ int main() {
 		Steve.DrawGUI(guiShader);
 		
 		// Begin text drawing (this for instance calls glUseProgram)
-		gltBeginDraw();
+		//gltBeginDraw();
 
 		// Draw any amount of text between begin and end
-		gltColor(1.0f, 1.0f, 1.0f, 1.0f);
-		gltDrawText2D(text, 10, 30, 1);
+		//gltColor(1.0f, 1.0f, 1.0f, 1.0f);
+		//gltDrawText2D(text, 10, 30, 1);
 
 		// Finish drawing text
-		gltEndDraw();
+		//gltEndDraw();
 
 		Events::PullEvents();
 		Window::SwapBuffers();
@@ -152,9 +146,9 @@ int main() {
 	delete textureAtlas;
 
 	// Deleting text
-	gltDeleteText(text);
+	//gltDeleteText(text);
 	// Destroy glText
-	gltTerminate();
+	//gltTerminate();
 
 	Window::Terminate();
 	return 0;

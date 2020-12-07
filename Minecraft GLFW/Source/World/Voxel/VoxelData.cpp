@@ -9,6 +9,8 @@ void VoxelData::ReadFile(std::string fileName) {
 		throw Mexception("[VoxelData] Error open block file: " + fileName);
 	}
 
+	Data.Name = (char*)fileName.c_str();
+
 	bool DifferentSide = false;
 
 	unsigned char AllRead = 0;

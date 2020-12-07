@@ -1,15 +1,19 @@
 #include "VoxelDataBase.h"
 
-#define MaxID 4
+
 
 VoxelDataBase::VoxelDataBase() {
-	Voxels[(int)BlocksID::Air].ReadFile("Air");
+	Voxels[(unsigned short)BlocksID::Air].ReadFile("Air");
+}
+
+VoxelDataBase::~VoxelDataBase() {
+	delete[] Voxels;
 }
 
 const VoxelData& VoxelDataBase::getVoxel(BlocksID id) {
-	return Voxels[(int)id];
+	return Voxels[(unsigned short)id];
 }
 
 const BlockData& VoxelDataBase::getVoxelData(BlocksID id) {
-	return Voxels[(int)id].getData();
+	return Voxels[(unsigned short)id].getData();
 }

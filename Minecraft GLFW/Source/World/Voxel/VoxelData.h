@@ -24,6 +24,8 @@ struct BlockData {
 	BlockTypes BlockType;
 	SideTexture* textures;
 
+	char* Name;
+
 	bool isOpaque;
 	bool isCollidable;
 };

@@ -23,6 +23,8 @@
 
 #include "../Graphic/Shader.h"
 
+#include "../World/Voxel/VoxelDataBase.h"
+
 #include "PlayerGUI.h"
 
 #define TERMINAL_VELOCITY 150 // determines maximum freefall speed
@@ -36,6 +38,8 @@ private:
 	AABB HitBox;
 
 	PlayerGUI* pGUI;
+
+	unsigned short HandItemID;
 
 	float Speed;
 	float JumpForce;
@@ -72,6 +76,8 @@ private:
 	void PhysicUpdate();
 
 	void CollisionTest();
+
+	void ScrollUpdate();
 
 };
 

@@ -8,6 +8,10 @@ PlayerGUI::PlayerGUI(Texture* guitexture, float windowscale) {
 	crosshair->SetMode(CrosshairMode::Standard);
 	crosshair->Push();
 	gui->UpdateMesh();
+
+	GLTtext* text = gltCreateText();
+	gltSetText(text, "Hello World!");
+
 }
 
 PlayerGUI::~PlayerGUI() {

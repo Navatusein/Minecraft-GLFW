@@ -6,5 +6,5 @@ enum class BlocksID : unsigned short {
 	Dirt = 2,
 	Stone = 3,
 
-	DataType
+	Count
 };

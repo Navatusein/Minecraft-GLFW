@@ -17,6 +17,8 @@ Player::Player(World* world, PlayerGUI* pGUI) :HitBox(Dimensions), world(world),
 	LastTime = glfwGetTime();
 	Delta = 0.0f;
 
+	HandItemID = 0;
+
 	Speed = 5;
 	JumpForce = 7.5;
 
@@ -68,8 +70,6 @@ void Player::PhysicUpdate() {
 	}
 }
 
-
-
 void Player::KeyBoardUpdate() {
 	float currentTime = glfwGetTime();
 	Delta = currentTime - LastTime;
@@ -103,7 +103,7 @@ void Player::KeyBoardUpdate() {
 			glm::vec3 iend;
 			world->RayCast(camera->GetPosition(), View, 20.f, end, norm, iend);
 			if (world->GetBlock(iend.x, iend.y, iend.z)->GetID() != 0) {
-				world->SetBlock_u(4, iend.x + norm.x, iend.y + norm.y, iend.z + norm.z);
+				world->SetBlock_u(HandItemID, iend.x + norm.x, iend.y + norm.y, iend.z + norm.z);
 			}
 		}
 		{
@@ -164,6 +164,7 @@ void Player::KeyBoardUpdate() {
 
 		
 		MouseUpdate();
+		ScrollUpdate();
 	}
 }
 
@@ -197,7 +198,6 @@ Camera* Player::getCamera() {
 Player::~Player() {
 	delete camera;
 }
-
 
 void Player::CollisionTest() {
 	float definition = 0.1;
@@ -271,5 +271,22 @@ void Player::CollisionTest() {
 	else if(Velocity.z > 0 && zPos_Obstructed) {
 		Velocity.z = 0;
 	}
+}
+
+void Player::ScrollUpdate() {
+	HandItemID = Events::deltaScrollY;
+	std::cout << HandItemID << std::endl;
+
+	if (HandItemID > MaxID * 8) {
+		HandItemID = 4;
+		Events::deltaScrollY = 4;
+	}
+
+	if (HandItemID > MaxID) {
+		HandItemID = 0;
+		Events::deltaScrollY = 0;
+	}
+
+	
 }
 

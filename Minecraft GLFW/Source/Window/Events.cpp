@@ -9,6 +9,7 @@ float Events::x = 0;
 float Events::y = 0;
 float Events::deltaX = 0;
 float Events::deltaY = 0;
+float Events::deltaScrollY = 0;
 bool Events::lockedCursor = false;
 bool Events::startedCursor = false;
 
@@ -52,6 +53,11 @@ void window_size_callback(GLFWwindow* window, int width, int height) {
 	Window::Height = height;
 }
 
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
+	Events::deltaScrollY += yoffset;
+}
+
+
 int Events::Initialize() {
 	GLFWwindow* window = Window::window;
 	keys = new bool[1032];
@@ -64,6 +70,7 @@ int Events::Initialize() {
 	glfwSetMouseButtonCallback(window, mouse_button_callback);
 	glfwSetCursorPosCallback(window, cursor_position_callback);
 	glfwSetWindowSizeCallback(window, window_size_callback);
+	glfwSetScrollCallback(window, scroll_callback);
 	return 0;
 }
 

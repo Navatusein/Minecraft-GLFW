@@ -7,9 +7,11 @@
 
 #include"VoxelData.h"
 
+#define MaxID 4
+
 class VoxelDataBase : public Singleton {
 private:
-	VoxelData* Voxels = new VoxelData[(unsigned)BlocksID::DataType];
+	VoxelData* Voxels = new VoxelData[(unsigned)BlocksID::Count];
 public:
 	VoxelDataBase();
 

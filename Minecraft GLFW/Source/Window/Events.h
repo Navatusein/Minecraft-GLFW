@@ -14,6 +14,7 @@ public:
 	static float y;
 	static float deltaX;
 	static float deltaY;
+	static float deltaScrollY;
 	static bool lockedCursor;
 	static bool startedCursor;
 
