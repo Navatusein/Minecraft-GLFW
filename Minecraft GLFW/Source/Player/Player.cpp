@@ -15,9 +15,11 @@ Player::Player(World* world, PlayerGUI* pGUI) :HitBox(Dimensions), world(world),
 	pitch = 0;
 
 	LastTime = glfwGetTime();
+	LastFPSTime = glfwGetTime();
 	Delta = 0.0f;
 
 	HandItemID = 0;
+	FPSCounter = 0;
 
 	Speed = 5;
 	JumpForce = 7.5;
@@ -33,7 +35,7 @@ void Player::Update() {
 	CheckCollision();
 	pGUI->UpdateText({ 
 		"ItemID: " + std::to_string(HandItemID), 
-		"Fly ON: " + std::to_string(isFlyOn), 
+		"FPS: " + std::to_string(ShowFPS),
 		"Position: x=" + std::to_string((int)Position.x) + " y=" + std::to_string((int)Position.y) + " z=" + std::to_string((int)Position.z) });
 }
 
@@ -78,6 +80,16 @@ void Player::KeyBoardUpdate() {
 	float currentTime = glfwGetTime();
 	Delta = currentTime - LastTime;
 	LastTime = currentTime;
+	
+	FPSCounter++;
+
+
+	if (currentTime - LastFPSTime >= 1.0) {
+		ShowFPS = FPSCounter;
+		FPSCounter = 0;
+		LastFPSTime += 1;
+		
+	}
 
 	FOV = FOVSettings;
 

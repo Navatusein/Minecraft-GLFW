@@ -40,6 +40,8 @@ private:
 	PlayerGUI* pGUI;
 
 	unsigned short HandItemID;
+	unsigned short FPSCounter;
+	unsigned short ShowFPS;
 
 	float Speed;
 	float JumpForce;
@@ -50,6 +52,7 @@ private:
 	float FOV;
 	float FOVSettings;
 	float renderDist;
+	float LastFPSTime;
 
 	bool isFlying;
 	bool isFlyOn;
