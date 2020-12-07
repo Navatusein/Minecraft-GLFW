@@ -31,6 +31,10 @@ void Player::Update() {
 	KeyBoardUpdate();
 	PhysicUpdate();
 	CheckCollision();
+	pGUI->UpdateText({ 
+		"ItemID: " + std::to_string(HandItemID), 
+		"Fly ON: " + std::to_string(isFlyOn), 
+		"Position: x=" + std::to_string((int)Position.x) + " y=" + std::to_string((int)Position.y) + " z=" + std::to_string((int)Position.z) });
 }
 
 void Player::DrawGUI(Shader* program) {
@@ -153,13 +157,8 @@ void Player::KeyBoardUpdate() {
 				}
 			}
 		}
-		/*if(Events::JustClicked(KM_KEY_SPACE)) {
-			if(isOnGround) {
-				Velocity.y += JumpForce;
-			}
-		}*/
-		if (Events::Pressed(KM_KEY_V)) {
-			Velocity = { 0,0,0 };
+		if (Events::JustPressed(KM_KEY_V)) {
+			isFlyOn = !isFlyOn;
 		}
 
 		

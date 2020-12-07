@@ -98,11 +98,6 @@ int main() {
 
 	// launching asynchronous task to update all chunks once after 3000ms
 	std::future<void> fut = std::async(std::launch::async, &Call_UpdateChunks, std::ref(world), 3000); 
-
-	// Initialize glText
-	//gltInit();
-
-
 	/*
 	try {
 		VoxelDataBase a;
@@ -123,19 +118,8 @@ int main() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		//Draw here
-		
 		world.Draw(shader);
 		Steve.DrawGUI(guiShader);
-		
-		// Begin text drawing (this for instance calls glUseProgram)
-		//gltBeginDraw();
-
-		// Draw any amount of text between begin and end
-		//gltColor(1.0f, 1.0f, 1.0f, 1.0f);
-		//gltDrawText2D(text, 10, 30, 1);
-
-		// Finish drawing text
-		//gltEndDraw();
 
 		Events::PullEvents();
 		Window::SwapBuffers();
@@ -144,11 +128,6 @@ int main() {
 	delete shader;
 	delete guiShader;
 	delete textureAtlas;
-
-	// Deleting text
-	//gltDeleteText(text);
-	// Destroy glText
-	//gltTerminate();
 
 	Window::Terminate();
 	return 0;

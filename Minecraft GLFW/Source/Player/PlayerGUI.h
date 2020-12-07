@@ -14,13 +14,14 @@ class PlayerGUI
 private:
 	GUIMesh* gui;
 	Crosshair* crosshair;
+	GLTtext* text;
 public:
 	PlayerGUI(Texture* guitexture, float windowscale);
 	~PlayerGUI();
 
 	void Draw(Shader* program);
 
-	void UpdateText();
+	void UpdateText(std::vector<std::string> TextArray);
 
 	void ToggleCrosshair();
 	void TriggerCrosshair();
