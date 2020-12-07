@@ -275,7 +275,6 @@ void Player::CollisionTest() {
 
 void Player::ScrollUpdate() {
 	HandItemID = Events::deltaScrollY;
-	std::cout << HandItemID << std::endl;
 
 	if (HandItemID > MaxID * 8) {
 		HandItemID = 4;
