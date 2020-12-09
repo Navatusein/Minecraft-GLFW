@@ -9,46 +9,51 @@ PlayerGUI::PlayerGUI(Texture* guitexture, float windowscale) {
 	crosshair->Push();
 	gui->UpdateMesh();
 
+	isF3menuOn = true;
+
 	gltInit();
-
-	text = gltCreateText();
-	gltSetText(text, "Hello World!");
-
+	F3MenuText = gltCreateText();
 }
 
 PlayerGUI::~PlayerGUI() {
 	delete gui;
 	delete crosshair;
 
-	// Deleting text
-	gltDeleteText(text);
-	// Destroy glText
+	gltDeleteText(F3MenuText);
 	gltTerminate();
 }
 
 void PlayerGUI::Draw(Shader* program) {
 	gui->Draw(program);
-
-	//Begin text drawing (this for instance calls glUseProgram)
+	
 	gltBeginDraw();
 
-	//Draw any amount of text between begin and end
-	gltColor(1.0f, 1.0f, 1.0f, 1.0f);
-	gltDrawText2D(text, 10, 30, 1.3);
-
-	//Finish drawing text
+	if (isF3menuOn) {
+		UpdateF3menuText();
+		gltColor(1.0f, 1.0f, 1.0f, 1.0f);
+		gltDrawText2D(F3MenuText, 10, 30, 1.3);
+	}
+	
 	gltEndDraw();
 }
 
-void PlayerGUI::UpdateText(std::vector<std::string> TextArray) {
+void PlayerGUI::SetF3MenuData(F3menu* Data) {
+	F3Data = Data;
+}
 
-	std::string FinalText;
+void PlayerGUI::UpdateF3menuText() {
+	std::string F3Text = 
+		"HandItemID: " + std::to_string(F3Data->ItemHandID) + 
+		"\nFPS: " + std::to_string(F3Data->FPS) + 
+		"\nPosition: x=" + std::to_string((int)F3Data->Position.x) + " y=" + std::to_string((int)F3Data->Position.y) + " z=" + std::to_string((int)F3Data->Position.z);
+	gltSetText(F3MenuText, F3Text.c_str());
 
-	for (unsigned short i = 0; i < TextArray.size(); i++) {
-		FinalText += TextArray[i] + "\n";
+}
+
+void PlayerGUI::ToggleF3menu() {
+	if (F3Data) {
+		isF3menuOn = !isF3menuOn;
 	}
-
-	gltSetText(text, FinalText.c_str());
 }
 
 void PlayerGUI::ToggleCrosshair() {

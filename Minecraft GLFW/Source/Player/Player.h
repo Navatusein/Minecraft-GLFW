@@ -39,9 +39,9 @@ private:
 
 	PlayerGUI* pGUI;
 
-	unsigned short HandItemID;
+	F3menu F3menuData;
+
 	unsigned short FPSCounter;
-	unsigned short ShowFPS;
 
 	float Speed;
 	float JumpForce;

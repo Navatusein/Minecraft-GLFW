@@ -9,19 +9,31 @@
 #define GLT_IMPLEMENTATION
 #include "../FontRender/gltext.h"
 
+struct F3menu {
+	unsigned short ItemHandID;
+	unsigned short FPS;
+	glm::vec3 Position;
+};
+
 class PlayerGUI
 {
 private:
 	GUIMesh* gui;
 	Crosshair* crosshair;
-	GLTtext* text;
+	GLTtext* F3MenuText;
+	F3menu* F3Data;
+	bool isF3menuOn;
+
+	void UpdateF3menuText();
 public:
 	PlayerGUI(Texture* guitexture, float windowscale);
 	~PlayerGUI();
 
 	void Draw(Shader* program);
 
-	void UpdateText(std::vector<std::string> TextArray);
+	void SetF3MenuData(F3menu* Data);
+
+	void ToggleF3menu();
 
 	void ToggleCrosshair();
 	void TriggerCrosshair();

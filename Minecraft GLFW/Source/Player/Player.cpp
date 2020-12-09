@@ -18,7 +18,6 @@ Player::Player(World* world, PlayerGUI* pGUI) :HitBox(Dimensions), world(world),
 	LastFPSTime = glfwGetTime();
 	Delta = 0.0f;
 
-	HandItemID = 0;
 	FPSCounter = 0;
 
 	Speed = 5;
@@ -27,16 +26,14 @@ Player::Player(World* world, PlayerGUI* pGUI) :HitBox(Dimensions), world(world),
 	isFlying = false;
 	isFlyOn = false; // this doesn't seem to be used
 	isOnGround = false;
+
+	pGUI->SetF3MenuData(&F3menuData);
 }
 
 void Player::Update() {
 	KeyBoardUpdate();
 	PhysicUpdate();
 	CheckCollision();
-	pGUI->UpdateText({ 
-		"ItemID: " + std::to_string(HandItemID), 
-		"FPS: " + std::to_string(ShowFPS),
-		"Position: x=" + std::to_string((int)Position.x) + " y=" + std::to_string((int)Position.y) + " z=" + std::to_string((int)Position.z) });
 }
 
 void Player::DrawGUI(Shader* program) {
@@ -54,6 +51,7 @@ void Player::CheckCollision() {
 	Position.y += Velocity.y * Delta;
 	Position.z += Velocity.z * Delta;
 
+	F3menuData.Position = Position;
 }
 
 void Player::PhysicUpdate() {
@@ -85,7 +83,7 @@ void Player::KeyBoardUpdate() {
 
 
 	if (currentTime - LastFPSTime >= 1.0) {
-		ShowFPS = FPSCounter;
+		F3menuData.FPS = FPSCounter;
 		FPSCounter = 0;
 		LastFPSTime += 1;
 		
@@ -119,7 +117,7 @@ void Player::KeyBoardUpdate() {
 			glm::vec3 iend;
 			world->RayCast(camera->GetPosition(), View, 20.f, end, norm, iend);
 			if (world->GetBlock(iend.x, iend.y, iend.z)->GetID() != 0) {
-				world->SetBlock_u(HandItemID, iend.x + norm.x, iend.y + norm.y, iend.z + norm.z);
+				world->SetBlock_u(F3menuData.ItemHandID, iend.x + norm.x, iend.y + norm.y, iend.z + norm.z);
 			}
 		}
 		{
@@ -172,8 +170,10 @@ void Player::KeyBoardUpdate() {
 		if (Events::JustPressed(KM_KEY_V)) {
 			isFlyOn = !isFlyOn;
 		}
+		if (Events::JustPressed(KM_KEY_F3)) {
+			pGUI->ToggleF3menu();
 
-		
+		}
 		MouseUpdate();
 		ScrollUpdate();
 	}
@@ -285,15 +285,15 @@ void Player::CollisionTest() {
 }
 
 void Player::ScrollUpdate() {
-	HandItemID = Events::deltaScrollY;
+	F3menuData.ItemHandID = Events::deltaScrollY;
 
-	if (HandItemID > MaxID * 8) {
-		HandItemID = 4;
+	if (F3menuData.ItemHandID > MaxID * 8) {
+		F3menuData.ItemHandID = 4;
 		Events::deltaScrollY = 4;
 	}
 
-	if (HandItemID > MaxID) {
-		HandItemID = 0;
+	if (F3menuData.ItemHandID > MaxID) {
+		F3menuData.ItemHandID = 0;
 		Events::deltaScrollY = 0;
 	}
 
