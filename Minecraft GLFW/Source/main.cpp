@@ -125,6 +125,6 @@ int main() {
 	delete textureAtlas;
 
 	Window::Terminate();
-	
+
 	return 0;
 }
