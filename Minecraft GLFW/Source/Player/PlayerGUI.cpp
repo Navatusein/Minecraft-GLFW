@@ -10,9 +10,15 @@ PlayerGUI::PlayerGUI(Texture* guitexture, float windowscale) {
 	gui->UpdateMesh();
 
 	isF3menuOn = true;
+	isStartupTextOn = true;
 
 	gltInit();
 	F3MenuText = gltCreateText();
+	StartupText = gltCreateText();
+
+	std::string PreferredMsg = 
+		"\tControl buttons \n[W] [A] [S] [D] - Walking \n[Mouse Wheel] - Selecting a id of block for installation \n[F3] - Debug menu on / off \n[Space] - Jump \n[Ctrl] - Deceleration \n[Shift] - Boost \n[Tab] - Cursor on / off \n[ESC] - Close Game \n[X] - Close Startup Text \n[Left mouse button] - Break block \n[Right mouse button] - Place block";
+	gltSetText(StartupText, PreferredMsg.c_str());
 }
 
 PlayerGUI::~PlayerGUI() {
@@ -27,6 +33,11 @@ void PlayerGUI::Draw(Shader* program) {
 	gui->Draw(program);
 	
 	gltBeginDraw();
+
+	if (isStartupTextOn) {
+		gltColor(1.0f, 1.0f, 1.0f, 1.0f);
+		gltDrawText2D(StartupText, 700, 230, 1.3);
+	}
 
 	if (isF3menuOn) {
 		UpdateF3menuText();
@@ -54,6 +65,10 @@ void PlayerGUI::ToggleF3menu() {
 	if (F3Data) {
 		isF3menuOn = !isF3menuOn;
 	}
+}
+
+void PlayerGUI::ToogleStartupText() {
+	isStartupTextOn = !isStartupTextOn;
 }
 
 void PlayerGUI::ToggleCrosshair() {

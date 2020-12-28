@@ -15,7 +15,7 @@
 #include "../Graphic/Texture.h"
 #include "../Graphic/Shader.h"
 
-#define H_DRAW_DISTANCE 2
+#define H_DRAW_DISTANCE 6
 #define V_DRAW_DISTANCE 1
 
 #define GRAVITY 16

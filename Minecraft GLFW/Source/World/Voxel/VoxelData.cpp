@@ -1,5 +1,9 @@
 #include "VoxelData.h"
 
+/*
+This module is not used
+*/
+
 VoxelData::VoxelData() {}
 
 void VoxelData::ReadFile(std::string fileName) {

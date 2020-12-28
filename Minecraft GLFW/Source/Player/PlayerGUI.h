@@ -19,9 +19,16 @@ class PlayerGUI
 {
 private:
 	GUIMesh* gui;
+
 	Crosshair* crosshair;
+
 	GLTtext* F3MenuText;
+	GLTtext* StartupText;
+
 	F3menu* F3Data;
+
+	bool isStartupTextOn;
+
 	bool isF3menuOn;
 
 	void UpdateF3menuText();
@@ -34,8 +41,9 @@ public:
 	void SetF3MenuData(F3menu* Data);
 
 	void ToggleF3menu();
+	void ToogleStartupText();
 
-	void ToggleCrosshair();
-	void TriggerCrosshair();
+	void ToggleCrosshair(); // this doesn't seem to be used
+	void TriggerCrosshair(); // this doesn't seem to be used
 };
 

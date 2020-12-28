@@ -120,60 +120,66 @@ void Player::KeyBoardUpdate() {
 				world->SetBlock_u(F3menuData.ItemHandID, iend.x + norm.x, iend.y + norm.y, iend.z + norm.z);
 			}
 		}
-		{
-			float Speed = this->Speed;
-			if(Events::Pressed(KM_KEY_LEFT_CONTROL)) {
-				if(isOnGround) {
-					Speed /= 2;
-				}
-				else if(isFlying){
-					m_acceleration.y -= Speed;
-				}
-			}
-			if(Events::Pressed(KM_KEY_LEFT_SHIFT)) {
-				Speed *= 1.5;
-				FOV = FOVSettings + 15;
-			}
-			if(isOnGround) Speed *= 4;
-			if(Events::Pressed(KM_KEY_W)) {
 
-				m_acceleration.x += cos(radians(yaw)) * Speed;
-				m_acceleration.z += sin(radians(yaw)) * Speed;
-			}
-
-			if(Events::Pressed(KM_KEY_S)) {
-				m_acceleration.x -= cos(radians(yaw)) * Speed;
-				m_acceleration.z -= sin(radians(yaw)) * Speed;
-			}
-
-			if(Events::Pressed(KM_KEY_D)) {
-				m_acceleration.x -= cos(radians(yaw - 90)) * Speed;
-				m_acceleration.z -= sin(radians(yaw - 90)) * Speed;
-			}
-
-			if(Events::Pressed(KM_KEY_A)) {
-				m_acceleration.x += cos(radians(yaw - 90)) * Speed;
-				m_acceleration.z += sin(radians(yaw - 90)) * Speed;
-			}
-
-			if(Events::Pressed(KM_KEY_SPACE)) {
-				if(isFlying) {
-					m_acceleration.y += Speed;
-				}
-				else {
-					if(isOnGround) {
-						Velocity.y = JumpForce;
-					}
-				}
-			}
+		if (Events::JustPressed(KM_KEY_X)) {
+			pGUI->ToogleStartupText();
 		}
-		if (Events::JustPressed(KM_KEY_V)) {
-			isFlyOn = !isFlyOn;
-		}
+
 		if (Events::JustPressed(KM_KEY_F3)) {
 			pGUI->ToggleF3menu();
 
 		}
+
+		float Speed = this->Speed;
+
+		if(Events::Pressed(KM_KEY_LEFT_CONTROL)) {
+			if(isOnGround) {
+				Speed /= 2;
+			}
+			else if(isFlying){
+				m_acceleration.y -= Speed;
+			}
+		}
+		if(Events::Pressed(KM_KEY_LEFT_SHIFT)) {
+			Speed *= 1.5;
+			FOV = FOVSettings + 15;
+		}
+		if (isOnGround) {
+			Speed *= 4;
+		}
+
+		if(Events::Pressed(KM_KEY_W)) {
+
+			m_acceleration.x += cos(radians(yaw)) * Speed;
+			m_acceleration.z += sin(radians(yaw)) * Speed;
+		}
+
+		if(Events::Pressed(KM_KEY_S)) {
+			m_acceleration.x -= cos(radians(yaw)) * Speed;
+			m_acceleration.z -= sin(radians(yaw)) * Speed;
+		}
+
+		if(Events::Pressed(KM_KEY_D)) {
+			m_acceleration.x -= cos(radians(yaw - 90)) * Speed;
+			m_acceleration.z -= sin(radians(yaw - 90)) * Speed;
+		}
+
+		if(Events::Pressed(KM_KEY_A)) {
+			m_acceleration.x += cos(radians(yaw - 90)) * Speed;
+			m_acceleration.z += sin(radians(yaw - 90)) * Speed;
+		}
+
+		if(Events::Pressed(KM_KEY_SPACE)) {
+			if(isFlying) {
+				m_acceleration.y += Speed;
+			}
+			else {
+				if(isOnGround) {
+					Velocity.y = JumpForce;
+				}
+			}
+		}
+
 		MouseUpdate();
 		ScrollUpdate();
 	}

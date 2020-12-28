@@ -1,6 +1,8 @@
 #include "VoxelDataBase.h"
 
-
+/*
+This module is not used
+*/
 
 VoxelDataBase::VoxelDataBase() {
 	Voxels[(unsigned short)BlocksID::Air].ReadFile("Air");

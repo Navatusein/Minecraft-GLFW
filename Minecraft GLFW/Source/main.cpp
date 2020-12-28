@@ -97,15 +97,8 @@ int main() {
 	
 
 	// launching asynchronous task to update all chunks once after 3000ms
-	std::future<void> fut = std::async(std::launch::async, &Call_UpdateChunks, std::ref(world), 3000); 
-	/*
-	try {
-		VoxelDataBase a;
-	}
-	catch (Mexception a) {
-		a.PrintError();
-	}
-	*/
+	auto fut = std::async(std::launch::async, &Call_UpdateChunks, std::ref(world), 3000); 
+	
 	//Main loop
 	while (!Window::WindowShouldClose()) {
 
@@ -125,10 +118,13 @@ int main() {
 		Window::SwapBuffers();
 	}
 	
+	
+
 	delete shader;
 	delete guiShader;
 	delete textureAtlas;
 
 	Window::Terminate();
+	
 	return 0;
 }

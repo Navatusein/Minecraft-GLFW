@@ -55,7 +55,7 @@ private:
 	float LastFPSTime;
 
 	bool isFlying;
-	bool isFlyOn;
+	bool isFlyOn; // this doesn't seem to be used
 
 public:
 	Player(World* world, PlayerGUI* pGUI);
