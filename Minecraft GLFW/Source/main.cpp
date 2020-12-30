@@ -35,6 +35,12 @@
 
 using namespace glm;
 
+/*
+**********************************************************
+*To compile the project, set the Release and x64 settings*
+**********************************************************
+*/
+
 int main() {
 
 	srand(time(0));
