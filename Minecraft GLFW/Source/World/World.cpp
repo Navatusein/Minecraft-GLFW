@@ -129,7 +129,7 @@ bool World::SetBlock(unsigned short int id, int x, int y, int z) {
 
 
 
-	// normalizing coordinates
+	// normalizing input coordinates <start>
 	if(xc < 0) {
 		xc /= CHUNK_W;
 		xc -= 1;
@@ -159,8 +159,9 @@ bool World::SetBlock(unsigned short int id, int x, int y, int z) {
 		zc /= CHUNK_W;
 		z = abs(z) % CHUNK_W;
 	}
+	//<end>
 
-	//normalizing block coordinates
+	//normalizing block coordinates <start>
 	if(x == CHUNK_W) {
 		x = 0;
 		xc += 1;
@@ -173,6 +174,8 @@ bool World::SetBlock(unsigned short int id, int x, int y, int z) {
 		z = 0;
 		zc += 1;
 	}
+	//<end>
+
 
 	long long index = xc + zc * pow(2, 24) + yc * pow(2, 48);
 	Chunk*& temp = chunk_handler[index];
@@ -184,6 +187,8 @@ bool World::SetBlock(unsigned short int id, int x, int y, int z) {
 	return 1;
 }
 
+
+// set the block without updating the chunk
 bool World::SetBlock_u(unsigned short int id, int x, int y, int z) {
 	if(abs(x) / CHUNK_W > H_DRAW_DISTANCE || abs(z) / CHUNK_W > H_DRAW_DISTANCE || abs(y) / CHUNK_H > V_DRAW_DISTANCE) {
 		return 0;
@@ -194,7 +199,7 @@ bool World::SetBlock_u(unsigned short int id, int x, int y, int z) {
 
 
 
-	// normalizing coordinates
+	// normalizing input coordinates <start>
 	if(xc < 0) {
 		xc /= CHUNK_W;
 		xc -= 1;
@@ -224,8 +229,9 @@ bool World::SetBlock_u(unsigned short int id, int x, int y, int z) {
 		zc /= CHUNK_W;
 		z = abs(z) % CHUNK_W;
 	}
+	// <end>
 
-	//normalizing block coordinates
+	//normalizing block coordinates <start>
 	if(x == CHUNK_W) {
 		x = 0;
 		xc += 1;
@@ -238,6 +244,7 @@ bool World::SetBlock_u(unsigned short int id, int x, int y, int z) {
 		z = 0;
 		zc += 1;
 	}
+	//<end>
 
 	long long index = xc + zc * pow(2, 24) + yc * pow(2, 48);
 	Chunk*& temp = chunk_handler[index];
@@ -257,7 +264,7 @@ Voxel* World::GetBlock(int x, int y, int z) {
 	int xc, yc, zc; // chunk position temp variables
 	xc = x; yc = y; zc = z;
 
-	// normalizing coordinates
+	// normalizing input coordinates <start>
 	if(xc < 0) {
 		xc /= CHUNK_W;
 		xc -= 1;
@@ -287,7 +294,9 @@ Voxel* World::GetBlock(int x, int y, int z) {
 		zc /= CHUNK_W;
 		z = abs(z) % CHUNK_W;
 	}
-	//normalizing block coordinates
+	//<end>
+
+	//normalizing block coordinates <start>
 	if(x == CHUNK_W) {
 		x = 0;
 		xc += 1;
@@ -300,6 +309,7 @@ Voxel* World::GetBlock(int x, int y, int z) {
 		z = 0;
 		zc += 1;
 	}
+	//<end>
 
 
 	long long index = xc + zc * pow(2, 24) + yc * pow(2, 48);
